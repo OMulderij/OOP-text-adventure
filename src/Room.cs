@@ -4,6 +4,7 @@ class Room
 {
 	// Private fields
 	private string description;
+	private List<Item> roomItems = new List<Item>();
 	private Dictionary<string, Room> exits; // stores exits of this room.
 
 	// Create a room described "description". Initially, it has no exits.
@@ -18,6 +19,10 @@ class Room
 	public void AddExit(string direction, Room neighbor)
 	{
 		exits.Add(direction, neighbor);
+	}
+
+	public void AddItemToRoom(Item item) {
+		roomItems.Add(item);
 	}
 
 	// Return the description of the room.
@@ -36,6 +41,26 @@ class Room
 		str += ".\n";
 		str += GetExitString();
 		return str;
+	}
+
+	public string LookForItems() {
+		if (roomItems.Count != 0) {
+			string str = "The only things you can find in this place are:\n";
+			int itemCount = 0;
+			foreach (Item item in roomItems) {
+				if (itemCount != 0) {
+					str += ", ";
+				}
+				str += item.GetItemName();
+				itemCount++;
+			}
+			str += ".\n";
+			str += GetExitString();
+			Console.WriteLine(str);
+			return str;
+		}
+		Console.WriteLine("This place is strangely empty");
+		return "This place is strangely empty";
 	}
 
 	// Return the room that is reached if we go from this room in direction
