@@ -37,17 +37,33 @@ class Game
 
 		office.AddExit("west", lab);
 
-		// Create your Items here
-		Item trees = new Item("A bunch of trees");
-		Item bikeLot = new Item("A parking lot for bikes");
-		//, ["A bunch of trees", "A parking lot for bikes"]
-		//, ["A desk", "A whiteboard"]
-		//, ["Some cups of beer", "Some snacks"]
-		//, ["A row of computers"]
-		//, ["A very professional looking desk"]
-		// And add them to the Rooms
-		outside.AddItemToRoom(trees);
-		outside.AddItemToRoom(bikeLot);
+		// Create the Objects
+		RoomObject tree = new RoomObject("tree");
+		RoomObject cat = new RoomObject("cat");
+
+		RoomObject desk = new RoomObject("desk");
+		RoomObject whiteboard = new RoomObject("whiteboard");
+
+		RoomObject beer = new RoomObject("beer");
+		RoomObject bread = new RoomObject("bread");
+
+		RoomObject computer = new RoomObject("computer");
+
+		RoomObject printer = new RoomObject("printer");
+		
+		// Add objects to the rooms
+		outside.AddObjectToRoom(tree); 		// refreshing
+		outside.AddObjectToRoom(cat); 		// revitalised 
+
+		theatre.AddObjectToRoom(desk);		// HDMI cable 
+		theatre.AddObjectToRoom(whiteboard);// markers 
+
+		pub.AddObjectToRoom(beer);			// wanna drink?
+		pub.AddObjectToRoom(bread);			// complementary bread
+
+		lab.AddObjectToRoom(computer);		// not connected to the desktop
+
+		office.AddObjectToRoom(printer);	// printer but no computer
 
 		// Start game outside
 		currentRoom = outside;
@@ -104,7 +120,7 @@ class Game
 				GoRoom(command);
 				break;
 			case "look":
-				currentRoom.LookForItems();
+				currentRoom.LookForObjects();
 				break;
 			case "quit":
 				wantToQuit = true;

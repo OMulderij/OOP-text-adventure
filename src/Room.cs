@@ -4,7 +4,7 @@ class Room
 {
 	// Private fields
 	private string description;
-	private List<Item> roomItems = new List<Item>();
+	private List<RoomObject> roomItems = new List<RoomObject>();
 	private Dictionary<string, Room> exits; // stores exits of this room.
 
 	// Create a room described "description". Initially, it has no exits.
@@ -21,7 +21,7 @@ class Room
 		exits.Add(direction, neighbor);
 	}
 
-	public void AddItemToRoom(Item item) {
+	public void AddObjectToRoom(RoomObject item) {
 		roomItems.Add(item);
 	}
 
@@ -43,15 +43,17 @@ class Room
 		return str;
 	}
 
-	public string LookForItems() {
+	public string LookForObjects() {
 		if (roomItems.Count != 0) {
-			string str = "The only things you can find in this place are:\n";
+			string str = "While looking around, you notice a few things in this place, namely:\n";
 			int itemCount = 0;
-			foreach (Item item in roomItems) {
-				if (itemCount != 0) {
-					str += ", ";
+			foreach (RoomObject item in roomItems) {
+				if (itemCount == 0) {
+					str += "A ";
+				} else {
+					str += ", a ";
 				}
-				str += item.GetItemName();
+				str += item.GetObjectName();
 				itemCount++;
 			}
 			str += ".\n";

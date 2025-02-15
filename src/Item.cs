@@ -1,40 +1,40 @@
 using System;
 
-class Item 
+class RoomObject
 {
-    private string itemName;
-    private string itemDescription;
-    private string itemEffect;
+    private string objectName;
+    private string objectDescription;
+    private string objectEffect;
 
-    public Item(string name) {
-        itemName = name;
+    public RoomObject(string name) {
+        objectName = name;
     }
 
-    public string AddItemDescription(string selectedItemDescription) {
-        itemDescription = selectedItemDescription;
-        return itemDescription;
+    public string AddObjectDescription(string newObjectDescription) {
+        objectDescription = newObjectDescription;
+        return objectDescription;
     }
 
-    public string AddItemEffect(string selectedItemEffect) {
-        itemDescription = selectedItemEffect;
-        return itemDescription;
+    public string AddObjectEffect(string newObjectEffect) {
+        objectDescription = newObjectEffect;
+        return objectDescription;
     }
 
-    public string GetItemName() {
-        return itemName;
+    public string GetObjectName() {
+        return objectName;
     }
 
-    public string GetItemDescription() {
-        if (itemDescription == null) {
+    public string GetObjectDescription() {
+        if (objectDescription == null) {
             return "This item does not have a description.";
         }
-        return itemDescription;
+        return objectDescription;
     }
 
-    public string GetItemEffect() {
-        if (itemEffect == null) {
+    public string GetObjectEffect() {
+        if (objectEffect == null) {
             return "This item does not any effects.";
         }
-        return itemEffect;
+        return objectEffect;
     }
 }
