@@ -53,7 +53,7 @@ class Room
 				} else {
 					str += ", a ";
 				}
-				str += item.GetObjectName();
+				str += item.ObjectName;
 				itemCount++;
 			}
 			str += ".\n";

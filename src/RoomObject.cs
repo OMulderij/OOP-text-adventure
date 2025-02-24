@@ -10,29 +10,33 @@ class RoomObject
         objectName = name;
     }
 
-    public void AddObjectDescription(string newObjectDescription) {
-        objectDescription = newObjectDescription;
-    }
-
-    public void AddObjectEffect(string newObjectEffect) {
-        objectDescription = newObjectEffect;
-    }
-
-    public string GetObjectName() {
-        return objectName;
-    }
-
-    public string GetObjectDescription() {
-        if (objectDescription == null) {
-            return "This item does not have a description.";
+    public string ObjectName {
+        get {
+            return this.objectName;
         }
-        return objectDescription;
     }
 
-    public string GetObjectEffect() {
-        if (objectEffect == null) {
-            return "This item does not any effects.";
+    public string ObjectDescription {
+        set {
+            this.objectDescription = value;
         }
-        return objectEffect;
+        get {
+            if (objectDescription == null) {
+                return "This item does not have a description.";
+            }
+            return this.objectDescription;
+        }
+    }
+
+    public string ObjectEffect {
+        set {
+            this.objectDescription = value;
+        }
+        get {
+            if (this.objectEffect == null) {
+                return "This item does not any effects.";
+            }
+            return this.objectEffect;
+        }
     }
 }

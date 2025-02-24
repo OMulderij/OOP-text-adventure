@@ -97,6 +97,8 @@ class Game
 		Console.ReadLine();
 	}
 
+	
+
 	// Print out the opening message for the player.
 	private void PrintWelcome()
 	{
