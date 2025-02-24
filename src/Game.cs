@@ -138,6 +138,9 @@ class Game
 			case "look":
 				player.CurrentRoom.LookForObjects();
 				break;
+			case "status":
+				Console.WriteLine("You have " + player.Health + " health at your disposal.");
+				break;
 			case "quit":
 				wantToQuit = true;
 				break;
