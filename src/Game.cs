@@ -75,6 +75,10 @@ class Game
 
 		office.AddObjectToRoom(printer);	// printer but no computer
 
+		heaven.AddObjectToRoom(cat);
+
+		hell.AddObjectToRoom(beer);
+
 		// Start game outside
 		player.CurrentRoom = outside;
 	}
@@ -97,7 +101,7 @@ class Game
 		Console.ReadLine();
 	}
 
-	
+
 
 	// Print out the opening message for the player.
 	private void PrintWelcome()
@@ -165,7 +169,7 @@ class Game
 		if(!command.HasSecondWord())
 		{
 			// if there is no second word, we don't know where to go...
-			Console.WriteLine("Go where?");
+			Console.WriteLine("Go *where*?");
 			return;
 		}
 
