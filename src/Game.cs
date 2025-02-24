@@ -76,7 +76,7 @@ class Game
 		office.AddObjectToRoom(printer);	// printer but no computer
 
 		// Start game outside
-		player.SetCurrentRoom(outside);
+		player.CurrentRoom = outside;
 	}
 
 	//  Main play routine. Loops until end of play.
@@ -105,7 +105,7 @@ class Game
 		Console.WriteLine("Zuul is a new, incredibly interesting adventure game.");
 		Console.WriteLine("Type 'help' if you need help.");
 		Console.WriteLine();
-		Console.WriteLine(player.GetCurrentRoom().GetLongDescription());
+		Console.WriteLine(player.CurrentRoom.GetLongDescription());
 	}
 
 	// Given a command, process (that is: execute) the command.
@@ -130,7 +130,7 @@ class Game
 				GoRoom(command);
 				break;
 			case "look":
-				player.GetCurrentRoom().LookForObjects();
+				player.CurrentRoom.LookForObjects();
 				break;
 			case "quit":
 				wantToQuit = true;
@@ -170,14 +170,14 @@ class Game
 		string direction = command.SecondWord;
 
 		// Try to go to the next room.
-		Room nextRoom = player.GetCurrentRoom().GetExit(direction);
+		Room nextRoom = player.CurrentRoom.GetExit(direction);
 		if (nextRoom == null)
 		{
 			Console.WriteLine("There is no door to "+direction+"!");
 			return;
 		}
 
-		player.SetCurrentRoom(nextRoom);
-		Console.WriteLine(player.GetCurrentRoom().GetLongDescription());
+		player.CurrentRoom = nextRoom;
+		Console.WriteLine(player.CurrentRoom.GetLongDescription());
 	}
 }

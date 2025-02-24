@@ -10,14 +10,12 @@ class RoomObject
         objectName = name;
     }
 
-    public string AddObjectDescription(string newObjectDescription) {
+    public void AddObjectDescription(string newObjectDescription) {
         objectDescription = newObjectDescription;
-        return objectDescription;
     }
 
-    public string AddObjectEffect(string newObjectEffect) {
+    public void AddObjectEffect(string newObjectEffect) {
         objectDescription = newObjectEffect;
-        return objectDescription;
     }
 
     public string GetObjectName() {

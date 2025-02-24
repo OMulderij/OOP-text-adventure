@@ -4,12 +4,12 @@ class Player
 {
     private Room currentRoom;
 
-    public Room SetCurrentRoom(Room selectedRoom) {
-        currentRoom = selectedRoom;
-        return currentRoom;
-    }
-
-    public Room GetCurrentRoom() {
-        return currentRoom;
+    public Room CurrentRoom {
+        get {
+            return this.currentRoom;
+        }
+        set {
+            this.currentRoom = value;
+        }
     }
 }
