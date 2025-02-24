@@ -95,6 +95,11 @@ class Game
 		{
 			Command command = parser.GetCommand();
 			finished = ProcessCommand(command);
+
+			if (!player.IsAlive()) {
+				finished = true;
+				Console.WriteLine("\nYou have died.");
+			}
 		}
 		Console.WriteLine("Thank you for playing.");
 		Console.WriteLine("Press [Enter] to continue.");
@@ -186,6 +191,7 @@ class Game
 			return;
 		}
 
+		player.Damage(5);
 		player.CurrentRoom = nextRoom;
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
 	}
