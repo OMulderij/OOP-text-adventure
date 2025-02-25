@@ -48,36 +48,36 @@ class Game
 		hell.AddExit("up", outside);
 
 		// Create the Objects
-		RoomObject tree = new RoomObject("tree");
-		RoomObject cat = new RoomObject("cat");
+		Item tree = new Item("a very calming tree", 1000);
+		Item cat = new Item("an incredibly cute cat", 25);
 
-		RoomObject desk = new RoomObject("desk");
-		RoomObject whiteboard = new RoomObject("whiteboard");
+		Item desk = new Item("looks very new, despite it's usage", 150);
+		Item whiteboard = new Item("very clean, with some markers to the side", 100);
 
-		RoomObject beer = new RoomObject("beer");
-		RoomObject bread = new RoomObject("bread");
+		Item beer = new Item("want some?", 5);
+		Item bread = new Item("some complementary bread", 2);
 
-		RoomObject computer = new RoomObject("computer");
+		Item computer = new Item("no cables to connect it to the desktop", 20);
 
-		RoomObject printer = new RoomObject("printer");
+		Item printer = new Item("printer but no computer?", 20);
 		
 		// Add objects to the rooms
-		outside.AddObjectToRoom(tree); 		// refreshing
-		outside.AddObjectToRoom(cat); 		// revitalised 
+		outside.AddObjectToRoom("tree", tree); 				// refreshing
+		outside.AddObjectToRoom("cat", cat); 				// revitalised 
 
-		theatre.AddObjectToRoom(desk);		// HDMI cable 
-		theatre.AddObjectToRoom(whiteboard);// markers 
+		theatre.AddObjectToRoom("desk", desk);				// HDMI cable 
+		theatre.AddObjectToRoom("whiteboard", whiteboard);	// markers 
 
-		pub.AddObjectToRoom(beer);			// wanna drink?
-		pub.AddObjectToRoom(bread);			// complementary bread
+		pub.AddObjectToRoom("beer", beer);					// wanna drink?
+		pub.AddObjectToRoom("bread", bread);				// complementary bread
 
-		lab.AddObjectToRoom(computer);		// not connected to the desktop
+		lab.AddObjectToRoom("computer", computer);			// not connected to the desktop
 
-		office.AddObjectToRoom(printer);	// printer but no computer
+		office.AddObjectToRoom("printer", printer);			// printer but no computer
 
-		heaven.AddObjectToRoom(cat);
+		heaven.AddObjectToRoom("cat", cat);
 
-		hell.AddObjectToRoom(beer);
+		hell.AddObjectToRoom("beer", beer);
 
 		// Start game outside
 		player.CurrentRoom = outside;
