@@ -4,7 +4,6 @@ class Room
 {
 	// Private fields
 	private string description;
-	private Dictionary<string, Item> roomItems;
 	private Dictionary<string, Room> exits; // stores exits of this room.
 	private Inventory chest;
 
@@ -14,7 +13,6 @@ class Room
 	{
 		description = desc;
 		exits = new Dictionary<string, Room>();
-		roomItems = new Dictionary<string, Item>();
 		chest = new Inventory(999999);
 	}
 
@@ -31,7 +29,7 @@ class Room
 	}
 
 	public void AddObjectToRoom(string itemName, Item item) {
-		roomItems.Add(itemName, item);
+		chest.Put(itemName, item);
 	}
 
 	// Return the description of the room.
@@ -53,9 +51,9 @@ class Room
 	}
 
 	public string LookForObjects() {
-		if (roomItems.Count != 0) {
+		if (chest.TotalWeight() != 0) {
 			string str = "While looking around, you notice a few things in this place, namely:\n";
-			foreach(KeyValuePair<string, Item> entry in roomItems)
+			foreach(KeyValuePair<string, Item> entry in chest.Items)
 			{
 				str += $"-A {entry.Key} \n";
 			}

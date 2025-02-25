@@ -146,6 +146,12 @@ class Game
 			case "status":
 				Console.WriteLine("You have " + player.Health + " health at your disposal.");
 				break;
+			case "take":
+				Take(command);
+				break;
+			case "drop":
+				Drop(command);
+				break;
 			case "quit":
 				wantToQuit = true;
 				break;
@@ -168,6 +174,23 @@ class Game
 		Console.WriteLine();
 		// let the parser print the commands
 		parser.PrintValidCommands();
+	}
+
+	private void Take(Command command)
+	{
+		if (!command.HasSecondWord()) {
+			Console.WriteLine("Take *what*?");
+			return;
+		}
+		player.TakeFromChest(command.SecondWord);
+	}
+	private void Drop(Command command)
+	{
+		if (!command.HasSecondWord()) {
+			Console.WriteLine("Drop *what*?");
+			return;
+		}
+		player.DropToChest(command.SecondWord)
 	}
 
 	// Try to go to one direction. If there is an exit, enter the new

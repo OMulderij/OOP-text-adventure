@@ -15,6 +15,12 @@ class Inventory
             return maxWeight;
         }
     }
+
+    public Dictionary<string, Item> Items {
+        get {
+            return items;
+        }
+    }
     
     public bool Put(string itemName, Item item)
     {

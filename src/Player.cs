@@ -59,12 +59,6 @@ class Player
 
     public bool DropToChest(string itemName)
     {
-        // TODO implement:
-        // Remove Item from your inventory.
-        // Add the Item to the Room
-        // Inspect returned values
-        // Communicate to the user what's happening
-        // Return true/false for success/failure
         Item backpackItem = backpack.Get(itemName);
         if (currentRoom.Chest.Put(itemName, backpackItem)) {
             Console.WriteLine($"You succeeded in dropping the {itemName}.");
