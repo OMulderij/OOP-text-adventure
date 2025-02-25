@@ -4,16 +4,12 @@ class Player
 {
     private Room currentRoom;
     private int health;
+    private Inventory backpack;
 
     public Player()
     {
         health = 100;
-    }
-
-    public int Health {
-        get {
-            return this.health;
-        }
+        backpack = new Inventory(25);
     }
 
     public Room CurrentRoom {
@@ -22,6 +18,11 @@ class Player
         }
         set {
             this.currentRoom = value;
+        }
+    }
+    public int Health {
+        get {
+            return this.health;
         }
     }
 
@@ -38,5 +39,40 @@ class Player
             return false;
         }
         return true;
+    }
+
+    public bool TakeFromChest(string itemName) {
+        Item chestItem = currentRoom.Chest.Get(itemName);
+        if (backpack.Put(itemName, chestItem)) {
+            Console.WriteLine($"Succesfully stored the {itemName} in your backpack.");
+            return true;
+        }
+        
+        currentRoom.Chest.Put(itemName, chestItem);
+        if (chestItem.Weight > backpack.MaxWeight) {
+            Console.WriteLine($"This {itemName} is too heavy to store in your backpack.");
+        } else {
+            Console.WriteLine($"You don't have enough storage space left to pick this {itemName} up.");
+        }
+        return false;
+    }
+
+    public bool DropToChest(string itemName)
+    {
+        // TODO implement:
+        // Remove Item from your inventory.
+        // Add the Item to the Room
+        // Inspect returned values
+        // Communicate to the user what's happening
+        // Return true/false for success/failure
+        Item backpackItem = backpack.Get(itemName);
+        if (currentRoom.Chest.Put(itemName, backpackItem)) {
+            Console.WriteLine($"You succeeded in dropping the {itemName}.");
+            return true;
+        }
+
+        backpack.Put(itemName, backpackItem);
+        Console.WriteLine($"You are not allowed to drop this {itemName} here.");
+        return false;
     }
 }
