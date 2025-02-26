@@ -54,7 +54,7 @@ class Game
 		Item desk = new Item("Looks very new, despite it's usage.", 150);
 		Item whiteboard = new Item("Very clean, with some markers to the side.", 100);
 
-		Item beer = new Item("Want some?", 5);
+		Item beer = new Item("Want some?", 20);
 		Item bread = new Item("Some complementary bread.", 2);
 
 		Item computer = new Item("No cables to connect it to the desktop.", 20);
