@@ -141,7 +141,9 @@ class Game
 				GoRoom(command);
 				break;
 			case "look":
-				player.CurrentRoom.LookForObjects();
+				Console.WriteLine(player.CurrentRoom.GetLongDescription() + "\n");
+				Console.WriteLine("While looking around, you notice a few things in this place, namely:");
+				player.CurrentRoom.Chest.PrintItemsInInventory();
 				break;
 			case "status":
 				Console.WriteLine("You have " + player.Health + " health at your disposal.");
@@ -182,6 +184,11 @@ class Game
 			Console.WriteLine("Take *what*?");
 			return;
 		}
+		
+		if (!player.CurrentRoom.Chest.ItemInInventory(command.SecondWord)) {
+			Console.WriteLine($"There is no {command.SecondWord} in the room with you.");
+			return;
+		}
 		player.TakeFromChest(command.SecondWord);
 	}
 	private void Drop(Command command)
@@ -190,7 +197,13 @@ class Game
 			Console.WriteLine("Drop *what*?");
 			return;
 		}
-		player.DropToChest(command.SecondWord)
+
+		if (!player.Backpack.ItemInInventory(command.SecondWord)) {
+			Console.WriteLine($"This {command.SecondWord} is not in your backpack.");
+			return;
+		}
+		
+		player.DropToChest(command.SecondWord);
 	}
 
 	// Try to go to one direction. If there is an exit, enter the new

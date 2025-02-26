@@ -55,4 +55,28 @@ class Inventory
     {
         return maxWeight - TotalWeight();
     }
+
+    public bool ItemInInventory(string itemName) {
+        if (items.ContainsKey(itemName)) {
+            return true;
+        }
+        return false;
+    }
+
+    public void PrintItemsInInventory() {
+        string str = "";
+        int count = 0;
+        if (TotalWeight() != 0) {
+            foreach(KeyValuePair<string, Item> entry in items)
+			{
+                count++;
+                str += $"-A {entry.Key}";
+
+                if (count != items.Count) {
+                    str += "\n";
+                }
+			}
+        }
+        Console.WriteLine(str);
+    }
 }

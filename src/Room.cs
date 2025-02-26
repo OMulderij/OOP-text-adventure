@@ -50,21 +50,6 @@ class Room
 		return str;
 	}
 
-	public string LookForObjects() {
-		if (chest.TotalWeight() != 0) {
-			string str = "While looking around, you notice a few things in this place, namely:\n";
-			foreach(KeyValuePair<string, Item> entry in chest.Items)
-			{
-				str += $"-A {entry.Key} \n";
-			}
-			str += GetExitString();
-			Console.WriteLine(str);
-			return str;
-		}
-		Console.WriteLine("This place is strangely empty");
-		return "This place is strangely empty";
-	}
-
 	// Return the room that is reached if we go from this room in direction
 	// "direction". If there is no room in that direction, return null.
 	public Room GetExit(string direction)

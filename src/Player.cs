@@ -20,6 +20,12 @@ class Player
             this.currentRoom = value;
         }
     }
+
+    public Inventory Backpack {
+        get {
+            return backpack;
+        }
+    }
     public int Health {
         get {
             return this.health;
