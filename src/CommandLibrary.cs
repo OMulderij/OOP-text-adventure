@@ -12,6 +12,7 @@ class CommandLibrary
 
 		validCommands.Add("help");
 		validCommands.Add("go");
+		validCommands.Add("use");
 		validCommands.Add("look");
 		validCommands.Add("status");
 		validCommands.Add("take");

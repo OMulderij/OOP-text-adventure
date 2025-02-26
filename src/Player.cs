@@ -47,6 +47,13 @@ class Player
         return true;
     }
 
+    public string Use(string itemName) {
+        if (backpack.ItemInInventory(itemName)) {
+            return backpack.Get(itemName).Description;
+        }
+        return $"This {itemName} is not in your inventory.";
+    }
+
     public bool TakeFromChest(string itemName) {
         Item chestItem = currentRoom.Chest.Get(itemName);
         if (backpack.Put(itemName, chestItem)) {

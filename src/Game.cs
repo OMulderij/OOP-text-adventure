@@ -48,18 +48,18 @@ class Game
 		hell.AddExit("up", outside);
 
 		// Create the Objects
-		Item tree = new Item("a very calming tree", 1000);
-		Item cat = new Item("an incredibly cute cat", 25);
+		Item tree = new Item("A very calming tree.", 1000);
+		Item cat = new Item("An incredibly cute cat.", 25);
 
-		Item desk = new Item("looks very new, despite it's usage", 150);
-		Item whiteboard = new Item("very clean, with some markers to the side", 100);
+		Item desk = new Item("Looks very new, despite it's usage.", 150);
+		Item whiteboard = new Item("Very clean, with some markers to the side.", 100);
 
-		Item beer = new Item("want some?", 5);
-		Item bread = new Item("some complementary bread", 2);
+		Item beer = new Item("Want some?", 5);
+		Item bread = new Item("Some complementary bread.", 2);
 
-		Item computer = new Item("no cables to connect it to the desktop", 20);
+		Item computer = new Item("No cables to connect it to the desktop.", 20);
 
-		Item printer = new Item("printer but no computer?", 20);
+		Item printer = new Item("This printer is not connected to.", 20);
 		
 		// Add objects to the rooms
 		outside.AddObjectToRoom("tree", tree); 				// refreshing
@@ -140,24 +140,14 @@ class Game
 			case "go":
 				GoRoom(command);
 				break;
+			case "use":
+				PrintUse(command);
+				break;
 			case "look":
-				Console.WriteLine(player.CurrentRoom.GetLongDescription());
-				if (player.CurrentRoom.Chest.FreeWeight() != player.CurrentRoom.Chest.MaxWeight) {
-					Console.WriteLine("\nWhile looking around, you notice a few things in this place, namely:");
-					Console.WriteLine(player.CurrentRoom.Chest.Show());
-				} else {
-					Console.WriteLine("This place is strangely empty.");
-				}
+				PrintLook();
 				break;
 			case "status":
-				Console.WriteLine("You have " + player.Health + " health at your disposal.\n");
-				if (player.Backpack.FreeWeight() != player.Backpack.MaxWeight) {
-					Console.WriteLine("You have stored these items in your backpack:");
-					Console.WriteLine(player.Backpack.Show());
-				} else {
-					Console.WriteLine("Your backpack is empty.");
-				}
-				Console.WriteLine($"You have {player.Backpack.FreeWeight()} kgs left in your backpack.");
+				PrintStatus();
 				break;
 			case "take":
 				Take(command);
@@ -215,6 +205,35 @@ class Game
 		}
 		
 		player.DropToChest(command.SecondWord);
+	}
+
+	private void PrintLook() {
+		Console.WriteLine(player.CurrentRoom.GetLongDescription());
+		if (player.CurrentRoom.Chest.FreeWeight() != player.CurrentRoom.Chest.MaxWeight) {
+			Console.WriteLine("\nWhile looking around, you notice a few things in this place, namely:");
+			Console.WriteLine(player.CurrentRoom.Chest.Show());
+		} else {
+			Console.WriteLine("This place is strangely empty.");
+		}
+	}
+
+	private void PrintUse(Command command) {
+		if (!command.HasSecondWord()) {
+			Console.WriteLine("Use *what*?");
+			return;
+		}
+		Console.WriteLine(player.Use(command.SecondWord));
+	}
+
+	private void PrintStatus() {
+		Console.WriteLine("You have " + player.Health + " health at your disposal.\n");
+		if (player.Backpack.FreeWeight() != player.Backpack.MaxWeight) {
+			Console.WriteLine("You have stored these items in your backpack:");
+			Console.WriteLine(player.Backpack.Show());
+		} else {
+			Console.WriteLine("Your backpack is empty.");
+		}
+		Console.WriteLine($"You have {player.Backpack.FreeWeight()} kgs left in your backpack.");
 	}
 
 	// Try to go to one direction. If there is an exit, enter the new
