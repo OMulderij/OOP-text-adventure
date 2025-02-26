@@ -141,12 +141,23 @@ class Game
 				GoRoom(command);
 				break;
 			case "look":
-				Console.WriteLine(player.CurrentRoom.GetLongDescription() + "\n");
-				Console.WriteLine("While looking around, you notice a few things in this place, namely:");
-				player.CurrentRoom.Chest.PrintItemsInInventory();
+				Console.WriteLine(player.CurrentRoom.GetLongDescription());
+				if (player.CurrentRoom.Chest.FreeWeight() != player.CurrentRoom.Chest.MaxWeight) {
+					Console.WriteLine("\nWhile looking around, you notice a few things in this place, namely:");
+					player.CurrentRoom.Chest.PrintItemsInInventory();
+				} else {
+					Console.WriteLine("This place is strangely empty.");
+				}
 				break;
 			case "status":
-				Console.WriteLine("You have " + player.Health + " health at your disposal.");
+				Console.WriteLine("You have " + player.Health + " health at your disposal.\n");
+				if (player.Backpack.FreeWeight() != player.Backpack.MaxWeight) {
+					Console.WriteLine("You have stored these items in your backpack:");
+					player.Backpack.PrintItemsInInventory();
+				} else {
+					Console.WriteLine("Your backpack is empty.");
+				}
+				Console.WriteLine($"You have {player.Backpack.FreeWeight()} kgs left in your backpack.");
 				break;
 			case "take":
 				Take(command);

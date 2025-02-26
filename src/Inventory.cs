@@ -70,7 +70,7 @@ class Inventory
             foreach(KeyValuePair<string, Item> entry in items)
 			{
                 count++;
-                str += $"-A {entry.Key}";
+                str += $"-A {entry.Key}, with a weight of {entry.Value.Weight} kgs.";
 
                 if (count != items.Count) {
                     str += "\n";
