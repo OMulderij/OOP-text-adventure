@@ -144,7 +144,7 @@ class Game
 				Console.WriteLine(player.CurrentRoom.GetLongDescription());
 				if (player.CurrentRoom.Chest.FreeWeight() != player.CurrentRoom.Chest.MaxWeight) {
 					Console.WriteLine("\nWhile looking around, you notice a few things in this place, namely:");
-					player.CurrentRoom.Chest.PrintItemsInInventory();
+					Console.WriteLine(player.CurrentRoom.Chest.Show());
 				} else {
 					Console.WriteLine("This place is strangely empty.");
 				}
@@ -153,7 +153,7 @@ class Game
 				Console.WriteLine("You have " + player.Health + " health at your disposal.\n");
 				if (player.Backpack.FreeWeight() != player.Backpack.MaxWeight) {
 					Console.WriteLine("You have stored these items in your backpack:");
-					player.Backpack.PrintItemsInInventory();
+					Console.WriteLine(player.Backpack.Show());
 				} else {
 					Console.WriteLine("Your backpack is empty.");
 				}

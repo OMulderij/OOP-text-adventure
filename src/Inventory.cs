@@ -63,7 +63,7 @@ class Inventory
         return false;
     }
 
-    public void PrintItemsInInventory() {
+    public string Show() {
         string str = "";
         int count = 0;
         if (TotalWeight() != 0) {
@@ -77,6 +77,6 @@ class Inventory
                 }
 			}
         }
-        Console.WriteLine(str);
+        return str;
     }
 }
