@@ -48,36 +48,42 @@ class Game
 		hell.AddExit("up", outside);
 
 		// Create the Objects
-		Item tree = new Item("A very calming tree.", 1000);
-		Item cat = new Item("An incredibly cute cat.", 25);
+		Tree tree = new Tree();
+		// Item cat = new Item("An incredibly cute cat.", 25);
 
-		Item desk = new Item("Looks very new, despite it's usage.", 150);
-		Item whiteboard = new Item("Very clean, with some markers to the side.", 100);
+		// Item desk = new Item("Looks very new, despite it's usage.", 150);
+		// Item whiteboard = new Item("Very clean, with some markers to the side.", 100);
 
-		Item beer = new Item("Want some?", 5);
-		Item bread = new Item("Some complementary bread.", 2);
+		// Item beer = new Item("Want some?", 5);
+		// Item bread = new Item("Some complementary bread.", 2);
 
-		Item computer = new Item("No cables to connect it to the desktop.", 20);
+		// Item computer = new Item("No cables to connect it to the desktop.", 20);
 
-		Item printer = new Item("This printer is not connected to.", 20);
+		// Item printer = new Item("This printer is not connected to.", 20);
 		
 		// Add objects to the rooms
 		outside.AddObjectToRoom("tree", tree); 				// refreshing
-		outside.AddObjectToRoom("cat", cat); 				// revitalised 
+		outside.AddObjectToRoom("tree", tree); 				// refreshing
+		outside.AddObjectToRoom("tree", tree); 				// refreshing
+		outside.AddObjectToRoom("tree", tree); 				// refreshing
+		outside.AddObjectToRoom("tree", tree); 				// refreshing
 
-		theatre.AddObjectToRoom("desk", desk);				// HDMI cable 
-		theatre.AddObjectToRoom("whiteboard", whiteboard);	// markers 
 
-		pub.AddObjectToRoom("beer", beer);					// wanna drink?
-		pub.AddObjectToRoom("bread", bread);				// complementary bread
+		// outside.AddObjectToRoom("cat", cat); 				// revitalised 
 
-		lab.AddObjectToRoom("computer", computer);			// not connected to the desktop
+		// theatre.AddObjectToRoom("desk", desk);				// HDMI cable 
+		// theatre.AddObjectToRoom("whiteboard", whiteboard);	// markers 
 
-		office.AddObjectToRoom("printer", printer);			// printer but no computer
+		// pub.AddObjectToRoom("beer", beer);					// wanna drink?
+		// pub.AddObjectToRoom("bread", bread);				// complementary bread
 
-		heaven.AddObjectToRoom("cat", cat);
+		// lab.AddObjectToRoom("computer", computer);			// not connected to the desktop
 
-		hell.AddObjectToRoom("beer", beer);
+		// office.AddObjectToRoom("printer", printer);			// printer but no computer
+
+		// heaven.AddObjectToRoom("cat", cat);
+
+		// hell.AddObjectToRoom("beer", beer);
 
 		// Start game outside
 		player.CurrentRoom = outside;
@@ -100,7 +106,7 @@ class Game
 		if (!player.IsAlive()) {
 			Console.WriteLine("\nYou have died.");
 		}
-		
+
 		Console.WriteLine("Thank you for playing.");
 		Console.WriteLine("Press [Enter] to continue.");
 		Console.ReadLine();

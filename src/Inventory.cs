@@ -22,7 +22,10 @@ class Inventory
             if (items.ContainsKey(itemName)) {
                 items[itemName].Amount++;
             } else {
-                items.Add(itemName, item);
+                // Adding the item directly also copies the value of the amount field, which we don't want in cases where the player or room has more than 2 of a certain item.
+                // So instead this creates a new object with the same properties as the item, but with the amount value reset to 1.
+                Item backpackItem = new Item(item.Description, item.Weight);
+                items.Add(itemName, backpackItem);
             }
             return true;
         }

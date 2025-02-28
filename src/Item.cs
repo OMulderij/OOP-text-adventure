@@ -2,8 +2,8 @@ using System;
 
 class Item
 {
-    private int weight;
-    private string description;
+    protected int weight;
+    protected string description;
     private int amount;
 
     public Item(string newDescription, int newWeight) {
@@ -34,5 +34,14 @@ class Item
         set {
             this.amount = value;
         }
+    }
+}
+
+class Tree : Item 
+{
+    public Tree() : base("You feel refreshed.", 1)
+    {
+        description = "You feel refreshed.";
+        weight = 1;
     }
 }
