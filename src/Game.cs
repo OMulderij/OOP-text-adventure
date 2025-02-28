@@ -49,13 +49,14 @@ class Game
 
 		// Create the Objects
 		Tree tree = new Tree();
-		// Item cat = new Item("An incredibly cute cat.", 25);
+		Cat cat = new Cat();
+		cat.Use();
 
 		// Item desk = new Item("Looks very new, despite it's usage.", 150);
 		// Item whiteboard = new Item("Very clean, with some markers to the side.", 100);
 
-		// Item beer = new Item("Want some?", 5);
-		// Item bread = new Item("Some complementary bread.", 2);
+		Item beer = new Item("Want some?", 5);
+		Item bread = new Item("Some complementary bread.", 2);
 
 		// Item computer = new Item("No cables to connect it to the desktop.", 20);
 
@@ -68,20 +69,19 @@ class Game
 		outside.AddObjectToRoom("tree", tree); 				// refreshing
 		outside.AddObjectToRoom("tree", tree); 				// refreshing
 
-
-		// outside.AddObjectToRoom("cat", cat); 				// revitalised 
+		outside.AddObjectToRoom("cat", cat); 					// revitalised 
 
 		// theatre.AddObjectToRoom("desk", desk);				// HDMI cable 
 		// theatre.AddObjectToRoom("whiteboard", whiteboard);	// markers 
 
-		// pub.AddObjectToRoom("beer", beer);					// wanna drink?
-		// pub.AddObjectToRoom("bread", bread);				// complementary bread
+		pub.AddObjectToRoom("beer", beer);						// wanna drink?
+		pub.AddObjectToRoom("bread", bread);					// complementary bread
 
 		// lab.AddObjectToRoom("computer", computer);			// not connected to the desktop
 
 		// office.AddObjectToRoom("printer", printer);			// printer but no computer
 
-		// heaven.AddObjectToRoom("cat", cat);
+		heaven.AddObjectToRoom("cat", cat);
 
 		// hell.AddObjectToRoom("beer", beer);
 
@@ -232,7 +232,7 @@ class Game
 			Console.WriteLine("Use *what*?");
 			return;
 		}
-		Console.WriteLine(player.Use(command.SecondWord));
+		Console.WriteLine(player.UseItem(command.SecondWord));
 	}
 
 	private void PrintStatus() {

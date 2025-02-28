@@ -23,8 +23,10 @@ class Inventory
                 items[itemName].Amount++;
             } else {
                 // Adding the item directly also copies the value of the amount field, which we don't want in cases where the player or room has more than 2 of a certain item.
-                // So instead this creates a new object with the same properties as the item, but with the amount value reset to 1.
-                Item backpackItem = new Item(item.Description, item.Weight);
+                // ---- So instead this creates a new object with the same properties as the item, but with the amount value reset to 1. ----
+                // Now clones the Item, to preserve the class extensions.
+                Item backpackItem = (Item)item.Clone();
+                backpackItem.Amount = 1;
                 items.Add(itemName, backpackItem);
             }
             return true;
@@ -44,6 +46,10 @@ class Inventory
             return takenItem;
         }
         return null;
+    }
+
+    public Item GetItemByString(string itemName) {
+        return items[itemName];
     }
 
     public int TotalWeight()

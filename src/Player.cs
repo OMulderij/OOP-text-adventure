@@ -47,9 +47,9 @@ class Player
         return true;
     }
 
-    public string Use(string itemName) {
+    public string UseItem(string itemName) {
         if (backpack.ItemInInventory(itemName)) {
-            return backpack.Get(itemName).Description; // Need to write a function that returns the description without consuming the item.
+            return backpack.GetItemByString(itemName).Use();
         }
         return $"This {itemName} is not in your inventory.";
     }

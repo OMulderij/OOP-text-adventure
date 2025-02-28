@@ -1,6 +1,6 @@
 using System;
 
-class Item
+public class Item
 {
     protected int weight;
     protected string description;
@@ -35,13 +35,29 @@ class Item
             this.amount = value;
         }
     }
+
+    public object Clone()
+    {
+        return this.MemberwiseClone();
+    }
+
+    public virtual string Use() {
+        return this.description;
+    }
 }
 
 class Tree : Item 
 {
-    public Tree() : base("You feel refreshed.", 1)
-    {
-        description = "You feel refreshed.";
-        weight = 1;
+    public Tree() : base("You feel refreshed.", 1) {}
+}
+
+public class Cat : Item
+{
+    public Cat() : base("Its a very cute cat", 5) {}
+
+    public override string Use() {
+        this.description = "Meow";
+
+        return this.description;
     }
 }
