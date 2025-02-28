@@ -50,7 +50,7 @@ class Game
 		// Create the Objects
 		Tree tree = new Tree();
 		Cat cat = new Cat();
-		cat.Use();
+		cat.Use(player.Backpack, "cat");
 
 		// Item desk = new Item("Looks very new, despite it's usage.", 150);
 		// Item whiteboard = new Item("Very clean, with some markers to the side.", 100);

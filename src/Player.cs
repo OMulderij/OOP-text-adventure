@@ -49,7 +49,7 @@ class Player
 
     public string UseItem(string itemName) {
         if (backpack.ItemInInventory(itemName)) {
-            return backpack.GetItemByString(itemName).Use();
+            return backpack.GetItemByString(itemName).Use(backpack, itemName);
         }
         return $"This {itemName} is not in your inventory.";
     }

@@ -1,6 +1,5 @@
 using System;
-
-public class Item
+class Item
 {
     protected int weight;
     protected string description;
@@ -41,7 +40,8 @@ public class Item
         return this.MemberwiseClone();
     }
 
-    public virtual string Use() {
+    public virtual string Use(Inventory backpack, string itemName) {
+        backpack.Get(itemName);
         return this.description;
     }
 }
@@ -51,11 +51,11 @@ class Tree : Item
     public Tree() : base("You feel refreshed.", 1) {}
 }
 
-public class Cat : Item
+class Cat : Item
 {
     public Cat() : base("Its a very cute cat", 5) {}
 
-    public override string Use() {
+    public override string Use(Inventory backpack, string itemName) {
         this.description = "Meow";
 
         return this.description;
