@@ -54,7 +54,7 @@ class Game
 		Item desk = new Item("Looks very new, despite it's usage.", 150);
 		Item whiteboard = new Item("Very clean, with some markers to the side.", 100);
 
-		Item beer = new Item("Want some?", 20);
+		Item beer = new Item("Want some?", 5);
 		Item bread = new Item("Some complementary bread.", 2);
 
 		Item computer = new Item("No cables to connect it to the desktop.", 20);
@@ -91,16 +91,16 @@ class Game
 		// Enter the main command loop. Here we repeatedly read commands and
 		// execute them until the player wants to quit.
 		bool finished = false;
-		while (!finished)
+		while (!finished && player.IsAlive())
 		{
 			Command command = parser.GetCommand();
 			finished = ProcessCommand(command);
-
-			if (!player.IsAlive()) {
-				finished = true;
-				Console.WriteLine("\nYou have died.");
-			}
 		}
+
+		if (!player.IsAlive()) {
+			Console.WriteLine("\nYou have died.");
+		}
+		
 		Console.WriteLine("Thank you for playing.");
 		Console.WriteLine("Press [Enter] to continue.");
 		Console.ReadLine();
@@ -182,11 +182,13 @@ class Game
 	private void Take(Command command)
 	{
 		if (!command.HasSecondWord()) {
+			// Does not know what to take without a second word.
 			Console.WriteLine("Take *what*?");
 			return;
 		}
 		
 		if (!player.CurrentRoom.Chest.ItemInInventory(command.SecondWord)) {
+			// Can't take an item if it doesn't exist.
 			Console.WriteLine($"There is no {command.SecondWord} in the room with you.");
 			return;
 		}
@@ -195,15 +197,16 @@ class Game
 	private void Drop(Command command)
 	{
 		if (!command.HasSecondWord()) {
+			// Does not know what to drop without a second word.
 			Console.WriteLine("Drop *what*?");
 			return;
 		}
 
 		if (!player.Backpack.ItemInInventory(command.SecondWord)) {
+			// Can't drop an item if it's not in the backpack.
 			Console.WriteLine($"This {command.SecondWord} is not in your backpack.");
 			return;
 		}
-		
 		player.DropToChest(command.SecondWord);
 	}
 
@@ -212,13 +215,14 @@ class Game
 		if (player.CurrentRoom.Chest.FreeWeight() != player.CurrentRoom.Chest.MaxWeight) {
 			Console.WriteLine("\nWhile looking around, you notice a few things in this place, namely:");
 			Console.WriteLine(player.CurrentRoom.Chest.Show());
-		} else {
+		} else { // Runs if inventory (chest) is empty.
 			Console.WriteLine("This place is strangely empty.");
 		}
 	}
 
 	private void PrintUse(Command command) {
 		if (!command.HasSecondWord()) {
+			// Doesn't know what to use without a second command word.
 			Console.WriteLine("Use *what*?");
 			return;
 		}
@@ -230,7 +234,7 @@ class Game
 		if (player.Backpack.FreeWeight() != player.Backpack.MaxWeight) {
 			Console.WriteLine("You have stored these items in your backpack:");
 			Console.WriteLine(player.Backpack.Show());
-		} else {
+		} else { // Runs if inventory (backpack) is empty.
 			Console.WriteLine("Your backpack is empty.");
 		}
 		Console.WriteLine($"You have {player.Backpack.FreeWeight()} kgs left in your backpack.");

@@ -1,8 +1,6 @@
 class Inventory
 {
     private int maxWeight;
-
-    
     private Dictionary<string, Item> items;
 
     public Inventory(int maxWeight)
@@ -16,15 +14,10 @@ class Inventory
             return maxWeight;
         }
     }
-
-    public Dictionary<string, Item> Items {
-        get {
-            return items;
-        }
-    }
     
     public bool Put(string itemName, Item item)
     {
+        // Increases the amount of items if it exists in the dictionary, otherwise add the item to the dictionary.
         if (item.Weight + TotalWeight() <= maxWeight) {
             if (items.ContainsKey(itemName)) {
                 items[itemName].Amount++;
@@ -37,6 +30,7 @@ class Inventory
     }
     public Item Get(string itemName)
     {
+        // Decrease the amount of items if it exists in the dictionary, otherwise remove the item from the dictionary.
         if (items.ContainsKey(itemName)) {
             Item takenItem = items[itemName];
             if (takenItem.Amount > 1) {
@@ -74,13 +68,16 @@ class Inventory
         string str = "";
         int count = 0;
         if (TotalWeight() != 0) {
+            // Loops through the items dictionary, then adds all items, their amounts, and weight per item to a string.
             foreach(KeyValuePair<string, Item> entry in items)
 			{
                 count++;
                 str += $"-{entry.Value.Amount}x {entry.Key}, "; 
+
                 if (entry.Value.Amount > 1) {
                     str += "each ";
                 }
+                
                 str += $"with a weight of {entry.Value.Weight} kgs.";
 
                 if (count != items.Count) {

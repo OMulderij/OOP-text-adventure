@@ -49,11 +49,13 @@ class Player
 
     public string Use(string itemName) {
         if (backpack.ItemInInventory(itemName)) {
-            return backpack.Get(itemName).Description;
+            return backpack.Get(itemName).Description; // Need to write a function that returns the description without consuming the item.
         }
         return $"This {itemName} is not in your inventory.";
     }
 
+
+    // Remove item from room, then put it in the backpack, or back in the room if it can't be put in the backpack.
     public bool TakeFromChest(string itemName) {
         Item chestItem = currentRoom.Chest.Get(itemName);
         if (backpack.Put(itemName, chestItem)) {
@@ -72,6 +74,7 @@ class Player
 
     public bool DropToChest(string itemName)
     {
+        // Removes item from backpack and tries to put it in the room, or back in the backpack if the player isn't allowed to drop the item.
         Item backpackItem = backpack.Get(itemName);
         if (currentRoom.Chest.Put(itemName, backpackItem)) {
             Console.WriteLine($"You succeeded in dropping the {itemName}.");
