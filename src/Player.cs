@@ -5,11 +5,13 @@ class Player
     private Room currentRoom;
     private int health;
     private Inventory backpack;
+    private Inventory playerItems; // Grenades / Healing items
 
     public Player()
     {
         health = 100;
         backpack = new Inventory(25);
+        playerItems = new Inventory(10);
     }
 
     public Room CurrentRoom {
@@ -24,6 +26,12 @@ class Player
     public Inventory Backpack {
         get {
             return backpack;
+        }
+    }
+
+    public Inventory PlayerItems {
+        get {
+            return playerItems;
         }
     }
     public int Health {
@@ -49,7 +57,7 @@ class Player
 
     public string UseItem(string itemName) {
         if (backpack.ItemInInventory(itemName)) {
-            return backpack.GetItemByString(itemName).Use(backpack, itemName);
+            return backpack.GetItemByString(itemName).Use(this, itemName);
         }
         return $"This {itemName} is not in your inventory.";
     }

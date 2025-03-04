@@ -25,9 +25,9 @@ class Inventory
                 // Adding the item directly also copies the value of the amount field, which we don't want in cases where the player or room has more than 2 of a certain item.
                 // ---- So instead this creates a new object with the same properties as the item, but with the amount value reset to 1. ----
                 // Now clones the Item instead, to preserve the class extensions.
-                Item backpackItem = (Item)item.Clone();
-                backpackItem.Amount = 1;
-                items.Add(itemName, backpackItem);
+                Item itemClone = (Item)item.Clone();
+                itemClone.Amount = 1;
+                items.Add(itemName, itemClone);
             }
             return true;
         }
@@ -93,6 +93,21 @@ class Inventory
                     str += "\n";
                 }
 			}
+        }
+        return str;
+    }
+
+    public string SimpleShow() {
+        string str = "";
+        int count = 0;
+        // Loops through the items dictionary, then adds all the items to a string.
+        foreach(KeyValuePair<string, Item> entry in items)
+        {
+            count++;
+            str += $"-{entry.Value.Amount}x {entry.Key}"; 
+            if (count != items.Count) {
+                str += "\n";
+            }
         }
         return str;
     }
