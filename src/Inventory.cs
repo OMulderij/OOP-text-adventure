@@ -48,7 +48,7 @@ class Inventory
         return null;
     }
 
-    public Item GetItemByString(string itemName) {
+    public virtual Item GetItemByString(string itemName) {
         return items[itemName];
     }
 
@@ -66,7 +66,7 @@ class Inventory
         return maxWeight - TotalWeight();
     }
 
-    public bool ItemInInventory(string itemName) {
+    public virtual bool ItemInInventory(string itemName) {
         if (items.ContainsKey(itemName)) {
             return true;
         }
@@ -134,6 +134,17 @@ class PlayerInventory : Inventory
     }
 
     public void AddCharge(string itemName) {
-        items[itemName].AddItemUse();
+            items[itemName].AddItemUse();
+    }
+
+    public override bool ItemInInventory(string itemName) {
+        if (items.ContainsKey(itemName)) {
+            return true;
+        }
+        return false;
+    }
+
+    public override Item GetItemByString(string itemName) {
+        return items[itemName];
     }
 }

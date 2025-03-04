@@ -61,6 +61,9 @@ class Player
         if (backpack.ItemInInventory(itemName)) {
             return backpack.GetItemByString(itemName).Use(this, itemName);
         }
+        if (playerItems.ItemInInventory(itemName)) {
+            return playerItems.GetItemByString(itemName).Use(this, itemName);
+        }
         return $"This {itemName} is not in your inventory.";
     }
 

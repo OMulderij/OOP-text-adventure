@@ -49,7 +49,7 @@ class Item
 class PlayerItem : Item
 {
     private int maxCount = 2;
-    private int usesLeft = 0;
+    private int usesLeft = 2;
     public PlayerItem(string newDescription, int newWeight) : base(newDescription, newWeight) {}
 
     public int UsesLeft {
