@@ -3,9 +3,9 @@ class Inventory
     private int maxWeight;
     private Dictionary<string, Item> items;
 
-    public Inventory(int maxWeight)
+    public Inventory(int newMaxWeight)
     {
-        this.maxWeight = maxWeight;
+        this.maxWeight = newMaxWeight;
         this.items = new Dictionary<string, Item>();
     }
 
@@ -73,7 +73,7 @@ class Inventory
         return false;
     }
 
-    public string Show() {
+    public virtual string Show() {
         string str = "";
         int count = 0;
         if (TotalWeight() != 0) {
@@ -96,19 +96,44 @@ class Inventory
         }
         return str;
     }
+}
 
-    public string SimpleShow() {
+class PlayerInventory : Inventory
+{
+    private Dictionary<string, PlayerItem> items;
+
+    public PlayerInventory() : base(10) {
+        HealItem healer = new HealItem(50);
+        GrenadeItem grenade = new GrenadeItem(500);
+        items = new Dictionary<string, PlayerItem>();
+        items.Add("healer", healer);
+        items.Add("grenade", grenade);
+    }
+
+    public bool Upgrade(string itemName) {
+        if (!items[itemName].IsItemUpgraded()) {
+            items[itemName].UpgradeItem();
+            return true;
+        }
+        return false;
+    }
+
+    public override string Show() {
         string str = "";
         int count = 0;
         // Loops through the items dictionary, then adds all the items to a string.
-        foreach(KeyValuePair<string, Item> entry in items)
+        foreach(KeyValuePair<string, PlayerItem> entry in items)
         {
             count++;
-            str += $"-{entry.Value.Amount}x {entry.Key}"; 
+            str += $"-{entry.Value.UsesLeft}x {entry.Key}";
             if (count != items.Count) {
                 str += "\n";
             }
         }
         return str;
+    }
+
+    public void AddCharge(string itemName) {
+        items[itemName].AddItemUse();
     }
 }

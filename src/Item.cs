@@ -46,26 +46,63 @@ class Item
     }
 }
 
-class Tree : Item 
+class PlayerItem : Item
 {
-    public Tree() : base("You feel refreshed.", 1) {}
+    private int maxCount = 2;
+    private int usesLeft = 0;
+    public PlayerItem(string newDescription, int newWeight) : base(newDescription, newWeight) {}
+
+    public int UsesLeft {
+        get {
+            return usesLeft;
+        }
+    }
+    public void UpgradeItem() {
+        maxCount = 3;
+        usesLeft = 3;
+    }
+
+    public bool IsItemUpgraded() {
+        if (maxCount == 3) {
+            return true;
+        }
+        return false;
+    }
+
+    protected bool UseItem() {
+        if (usesLeft > 0) {
+            usesLeft--;
+            return true;
+        }
+        return false;
+    }
+
+    public void AddItemUse() {
+        if (usesLeft < maxCount) {
+            usesLeft++;
+        }
+    }
 }
 
-class HealItem : Item
+class HealItem : PlayerItem
 {
     private int amount;
+
     public HealItem(int newHealAmount) : base("Using this item will heal you, did you expect anything else?", 1) {
         amount = newHealAmount;
     }
 
     public override string Use(Player player, string itemName) {
+        if (!UseItem()) {
+            return $"You don't have enough left to use.";
+        }
         string result = $"You have been healed for {this.amount} points.";
         player.Heal(this.amount);
         return result;
     }
 }
 
-class GrenadeItem : Item
+class GrenadeItem : PlayerItem
 {
     private int damage;
     public GrenadeItem(int newDamage) : base("Deals great damage to all enemies on a floor.", 1) {
@@ -75,7 +112,7 @@ class GrenadeItem : Item
     public override string Use(Player player, string itemName)
     {
 
-        // player.CurrentRoom.enemies.Damage();
+        // player.CurrentRoom.enemies.Damage(damage);
         return "HUUUGE DAMAGE!!!!";
     }
 }
@@ -91,4 +128,7 @@ class Cat : Item
     }
 }
 
-// Healing item, damaging item
+class Tree : Item 
+{
+    public Tree() : base("You feel refreshed.", 1) {}
+}

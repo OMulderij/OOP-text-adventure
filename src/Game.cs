@@ -50,8 +50,6 @@ class Game
 		// Create the Objects
 		Tree tree = new Tree();
 		Cat cat = new Cat();
-		HealItem medkit = new HealItem(50);
-		GrenadeItem grenade = new GrenadeItem(5000000);
 
 		// Item desk = new Item("Looks very new, despite it's usage.", 150);
 		// Item whiteboard = new Item("Very clean, with some markers to the side.", 100);
@@ -88,8 +86,6 @@ class Game
 		// hell.AddObjectToRoom("beer", beer);
 
 		// Start game outside
-		player.PlayerItems.Put("medkit", medkit);
-		player.PlayerItems.Put("grenade", grenade);
 		player.CurrentRoom = outside;
 		cat.Use(player, "cat");
 	}
@@ -238,12 +234,13 @@ class Game
 			return;
 		}
 		Console.WriteLine(player.UseItem(command.SecondWord));
+
 	}
 
 	private void PrintStatus() {
 		Console.WriteLine("You have " + player.Health + " health at your disposal.\n");
 		Console.WriteLine("These are the essentials you have left:");
-		Console.WriteLine(player.PlayerItems.SimpleShow()+"\n");
+		Console.WriteLine(player.PlayerItems.Show());
 		if (player.Backpack.FreeWeight() != player.Backpack.MaxWeight) {
 			Console.WriteLine("You have stored these items in your backpack:");
 			Console.WriteLine(player.Backpack.Show()+"\n");
@@ -274,8 +271,8 @@ class Game
 			return;
 		}
 
-		player.Damage(5);
 		player.CurrentRoom = nextRoom;
+		player.PlayerItems.AddCharge("healer");
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
 	}
 }
