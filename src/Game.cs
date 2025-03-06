@@ -17,6 +17,10 @@ class Game
 	// Initialise the Rooms (and the Items)
 	private void CreateRooms()
 	{
+		for (int i = 0; i < 10; i++) {
+			Enemy enemy = new Enemy();
+		}
+		
 		// Create the rooms
 		Room outside = new Room("outside the main entrance of the university");
 		Room theatre = new Room("in a lecture theatre");

@@ -117,6 +117,26 @@ class GrenadeItem : PlayerItem
     }
 }
 
+class Weapon : Item
+{
+    public Weapon(string newDescription, int newWeight) : base(newDescription, newWeight) {}
+}
+
+class SubmachineGun : Weapon
+{
+    public SubmachineGun() : base("Deals more damage to enemies with light armor.", 4) {} 
+}
+
+class AssaultRifle : Weapon
+{
+    public AssaultRifle() : base("Deals more damage to enemies with medium armor.", 5) {}
+}
+
+class ShotGun : Weapon
+{
+    public ShotGun() : base("Deals more damage to enemies with heavy armor.", 6) {}
+}
+
 class Cat : Item
 {
     public Cat() : base("Its a very cute cat", 5) {}
