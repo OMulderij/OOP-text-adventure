@@ -74,9 +74,21 @@ class Room
 
 class Dungeon : Room
 {
+	Dictionary<int, DungeonFloor> floors;
+	public Dungeon(int floorCount) : base("at the entrance of the Maelstrom hideout") {
+		floors = new Dictionary<int, DungeonFloor>();
+		for (int i = 1;i <= floorCount; i++) {
+			DungeonFloor dungeonfloor = new DungeonFloor(i);
+			floors.Add(i, dungeonfloor);
+		}
+	}
+}
+
+class DungeonFloor : Room
+{
 	private EnemyInventory enemies;
 
-	public Dungeon(int enemyCount) : base("at the entrance of the Maelstrom hideout") {
+	public DungeonFloor(int enemyCount) : base("inside the Maelstrom hideout.") {
 		enemies = new EnemyInventory(enemyCount);
 		Console.WriteLine(enemies.EnemyCount());
 	}
