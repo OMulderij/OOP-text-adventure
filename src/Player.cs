@@ -118,7 +118,7 @@ class Player
         if (targetEnemy == null) {
             return "There is no selected enemy.";
         }
-        
+
         targetEnemy.Damage(weapon.Shoot());
         return $"You dealt {weapon.Shoot()} damage.";
     }

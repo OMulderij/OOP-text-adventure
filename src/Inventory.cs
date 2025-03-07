@@ -148,3 +148,19 @@ class PlayerInventory : Inventory
         return items[itemName];
     }
 }
+
+class EnemyInventory : Inventory
+{
+    Dictionary<int, Enemy> enemyList;
+    public EnemyInventory(int newEnemyCount) : base(100) {
+        enemyList = new Dictionary<int, Enemy>();
+        for (int i = 0; i < newEnemyCount; i++) {
+            Enemy enemy = new Enemy(50);
+            enemyList.Add(i, enemy);
+        }
+    }
+
+    public int EnemyCount() {
+        return enemyList.Count();
+    }
+}

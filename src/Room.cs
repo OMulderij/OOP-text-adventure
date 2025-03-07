@@ -71,3 +71,13 @@ class Room
 		return str;
 	}
 }
+
+class Dungeon : Room
+{
+	private EnemyInventory enemies;
+
+	public Dungeon(int enemyCount) : base("at the entrance of the Maelstrom hideout") {
+		enemies = new EnemyInventory(enemyCount);
+		Console.WriteLine(enemies.EnemyCount());
+	}
+}

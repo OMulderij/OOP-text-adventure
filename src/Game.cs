@@ -25,6 +25,7 @@ class Game
 		Room office = new Room("in the computing admin office");
 		Room heaven = new Room("at the top of the world");
 		Room hell = new Room("at the bottom of the earth");
+		Dungeon hideout = new Dungeon(10);
 
 		// Initialise room exits
 		outside.AddExit("east", theatre);
@@ -47,10 +48,16 @@ class Game
 
 		hell.AddExit("up", outside);
 
+		hell.AddExit("down", hideout);
+
 		// Create the Objects
 		Item tree = new Tree();
+		Item smg = new Weapon("light");
+
+		// class Cat : Item
 		Item cat = new Cat();
-		Item machinegun = new Weapon("light");
+		// Cat cat2 = new Cat();
+
 
 		// Item desk = new Item("Looks very new, despite it's usage.", 150);
 		// Item whiteboard = new Item("Very clean, with some markers to the side.", 100);
@@ -68,10 +75,10 @@ class Game
 		outside.AddObjectToRoom("tree", tree); 				// refreshing
 		outside.AddObjectToRoom("tree", tree); 				// refreshing
 		outside.AddObjectToRoom("tree", tree); 				// refreshing
-		outside.AddObjectToRoom("machinegun", machinegun);
+		outside.AddObjectToRoom("smg", smg);
 		// outside.AddObjectToRoom("grenade", grenade);
 
-		outside.AddObjectToRoom("cat", cat); 					// revitalised 
+		outside.AddObjectToRoom("cat", cat);					// revitalised 
 
 		// theatre.AddObjectToRoom("desk", desk);				// HDMI cable 
 		// theatre.AddObjectToRoom("whiteboard", whiteboard);	// markers 

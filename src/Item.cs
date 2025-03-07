@@ -124,6 +124,7 @@ class Weapon : Item
     private string advantage;
     private double level;
     public Weapon(string newAdvantage) : base("Deals more damage to ", 5) {
+        this.advantage = newAdvantage;
         this.description += advantage + " armor.";
         this.advantage = newAdvantage;
         bulletDamage = 20;
