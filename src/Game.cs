@@ -17,10 +17,6 @@ class Game
 	// Initialise the Rooms (and the Items)
 	private void CreateRooms()
 	{
-		for (int i = 0; i < 10; i++) {
-			Enemy enemy = new Enemy();
-		}
-		
 		// Create the rooms
 		Room outside = new Room("outside the main entrance of the university");
 		Room theatre = new Room("in a lecture theatre");
@@ -52,8 +48,8 @@ class Game
 		hell.AddExit("up", outside);
 
 		// Create the Objects
-		Tree tree = new Tree();
-		Cat cat = new Cat();
+		Item tree = new Tree();
+		Item cat = new Cat();
 
 		// Item desk = new Item("Looks very new, despite it's usage.", 150);
 		// Item whiteboard = new Item("Very clean, with some markers to the side.", 100);

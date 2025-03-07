@@ -1,4 +1,5 @@
 using System;
+
 class Item
 {
     protected int weight;
@@ -119,22 +120,53 @@ class GrenadeItem : PlayerItem
 
 class Weapon : Item
 {
-    public Weapon(string newDescription, int newWeight) : base(newDescription, newWeight) {}
+    private int bulletDamage;
+    protected string advantage;
+    private double level;
+    public Weapon(string newDescription, int newWeight) : base(newDescription, newWeight) {
+        bulletDamage = 10;
+        level = 1;
+    }
+
+    public int Shoot() {
+        return (int)(bulletDamage * Math.Round(Math.Pow(1.25, level)));
+    }
+
+    public string Advantage {
+        get {
+            return advantage;
+        }
+    }
+
+    public bool UpgradeWeapon() {
+        if (level < 5) {
+            level++;
+            return true;
+        }
+        return false;
+    }
+
 }
 
 class SubmachineGun : Weapon
 {
-    public SubmachineGun() : base("Deals more damage to enemies with light armor.", 4) {} 
+    public SubmachineGun() : base("Deals more damage to enemies with light armor.", 4) {
+        advantage = "light";
+    }
 }
 
 class AssaultRifle : Weapon
 {
-    public AssaultRifle() : base("Deals more damage to enemies with medium armor.", 5) {}
+    public AssaultRifle() : base("Deals more damage to enemies with medium armor.", 5) {
+        advantage = "medium";
+    }
 }
 
 class ShotGun : Weapon
 {
-    public ShotGun() : base("Deals more damage to enemies with heavy armor.", 6) {}
+    public ShotGun() : base("Deals more damage to enemies with heavy armor.", 6) {
+        advantage = "heavy";
+    }
 }
 
 class Cat : Item
@@ -151,4 +183,9 @@ class Cat : Item
 class Tree : Item 
 {
     public Tree() : base("You feel refreshed.", 1) {}
+
+    public new string Use(Player player, string itemName) {
+        player.Backpack.Get(itemName);
+        return this.description;
+    }
 }

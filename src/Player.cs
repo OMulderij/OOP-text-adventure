@@ -3,8 +3,8 @@ using System;
 class Player
 {
     private Room currentRoom;
-    private int health;
-    private Inventory backpack;
+    protected int health;
+    protected Inventory backpack;
     private PlayerInventory playerItems;
 
     public Player()
@@ -97,5 +97,35 @@ class Player
         backpack.Put(itemName, backpackItem);
         Console.WriteLine($"You are not allowed to drop this {itemName} here.");
         return false;
+    }
+}
+
+class Enemy : Player
+{
+    Weapon weapon; // <--- weapon : Item class
+    string weaponName;
+    public Enemy(int newHP) {
+        this.health = newHP;
+        Random random = new Random();
+        switch (random.Next(3)) {
+            case 0:
+                weapon = new SubmachineGun();
+                weaponName = "SubmachineGun";
+                break;
+            case 1:
+                weapon = new AssaultRifle();
+                weaponName = "AssaultRifle";
+                break;
+            case 2:
+                weapon = new ShotGun();
+                weaponName = "ShotGun";
+                break;
+        }
+        backpack.Put(weaponName, weapon);
+        Console.WriteLine(weapon.Description);
+    }
+
+    public void Attack() {
+        UseItem(weaponName);
     }
 }
