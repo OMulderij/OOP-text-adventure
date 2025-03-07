@@ -50,6 +50,7 @@ class Game
 		// Create the Objects
 		Item tree = new Tree();
 		Item cat = new Cat();
+		Item machinegun = new Weapon("light");
 
 		// Item desk = new Item("Looks very new, despite it's usage.", 150);
 		// Item whiteboard = new Item("Very clean, with some markers to the side.", 100);
@@ -67,6 +68,7 @@ class Game
 		outside.AddObjectToRoom("tree", tree); 				// refreshing
 		outside.AddObjectToRoom("tree", tree); 				// refreshing
 		outside.AddObjectToRoom("tree", tree); 				// refreshing
+		outside.AddObjectToRoom("machinegun", machinegun);
 		// outside.AddObjectToRoom("grenade", grenade);
 
 		outside.AddObjectToRoom("cat", cat); 					// revitalised 

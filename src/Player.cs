@@ -6,12 +6,22 @@ class Player
     protected int health;
     protected Inventory backpack;
     private PlayerInventory playerItems;
+    private Enemy targetEnemy;
 
     public Player()
     {
         health = 100;
         backpack = new Inventory(25);
         playerItems = new PlayerInventory();
+    }
+
+    public Enemy TargetEnemy {
+        get {
+            return targetEnemy;
+        }
+        set {
+            targetEnemy = value;
+        }
     }
 
     public Room CurrentRoom {
@@ -57,7 +67,12 @@ class Player
         return true;
     }
 
-    public string UseItem(string itemName) {
+    public virtual string UseItem(string itemName) {
+        if (backpack.ItemInInventory(itemName)) {
+            if (backpack.GetItemByString(itemName) is Weapon) {
+                return Attack((Weapon)backpack.GetItemByString(itemName));
+            }
+        }
         if (backpack.ItemInInventory(itemName)) {
             return backpack.GetItemByString(itemName).Use(this, itemName);
         }
@@ -98,26 +113,35 @@ class Player
         Console.WriteLine($"You are not allowed to drop this {itemName} here.");
         return false;
     }
+
+    private string Attack(Weapon weapon) {
+        if (targetEnemy == null) {
+            return "There is no selected enemy.";
+        }
+        
+        targetEnemy.Damage(weapon.Shoot());
+        return $"You dealt {weapon.Shoot()} damage.";
+    }
 }
 
 class Enemy : Player
 {
-    Weapon weapon; // <--- weapon : Item class
-    string weaponName;
+    private Weapon weapon; // <--- weapon : Item class
     public Enemy(int newHP) {
+        string weaponName = "base";
         this.health = newHP;
         Random random = new Random();
         switch (random.Next(3)) {
             case 0:
-                weapon = new SubmachineGun();
+                weapon = new Weapon("light");
                 weaponName = "SubmachineGun";
                 break;
             case 1:
-                weapon = new AssaultRifle();
+                weapon = new Weapon("medium");
                 weaponName = "AssaultRifle";
                 break;
             case 2:
-                weapon = new ShotGun();
+                weapon = new Weapon("heavy");
                 weaponName = "ShotGun";
                 break;
         }
@@ -125,7 +149,11 @@ class Enemy : Player
         Console.WriteLine(weapon.Description);
     }
 
-    public void Attack() {
-        UseItem(weaponName);
+    public void Attack(Player player) {
+        if (player.TargetEnemy == this) {
+            player.Damage(weapon.Shoot());
+            return;
+        }
+        player.Damage((int)Math.Round(weapon.Shoot()*0.25));
     }
 }

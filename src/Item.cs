@@ -121,10 +121,12 @@ class GrenadeItem : PlayerItem
 class Weapon : Item
 {
     private int bulletDamage;
-    protected string advantage;
+    private string advantage;
     private double level;
-    public Weapon(string newDescription, int newWeight) : base(newDescription, newWeight) {
-        bulletDamage = 10;
+    public Weapon(string newAdvantage) : base("Deals more damage to ", 5) {
+        this.description += advantage + " armor.";
+        this.advantage = newAdvantage;
+        bulletDamage = 20;
         level = 1;
     }
 
@@ -146,27 +148,6 @@ class Weapon : Item
         return false;
     }
 
-}
-
-class SubmachineGun : Weapon
-{
-    public SubmachineGun() : base("Deals more damage to enemies with light armor.", 4) {
-        advantage = "light";
-    }
-}
-
-class AssaultRifle : Weapon
-{
-    public AssaultRifle() : base("Deals more damage to enemies with medium armor.", 5) {
-        advantage = "medium";
-    }
-}
-
-class ShotGun : Weapon
-{
-    public ShotGun() : base("Deals more damage to enemies with heavy armor.", 6) {
-        advantage = "heavy";
-    }
 }
 
 class Cat : Item
