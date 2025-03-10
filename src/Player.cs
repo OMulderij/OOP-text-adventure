@@ -69,13 +69,12 @@ class Player
 
     public virtual string UseItem(string itemName) {
         if (backpack.ItemInInventory(itemName)) {
-            if (backpack.GetItemByString(itemName) is Weapon) {
+            if (backpack.GetItemByString(itemName).GetType() == typeof(Weapon)) {
                 return Attack((Weapon)backpack.GetItemByString(itemName));
             }
-        }
-        if (backpack.ItemInInventory(itemName)) {
             return backpack.GetItemByString(itemName).Use(this, itemName);
         }
+        
         if (playerItems.ItemInInventory(itemName)) {
             return playerItems.GetItemByString(itemName).Use(this, itemName);
         }

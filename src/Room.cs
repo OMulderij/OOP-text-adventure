@@ -75,10 +75,14 @@ class Dungeon : Room
 	Dictionary<int, DungeonFloor> floors;
 	public Dungeon(int floorCount) : base("at the entrance of the Maelstrom hideout") {
 		floors = new Dictionary<int, DungeonFloor>();
-		for (int i = 1;i <= floorCount; i++) {
+		for (int i = floorCount;i >= 1; i--) {
 			DungeonFloor dungeonfloor = new DungeonFloor(i);
+			if (i != 1&& i != floorCount) {
+				dungeonfloor.AddExit("up", floors[i+1]);
+			}
 			floors.Add(i, dungeonfloor);
 		}
+		AddExit("south",floors[1]);
 	}
 }
 

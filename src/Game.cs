@@ -58,7 +58,6 @@ class Game
 		Item cat = new Cat();
 		// Cat cat2 = new Cat();
 
-
 		// Item desk = new Item("Looks very new, despite it's usage.", 150);
 		// Item whiteboard = new Item("Very clean, with some markers to the side.", 100);
 

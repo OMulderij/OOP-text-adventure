@@ -161,6 +161,25 @@ class EnemyInventory : Inventory
     }
 
     public int EnemyCount() {
-        return enemyList.Count();
+        return enemyList.Count;
+    }
+
+        public override string Show() {
+        string str = "";
+        int count = 0;
+        if (TotalWeight() != 0) {
+            // Loops through the items dictionary, then adds all items, their amounts, and weight per item to a string.
+            foreach(KeyValuePair<int, Enemy> entry in enemyList)
+			{
+                count++;
+                str += $"{entry.Key}, with {entry.Value.ArmorType} armor.";
+                
+
+                if (count != enemyList.Count) {
+                    str += "\n";
+                }
+			}
+        }
+        return str;
     }
 }
