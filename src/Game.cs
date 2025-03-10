@@ -70,27 +70,26 @@ class Game
 		// Item printer = new Item("This printer is not connected to.", 20);
 		
 		// Add objects to the rooms
-		outside.AddObjectToRoom("tree", tree); 				// refreshing
-		outside.AddObjectToRoom("tree", tree); 				// refreshing
-		outside.AddObjectToRoom("tree", tree); 				// refreshing
-		outside.AddObjectToRoom("tree", tree); 				// refreshing
-		outside.AddObjectToRoom("tree", tree); 				// refreshing
-		outside.AddObjectToRoom("smg", smg);
-		// outside.AddObjectToRoom("grenade", grenade);
+		outside.Chest.Put("tree", tree); 						// refreshing
+		outside.Chest.Put("tree", tree); 						// refreshing
+		outside.Chest.Put("tree", tree); 						// refreshing
+		outside.Chest.Put("tree", tree); 						// refreshing
+		outside.Chest.Put("tree", tree); 						// refreshing
+		outside.Chest.Put("smg", smg);
 
-		outside.AddObjectToRoom("cat", cat);					// revitalised 
+		outside.Chest.Put("cat", cat);							// revitalised 
 
 		// theatre.AddObjectToRoom("desk", desk);				// HDMI cable 
 		// theatre.AddObjectToRoom("whiteboard", whiteboard);	// markers 
 
-		pub.AddObjectToRoom("beer", beer);						// wanna drink?
-		pub.AddObjectToRoom("bread", bread);					// complementary bread
+		pub.Chest.Put("beer", beer);							// wanna drink?
+		pub.Chest.Put("bread", bread);							// complementary bread
 
 		// lab.AddObjectToRoom("computer", computer);			// not connected to the desktop
 
 		// office.AddObjectToRoom("printer", printer);			// printer but no computer
 
-		heaven.AddObjectToRoom("cat", cat);
+		heaven.Chest.Put("cat", cat);
 
 		// hell.AddObjectToRoom("beer", beer);
 
@@ -283,5 +282,8 @@ class Game
 		player.CurrentRoom = nextRoom;
 		player.PlayerItems.AddCharge("healer");
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
+		if (player.CurrentRoom is DungeonFloor) {
+			// player.CurrentRoom
+		}
 	}
 }

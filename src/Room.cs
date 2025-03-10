@@ -6,6 +6,8 @@ class Room
 	private string description;
 	private Dictionary<string, Room> exits; // stores exits of this room.
 	private Inventory chest;
+	protected EnemyInventory enemies;
+
 
 	// Create a room described "description". Initially, it has no exits.
 	// "description" is something like "in a kitchen" or "in a court yard".
@@ -28,14 +30,10 @@ class Room
 		exits.Add(direction, neighbor);
 	}
 
-	public void AddObjectToRoom(string itemName, Item item) {
-		chest.Put(itemName, item);
-	}
-
 	// Return the description of the room.
 	public string GetShortDescription()
 	{
-		return description;
+		return "You are " + description + ".";
 	}
 
 	// Return a long description of this room, in the form:
@@ -86,10 +84,14 @@ class Dungeon : Room
 
 class DungeonFloor : Room
 {
-	private EnemyInventory enemies;
-
 	public DungeonFloor(int enemyCount) : base("inside the Maelstrom hideout.") {
 		enemies = new EnemyInventory(enemyCount);
 		Console.WriteLine(enemies.EnemyCount());
+	}
+
+	public EnemyInventory Enemies {
+		get {
+			return enemies;
+		}
 	}
 }

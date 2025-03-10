@@ -131,8 +131,12 @@ class Weapon : Item
         level = 1;
     }
 
-    public int Shoot() {
-        return (int)(bulletDamage * Math.Round(Math.Pow(1.25, level)));
+    public int Shoot(bool advantage) {
+        int damageDealt = (int)(bulletDamage * Math.Round(Math.Pow(1.25, level)));
+        if (advantage == false) {
+            return damageDealt;
+        }
+        return (int)Math.Round(damageDealt*1.5);
     }
 
     public string Advantage {
