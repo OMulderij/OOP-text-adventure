@@ -7,6 +7,12 @@ class Inventory
     {
         this.maxWeight = newMaxWeight;
         this.items = new Dictionary<string, Item>();
+        HealItem healer = new HealItem(50);
+        GrenadeItem grenade = new GrenadeItem(500);
+        healer.Amount = 2;
+        grenade.Amount = 2;
+        this.items.Add("healer", healer);
+        this.items.Add("grenade", grenade);
     }
 
     public int MaxWeight {
@@ -76,6 +82,7 @@ class Inventory
     public virtual string Show() {
         string str = "";
         int count = 0;
+
         if (TotalWeight() != 0) {
             // Loops through the items dictionary, then adds all items, their amounts, and weight per item to a string.
             foreach(KeyValuePair<string, Item> entry in items)
@@ -100,55 +107,25 @@ class Inventory
     public virtual bool EmptyRoom() {
         return FreeWeight() == maxWeight;
     }
-}
 
-class PlayerInventory : Inventory
-{
-    private Dictionary<string, PlayerItem> playerInv;
-
-    public PlayerInventory() : base(10) {
-        HealItem healer = new HealItem(50);
-        GrenadeItem grenade = new GrenadeItem(500);
-        playerInv = new Dictionary<string, PlayerItem>();
-        playerInv.Add("healer", healer);
-        playerInv.Add("grenade", grenade);
+    public void AddCharge(string itemName) {
+        Item item = GetItemByString(itemName);
+        if (item is PlayerItem) {
+            PlayerItem newItem = (PlayerItem)item;
+            newItem.AddItemUse();
+        }
     }
 
     public bool Upgrade(string itemName) {
-        if (!playerInv[itemName].IsItemUpgraded()) {
-            playerInv[itemName].UpgradeItem();
+        if (GetItemByString(itemName) is PlayerItem) {
+            return false;
+        }
+
+        PlayerItem newItem = (PlayerItem)GetItemByString(itemName); 
+        if (!newItem.IsItemUpgraded()) {
+            newItem.UpgradeItem();
             return true;
         }
         return false;
-    }
-
-    public override string Show() {
-        string str = "";
-        int count = 0;
-        // Loops through the items dictionary, then adds all the items to a string.
-        foreach(KeyValuePair<string, PlayerItem> entry in playerInv)
-        {
-            count++;
-            str += $"-{entry.Value.UsesLeft}x {entry.Key}";
-            if (count != playerInv.Count) {
-                str += "\n";
-            }
-        }
-        return str;
-    }
-
-    public void AddCharge(string itemName) {
-            playerInv[itemName].AddItemUse();
-    }
-
-    public override bool ItemInInventory(string itemName) {
-        if (playerInv.ContainsKey(itemName)) {
-            return true;
-        }
-        return false;
-    }
-
-    public override Item GetItemByString(string itemName) {
-        return playerInv[itemName];
     }
 }

@@ -269,8 +269,6 @@ class Game
 
 	private void PrintStatus() {
 		Console.WriteLine("You have " + player.Health + " health at your disposal.\n");
-		Console.WriteLine("These are the essentials you have left:");
-		Console.WriteLine(player.PlayerItems.Show());
 		if (player.Backpack.FreeWeight() != player.Backpack.MaxWeight) {
 			Console.WriteLine("You have stored these items in your backpack:");
 			Console.WriteLine(player.Backpack.Show()+"\n");
@@ -302,7 +300,7 @@ class Game
 		}
 
 		player.CurrentRoom = nextRoom;
-		player.PlayerItems.AddCharge("healer");
+		player.Backpack.AddCharge("healer");
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
 	}
 }

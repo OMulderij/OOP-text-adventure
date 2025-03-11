@@ -1,12 +1,10 @@
 class Player : Human
 {
     private Room currentRoom;
-    private PlayerInventory playerItems;
     private Enemy targetEnemy;
 
     public Player() : base() {
         backpack = new Inventory(25);
-        playerItems = new PlayerInventory();
     }
     
     public Enemy TargetEnemy {
@@ -27,13 +25,6 @@ class Player : Human
         }
     }
 
-    public PlayerInventory PlayerItems
-    {
-        get {
-            return playerItems;
-        }
-    }
-
     public virtual string UseItem(string itemName) {
         if (backpack.ItemInInventory(itemName)) {
             if (backpack.GetItemByString(itemName).GetType() == typeof(Weapon)) {
@@ -42,9 +33,6 @@ class Player : Human
             return backpack.GetItemByString(itemName).Use(this, itemName);
         }
         
-        if (playerItems.ItemInInventory(itemName)) {
-            return playerItems.GetItemByString(itemName).Use(this, itemName);
-        }
         return $"This {itemName} is not in your inventory.";
     }
 
