@@ -41,8 +41,7 @@ class Item
         return this.MemberwiseClone();
     }
 
-    public virtual string Use(Player player, string itemName) {
-        player.Backpack.Get(itemName);
+    public virtual string Use(Object o, string itemName) {
         return this.description;
     }
 }

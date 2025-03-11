@@ -7,10 +7,9 @@ class Inventory
     {
         this.maxWeight = newMaxWeight;
         this.items = new Dictionary<string, Item>();
+
         HealItem healer = new HealItem(50);
         GrenadeItem grenade = new GrenadeItem(500);
-        healer.Amount = 2;
-        grenade.Amount = 2;
         this.items.Add("healer", healer);
         this.items.Add("grenade", grenade);
     }
@@ -79,27 +78,36 @@ class Inventory
         return false;
     }
 
-    public virtual string Show() {
-        string str = "";
+    public string Show() {
+        string str = "You have these essentials left:\n";
+        string basicStr = "";
         int count = 0;
 
-        if (TotalWeight() != 0) {
-            // Loops through the items dictionary, then adds all items, their amounts, and weight per item to a string.
-            foreach(KeyValuePair<string, Item> entry in items)
-			{
-                count++;
-                str += $"-{entry.Value.Amount}x {entry.Key}, "; 
+        // Loops through the items dictionary, then adds all items, their amounts, and weight per item to a string.
+        foreach(KeyValuePair<string, Item> entry in items)
+        {
 
-                if (entry.Value.Amount > 1) {
-                    str += "each ";
-                }
-                
-                str += $"with a weight of {entry.Value.Weight} kgs.";
+            if (entry.Value is PlayerItem) {
+                PlayerItem tempItem = (PlayerItem)entry.Value;
+                str += $"-{tempItem.UsesLeft}uses left {entry.Key}, ";
+                continue;
+            }
+            count++;
+            basicStr += $"-{entry.Value.Amount}x {entry.Key}, \n"; 
 
-                if (count != items.Count) {
-                    str += "\n";
-                }
-			}
+            if (entry.Value.Amount > 1) {
+                basicStr += "each ";
+            }
+            
+            basicStr += $"with a weight of {entry.Value.Weight} kgs.";
+
+            if (count != items.Count) {
+                basicStr += "\n";
+            }
+        }
+        if (basicStr != "") {
+            str += $"You have stored these items in your backpack:\n{basicStr}";
+
         }
         return str;
     }
