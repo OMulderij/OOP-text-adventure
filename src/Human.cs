@@ -1,48 +1,18 @@
 using System;
 
-class Player
+class Human
 {
-    private Room currentRoom;
     protected int health;
     protected Inventory backpack;
-    private PlayerInventory playerItems;
-    private Enemy targetEnemy;
 
-    public Player()
+    public Human()
     {
         health = 100;
-        backpack = new Inventory(25);
-        playerItems = new PlayerInventory();
-    }
-
-    public Enemy TargetEnemy {
-        get {
-            return targetEnemy;
-        }
-        set {
-            targetEnemy = value;
-        }
-    }
-
-    public Room CurrentRoom {
-        get {
-            return this.currentRoom;
-        }
-        set {
-            this.currentRoom = value;
-        }
     }
 
     public Inventory Backpack {
         get {
             return backpack;
-        }
-    }
-
-    public PlayerInventory PlayerItems
-    {
-        get {
-            return playerItems;
         }
     }
 
@@ -65,6 +35,44 @@ class Player
             return false;
         }
         return true;
+    }
+
+}
+
+class Player : Human
+{
+    private Room currentRoom;
+    private PlayerInventory playerItems;
+    private Enemy targetEnemy;
+
+    public Player() : base() {
+        backpack = new Inventory(25);
+        playerItems = new PlayerInventory();
+    }
+    
+    public Enemy TargetEnemy {
+        get {
+            return targetEnemy;
+        }
+        set {
+            targetEnemy = value;
+        }
+    }
+
+    public Room CurrentRoom {
+        get {
+            return this.currentRoom;
+        }
+        set {
+            this.currentRoom = value;
+        }
+    }
+
+    public PlayerInventory PlayerItems
+    {
+        get {
+            return playerItems;
+        }
     }
 
     public virtual string UseItem(string itemName) {
@@ -122,15 +130,18 @@ class Player
         targetEnemy.Damage(weapon.Shoot(hasAdvantage));
         return $"You dealt {weapon.Shoot(hasAdvantage)} damage.";
     }
+
 }
 
-class Enemy : Player
+class Enemy : Human
 {
     private Weapon weapon; // <--- weapon : Item class
     private string armorType;
     public Enemy(int newHP) {
+        backpack = new Inventory(25);
         string weaponName = "base";
         this.health = newHP;
+
         Random random = new Random();
         // Generate which weapon the enemy will use to attack, and eventually drop
         switch (random.Next(3)) {

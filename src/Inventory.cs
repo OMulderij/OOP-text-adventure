@@ -1,7 +1,7 @@
 class Inventory
 {
     private int maxWeight;
-    private Dictionary<string, Item> items;
+    protected Dictionary<string, Item> items;
 
     public Inventory(int newMaxWeight)
     {
@@ -96,23 +96,27 @@ class Inventory
         }
         return str;
     }
+
+    public virtual bool EmptyRoom() {
+        return FreeWeight() == maxWeight;
+    }
 }
 
 class PlayerInventory : Inventory
 {
-    private Dictionary<string, PlayerItem> items;
+    private Dictionary<string, PlayerItem> playerInv;
 
     public PlayerInventory() : base(10) {
         HealItem healer = new HealItem(50);
         GrenadeItem grenade = new GrenadeItem(500);
-        items = new Dictionary<string, PlayerItem>();
-        items.Add("healer", healer);
-        items.Add("grenade", grenade);
+        playerInv = new Dictionary<string, PlayerItem>();
+        playerInv.Add("healer", healer);
+        playerInv.Add("grenade", grenade);
     }
 
     public bool Upgrade(string itemName) {
-        if (!items[itemName].IsItemUpgraded()) {
-            items[itemName].UpgradeItem();
+        if (!playerInv[itemName].IsItemUpgraded()) {
+            playerInv[itemName].UpgradeItem();
             return true;
         }
         return false;
@@ -122,11 +126,11 @@ class PlayerInventory : Inventory
         string str = "";
         int count = 0;
         // Loops through the items dictionary, then adds all the items to a string.
-        foreach(KeyValuePair<string, PlayerItem> entry in items)
+        foreach(KeyValuePair<string, PlayerItem> entry in playerInv)
         {
             count++;
             str += $"-{entry.Value.UsesLeft}x {entry.Key}";
-            if (count != items.Count) {
+            if (count != playerInv.Count) {
                 str += "\n";
             }
         }
@@ -134,52 +138,17 @@ class PlayerInventory : Inventory
     }
 
     public void AddCharge(string itemName) {
-            items[itemName].AddItemUse();
+            playerInv[itemName].AddItemUse();
     }
 
     public override bool ItemInInventory(string itemName) {
-        if (items.ContainsKey(itemName)) {
+        if (playerInv.ContainsKey(itemName)) {
             return true;
         }
         return false;
     }
 
     public override Item GetItemByString(string itemName) {
-        return items[itemName];
-    }
-}
-
-class EnemyInventory : Inventory
-{
-    Dictionary<int, Enemy> enemyList;
-    public EnemyInventory(int newEnemyCount) : base(100) {
-        enemyList = new Dictionary<int, Enemy>();
-        for (int i = 0; i < newEnemyCount; i++) {
-            Enemy enemy = new Enemy(50);
-            enemyList.Add(i, enemy);
-        }
-    }
-
-    public int EnemyCount() {
-        return enemyList.Count;
-    }
-
-        public override string Show() {
-        string str = "";
-        int count = 0;
-        if (TotalWeight() != 0) {
-            // Loops through the items dictionary, then adds all items, their amounts, and weight per item to a string.
-            foreach(KeyValuePair<int, Enemy> entry in enemyList)
-			{
-                count++;
-                str += $"{entry.Key}, with {entry.Value.ArmorType} armor.";
-                
-
-                if (count != enemyList.Count) {
-                    str += "\n";
-                }
-			}
-        }
-        return str;
+        return playerInv[itemName];
     }
 }

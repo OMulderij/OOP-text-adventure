@@ -6,7 +6,7 @@ class Room
 	private string description;
 	private Dictionary<string, Room> exits; // stores exits of this room.
 	private Inventory chest;
-	protected EnemyInventory enemies;
+	protected List<Enemy> enemies;
 
 
 	// Create a room described "description". Initially, it has no exits.
@@ -16,6 +16,7 @@ class Room
 		description = desc;
 		exits = new Dictionary<string, Room>();
 		chest = new Inventory(999999);
+		enemies = new List<Enemy>();
 	}
 
 	public Inventory Chest {
@@ -28,6 +29,13 @@ class Room
 	public void AddExit(string direction, Room neighbor)
 	{
 		exits.Add(direction, neighbor);
+	}
+
+	public void AddEnemies(int count) {
+		for (int i = 0;i < count; i++) {
+			Enemy enemy = new Enemy(50);
+			enemies.Add(enemy);
+		}
 	}
 
 	// Return the description of the room.
@@ -67,35 +75,5 @@ class Room
 		str += String.Join(", ", exits.Keys);
 
 		return str;
-	}
-}
-
-class Dungeon : Room
-{
-	Dictionary<int, DungeonFloor> floors;
-	public Dungeon(int floorCount) : base("at the entrance of the Maelstrom hideout") {
-		floors = new Dictionary<int, DungeonFloor>();
-		for (int i = floorCount;i >= 1; i--) {
-			DungeonFloor dungeonfloor = new DungeonFloor(i);
-			if (i != 1&& i != floorCount) {
-				dungeonfloor.AddExit("up", floors[i+1]);
-			}
-			floors.Add(i, dungeonfloor);
-		}
-		AddExit("south",floors[1]);
-	}
-}
-
-class DungeonFloor : Room
-{
-	public DungeonFloor(int enemyCount) : base("inside the Maelstrom hideout.") {
-		enemies = new EnemyInventory(enemyCount);
-		Console.WriteLine(enemies.EnemyCount());
-	}
-
-	public EnemyInventory Enemies {
-		get {
-			return enemies;
-		}
 	}
 }

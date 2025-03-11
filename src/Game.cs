@@ -1,10 +1,12 @@
 using System;
+using System.Diagnostics;
 
 class Game
 {
 	// Private fields
 	private Parser parser;
 	private Player player;
+	private List<Room> dungeon;
 
 	// Constructor
 	public Game()
@@ -25,7 +27,7 @@ class Game
 		Room office = new Room("in the computing admin office");
 		Room heaven = new Room("at the top of the world");
 		Room hell = new Room("at the bottom of the earth");
-		Dungeon hideout = new Dungeon(10);
+		dungeon = CreateDungeon(10);
 
 		// Initialise room exits
 		outside.AddExit("east", theatre);
@@ -48,14 +50,14 @@ class Game
 
 		hell.AddExit("up", outside);
 
-		hell.AddExit("down", hideout);
+		hell.AddExit("south", dungeon[0]);
 
 		// Create the Objects
-		Item tree = new Tree();
+		// Item tree = new Tree();
 		Item smg = new Weapon("light");
 
 		// class Cat : Item
-		Item cat = new Cat();
+		// Item cat = new Cat();
 		// Cat cat2 = new Cat();
 
 		// Item desk = new Item("Looks very new, despite it's usage.", 150);
@@ -69,14 +71,14 @@ class Game
 		// Item printer = new Item("This printer is not connected to.", 20);
 		
 		// Add objects to the rooms
-		outside.Chest.Put("tree", tree); 						// refreshing
-		outside.Chest.Put("tree", tree); 						// refreshing
-		outside.Chest.Put("tree", tree); 						// refreshing
-		outside.Chest.Put("tree", tree); 						// refreshing
-		outside.Chest.Put("tree", tree); 						// refreshing
+		// outside.Chest.Put("tree", tree); 						// refreshing
+		// outside.Chest.Put("tree", tree); 						// refreshing
+		// outside.Chest.Put("tree", tree); 						// refreshing
+		// outside.Chest.Put("tree", tree); 						// refreshing
+		// outside.Chest.Put("tree", tree); 						// refreshing
 		outside.Chest.Put("smg", smg);
 
-		outside.Chest.Put("cat", cat);							// revitalised 
+		// outside.Chest.Put("cat", cat);							// revitalised 
 
 		// theatre.AddObjectToRoom("desk", desk);				// HDMI cable 
 		// theatre.AddObjectToRoom("whiteboard", whiteboard);	// markers 
@@ -88,13 +90,27 @@ class Game
 
 		// office.AddObjectToRoom("printer", printer);			// printer but no computer
 
-		heaven.Chest.Put("cat", cat);
+		// heaven.Chest.Put("cat", cat);
 
 		// hell.AddObjectToRoom("beer", beer);
 
 		// Start game outside
 		player.CurrentRoom = outside;
-		cat.Use(player, "cat");
+		// cat.Use(player, "cat");
+	}
+
+	private List<Room> CreateDungeon(int floorCount) {
+		List<Room> floors = new List<Room>();
+		for (int i = 0;i <= floorCount; i++) {
+			Room dungeonfloor = new Room($"on floor {i} of the Maelstrom hideout");
+			floors.Add(dungeonfloor);
+			if (i > 0) {
+				floors[i - 1].AddExit("up", dungeonfloor);
+			}
+			dungeonfloor.AddEnemies(i);
+			Console.WriteLine(i + "\n");
+		}
+		return floors;
 	}
 
 	//  Main play routine. Loops until end of play.
@@ -107,7 +123,14 @@ class Game
 		bool finished = false;
 		while (!finished && player.IsAlive())
 		{
+			Stopwatch stopWatch = new Stopwatch();
+        	stopWatch.Start();
+			if (player.CurrentRoom.GetType() == typeof(Room)) {
+			}
 			Command command = parser.GetCommand();
+
+			stopWatch.Stop();
+			Console.WriteLine(stopWatch.ElapsedMilliseconds);
 			finished = ProcessCommand(command);
 		}
 
@@ -226,10 +249,10 @@ class Game
 
 	private void PrintLook() {
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
-		if (player.CurrentRoom.Chest.FreeWeight() != player.CurrentRoom.Chest.MaxWeight) {
+		if (!player.CurrentRoom.Chest.EmptyRoom()) {
 			Console.WriteLine("\nWhile looking around, you notice a few things in this place, namely:");
 			Console.WriteLine(player.CurrentRoom.Chest.Show());
-		} else { // Runs if inventory (chest) is empty.
+		} else {
 			Console.WriteLine("This place is strangely empty.");
 		}
 	}
@@ -281,8 +304,5 @@ class Game
 		player.CurrentRoom = nextRoom;
 		player.PlayerItems.AddCharge("healer");
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
-		if (player.CurrentRoom is DungeonFloor) {
-			// player.CurrentRoom
-		}
 	}
 }

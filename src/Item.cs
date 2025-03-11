@@ -154,24 +154,3 @@ class Weapon : Item
     }
 
 }
-
-class Cat : Item
-{
-    public Cat() : base("Its a very cute cat", 5) {}
-
-    public override string Use(Player player, string itemName) {
-        this.description = "Meow";
-
-        return this.description;
-    }
-}
-
-class Tree : Item 
-{
-    public Tree() : base("You feel refreshed.", 1) {}
-
-    public new string Use(Player player, string itemName) {
-        player.Backpack.Get(itemName);
-        return this.description;
-    }
-}
