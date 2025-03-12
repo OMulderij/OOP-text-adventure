@@ -41,7 +41,7 @@ class Item
         return this.MemberwiseClone();
     }
 
-    public virtual string Use(Object o, string itemName) {
+    public virtual string Use(Object o) {
         return this.description;
     }
 }

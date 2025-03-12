@@ -263,7 +263,7 @@ class Game
 			Console.WriteLine("Use *what*?");
 			return;
 		}
-		Console.WriteLine(player.UseItem(command.SecondWord));
+		Console.WriteLine(player.UseItem(command));
 
 	}
 

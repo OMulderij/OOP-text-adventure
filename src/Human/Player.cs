@@ -25,24 +25,12 @@ class Player : Human
         }
     }
 
-    public virtual string UseItem(string itemName) {
-        if (backpack.ItemInInventory(itemName)) {
-            switch (backpack.GetItemByString(itemName)) {
-                case Weapon:
-                    return Attack((Weapon)backpack.GetItemByString(itemName));
-                case PlayerItem:
-                    return backpack.GetItemByString(itemName).Use(this, itemName);
-            }
-            // if (backpack.GetItemByString(itemName).GetType() == typeof(Weapon)) {
-            //     return Attack((Weapon)backpack.GetItemByString(itemName));
-            // }
-            // if (backpack.GetItemByString(itemName).GetType() == typeof(GrenadeItem)) {
-
-            // }
-            // return backpack..Use(this, itemName);
+    public virtual string UseItem(Command command) {
+        if (backpack.ItemInInventory(command.SecondWord)) {
+            return backpack.GetItemByString(command.SecondWord).Use(this);
         }
         
-        return $"This {itemName} is not in your inventory.";
+        return $"This {command.SecondWord} is not in your inventory.";
     }
 
 
@@ -77,13 +65,5 @@ class Player : Human
         return false;
     }
 
-    private string Attack(Weapon weapon) {
-        if (targetEnemy == null) {
-            return "There is no selected enemy.";
-        }
 
-        bool hasAdvantage = targetEnemy.ArmorType == weapon.Advantage;
-        targetEnemy.Damage(weapon.Shoot(hasAdvantage));
-        return $"You dealt {weapon.Shoot(hasAdvantage)} damage.";
-    }
 }

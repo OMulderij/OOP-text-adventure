@@ -5,10 +5,10 @@ class GrenadeItem : PlayerItem
         damage = newDamage;
     }
 
-    public override string Use(Object o, string itemName)
+    public override string Use(Object o)
     {
         if (o.GetType() != typeof(Player)) {
-            return $"You can't use this {itemName} on this {o.GetType()}";
+            return $"You can't use this Grenade on this {o.GetType()}";
         }
 
         Player player = (Player)o;

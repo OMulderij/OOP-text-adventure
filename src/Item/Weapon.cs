@@ -32,4 +32,15 @@ class Weapon : Item
         }
         return false;
     }
+
+    public override string Use(Object o) {
+        if (o.GetType() != typeof(Enemy)) {
+            return "You can't attack this " + o.GetType();
+        }
+        Enemy targetEnemy = (Enemy)o;
+
+        bool hasAdvantage = targetEnemy.ArmorType == advantage;
+        targetEnemy.Damage(Shoot(hasAdvantage));
+        return $"You dealt {Shoot(hasAdvantage)} damage.";
+    }
 }

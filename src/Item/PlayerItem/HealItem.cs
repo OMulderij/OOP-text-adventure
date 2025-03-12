@@ -6,7 +6,7 @@ class HealItem : PlayerItem
         amount = newHealAmount;
     }
 
-    public override string Use(Object o, string itemName) {
+    public override string Use(Object o) {
         if (o.GetType() != typeof(Player)) {
             return $"You can't use this item on a {o.GetType()}.";
         }
