@@ -1,24 +1,16 @@
 class Player : Human
 {
     private Room currentRoom;
-    private Enemy targetEnemy;
+    public Enemy TargetEnemy {get; set;}
 
     public Player() : base() {
         backpack = new Inventory(25);
 
+        // Generate the standard items in the player backpack.
         HealItem healer = new HealItem(50);
         GrenadeItem grenade = new GrenadeItem(500);
         this.backpack.Put("healer", healer);
         this.backpack.Put("grenade", grenade);
-    }
-    
-    public Enemy TargetEnemy {
-        get {
-            return targetEnemy;
-        }
-        set {
-            targetEnemy = value;
-        }
     }
 
     public Room CurrentRoom {
@@ -31,8 +23,10 @@ class Player : Human
     }
 
     public virtual string UseItem(Command command) {
-        if (backpack.ItemInInventory(command.SecondWord)) {
-            return backpack.GetItemByString(command.SecondWord).Use(this);
+        // Calls the Use() method if the object exists in the inventory
+        string third = command.ThirdWord;
+        if (this.backpack.ItemInInventory(command.SecondWord)) {
+            return this.backpack.GetItemByString(command.SecondWord).Use(this);
         }
         
         return $"This {command.SecondWord} is not in your inventory.";
@@ -42,7 +36,7 @@ class Player : Human
     // Remove item from room, then put it in the backpack, or back in the room if it can't be put in the backpack.
     public bool TakeFromChest(string itemName) {
         Item chestItem = currentRoom.Chest.Get(itemName);
-        if (backpack.Put(itemName, chestItem)) {
+        if (this.backpack.Put(itemName, chestItem)) {
             Console.WriteLine($"Succesfully stored the {itemName} in your backpack.");
             return true;
         }
@@ -61,14 +55,14 @@ class Player : Human
         // Removes item from backpack and tries to put it in the room, or back in the backpack if the player isn't allowed to drop the item.
         Item backpackItem = backpack.Get(itemName);
         if (backpackItem is PlayerItem) {
-            backpack.Put(itemName, backpackItem);
+            this.backpack.Put(itemName, backpackItem);
             return $"You can't drop the {itemName}.";
         }
-        if (currentRoom.Chest.Put(itemName, backpackItem)) {
+        if (this.currentRoom.Chest.Put(itemName, backpackItem)) {
             return $"You succeeded in dropping the {itemName}.";
         }
 
-        backpack.Put(itemName, backpackItem);
+        this.backpack.Put(itemName, backpackItem);
         return $"You are not allowed to drop this {itemName} here.";
     }
 

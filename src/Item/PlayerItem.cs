@@ -6,32 +6,32 @@ class PlayerItem : Item
 
     public int UsesLeft {
         get {
-            return usesLeft;
+            return this.usesLeft;
         }
     }
     public void UpgradeItem() {
-        maxCount = 3;
-        usesLeft = 3;
+        this.maxCount = 3;
+        this.usesLeft = 3;
     }
 
     public bool IsItemUpgraded() {
-        if (maxCount == 3) {
+        if (this.maxCount == 3) {
             return true;
         }
         return false;
     }
 
     protected bool UseItem() {
-        if (usesLeft > 0) {
-            usesLeft--;
+        if (this.usesLeft > 0) {
+            this.usesLeft--;
             return true;
         }
         return false;
     }
 
     public void AddItemUse() {
-        if (usesLeft < maxCount) {
-            usesLeft++;
+        if (this.usesLeft < this.maxCount) {
+            this.usesLeft++;
         }
     }
 }

@@ -1,57 +1,62 @@
 class Enemy : Human
 {
-    private Weapon weapon; // <--- weapon : Item class
-    private string armorType;
+    public string WeaponName {get; private set;}
+    public string ArmorType {get; private set;}
     public Enemy(int newHP) {
-        backpack = new Inventory(25);
-        string weaponName = "base";
+        this.backpack = new Inventory(25);
         this.health = newHP;
+        Weapon weapon;
 
         Random random = new Random();
-        // Generate which weapon the enemy will use to attack, and eventually drop
+        // Generate which weapon the enemy will use to attack, and eventually drop.
         switch (random.Next(3)) {
             case 0:
                 weapon = new Weapon("light");
-                weaponName = "SubmachineGun";
+                this.WeaponName = "SubmachineGun";
                 break;
             case 1:
                 weapon = new Weapon("medium");
-                weaponName = "AssaultRifle";
+                this.WeaponName = "AssaultRifle";
                 break;
             case 2:
                 weapon = new Weapon("heavy");
-                weaponName = "ShotGun";
+                this.WeaponName = "ShotGun";
+                break;
+            default:
+                // A default option so c# doesn't scream at me
+                weapon = new Weapon("basic");
                 break;
         }
+
+        backpack.Put(WeaponName, weapon);
 
         // Generate armortype to have advantage against
         switch (random.Next(3)) {
             case 0:
-                armorType = "light";
+                this.ArmorType = "light";
                 break;
             case 1:
-                armorType = "medium";
+                this.ArmorType = "medium";
                 break;
             case 2:
-                armorType = "heavy";
+                this.ArmorType = "heavy";
                 break;
         }
-        backpack.Put(weaponName, weapon);
-        Console.WriteLine(weapon.Description);
-        Console.WriteLine(armorType);
-    }
-
-    public string ArmorType {
-        get {
-            return armorType;
-        }
+        // Console.WriteLine(weapon.Description);
+        // Console.WriteLine(armorType);
     }
 
     public void Attack(Player player) {
+        // Attack the player using the weapon inside of it's inventory
+        Weapon weapon = (Weapon)backpack.GetItemByString(WeaponName);
         if (player.TargetEnemy == this) {
             player.Damage(weapon.Shoot(false));
             return;
         }
         player.Damage((int)Math.Round(weapon.Shoot(false)*0.25));
+    }
+
+    public Inventory Drop() {
+        return backpack;
     }
 }
