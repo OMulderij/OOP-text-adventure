@@ -7,9 +7,6 @@ class Inventory
     {
         this.maxWeight = newMaxWeight;
         this.items = new Dictionary<string, Item>();
-
-        HealItem healer = new HealItem(50);
-        GrenadeItem grenade = new GrenadeItem(500);
     }
 
     public int MaxWeight {
