@@ -10,8 +10,6 @@ class Inventory
 
         HealItem healer = new HealItem(50);
         GrenadeItem grenade = new GrenadeItem(500);
-        this.items.Add("healer", healer);
-        this.items.Add("grenade", grenade);
     }
 
     public int MaxWeight {

@@ -5,6 +5,11 @@ class Player : Human
 
     public Player() : base() {
         backpack = new Inventory(25);
+
+        HealItem healer = new HealItem(50);
+        GrenadeItem grenade = new GrenadeItem(500);
+        this.backpack.Put("healer", healer);
+        this.backpack.Put("grenade", grenade);
     }
     
     public Enemy TargetEnemy {
@@ -51,18 +56,20 @@ class Player : Human
         return false;
     }
 
-    public bool DropToChest(string itemName)
+    public string DropToChest(string itemName)
     {
         // Removes item from backpack and tries to put it in the room, or back in the backpack if the player isn't allowed to drop the item.
         Item backpackItem = backpack.Get(itemName);
+        if (backpackItem is PlayerItem) {
+            backpack.Put(itemName, backpackItem);
+            return $"You can't drop the {itemName}.";
+        }
         if (currentRoom.Chest.Put(itemName, backpackItem)) {
-            Console.WriteLine($"You succeeded in dropping the {itemName}.");
-            return true;
+            return $"You succeeded in dropping the {itemName}.";
         }
 
         backpack.Put(itemName, backpackItem);
-        Console.WriteLine($"You are not allowed to drop this {itemName} here.");
-        return false;
+        return $"You are not allowed to drop this {itemName} here.";
     }
 
 

@@ -244,7 +244,7 @@ class Game
 			Console.WriteLine($"This {command.SecondWord} is not in your backpack.");
 			return;
 		}
-		player.DropToChest(command.SecondWord);
+		Console.WriteLine(player.DropToChest(command.SecondWord));
 	}
 
 	private void PrintLook() {
