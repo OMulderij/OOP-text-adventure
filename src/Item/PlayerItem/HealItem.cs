@@ -8,7 +8,7 @@ class HealItem : PlayerItem
 
     public override string Use(Object o, string itemName) {
         if (o.GetType() != typeof(Player)) {
-            return $"You can't use this item on a non-{typeof(Player)}.";
+            return $"You can't use this item on a {o.GetType()}.";
         }
 
         Player player = (Player) o;

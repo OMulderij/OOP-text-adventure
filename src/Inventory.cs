@@ -79,7 +79,7 @@ class Inventory
     }
 
     public string Show() {
-        string str = "You have these essentials left:\n";
+        string str = "You have these items in your pocket:\n";
         string basicStr = "";
         int count = 0;
 
@@ -89,25 +89,22 @@ class Inventory
 
             if (entry.Value is PlayerItem) {
                 PlayerItem tempItem = (PlayerItem)entry.Value;
-                str += $"-{tempItem.UsesLeft}uses left {entry.Key}, ";
+                str += $"-{tempItem.UsesLeft}x uses left on a {entry.Key}\n";
                 continue;
             }
             count++;
-            basicStr += $"-{entry.Value.Amount}x {entry.Key}, \n"; 
+            basicStr += $"-{entry.Value.Amount}x {entry.Key}, "; 
 
             if (entry.Value.Amount > 1) {
                 basicStr += "each ";
             }
             
-            basicStr += $"with a weight of {entry.Value.Weight} kgs.";
-
-            if (count != items.Count) {
-                basicStr += "\n";
-            }
+            basicStr += $"with a weight of {entry.Value.Weight} kgs.\n";
         }
         if (basicStr != "") {
-            str += $"You have stored these items in your backpack:\n{basicStr}";
-
+            str += $"\nYou have stored these items in your backpack:\n{basicStr}";
+        } else {
+            str += "\nYour backpack is empty.";
         }
         return str;
     }
@@ -125,7 +122,7 @@ class Inventory
     }
 
     public bool Upgrade(string itemName) {
-        if (GetItemByString(itemName) is PlayerItem) {
+        if (GetItemByString(itemName).GetType() != typeof(PlayerItem)) {
             return false;
         }
 

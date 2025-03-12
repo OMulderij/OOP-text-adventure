@@ -269,11 +269,7 @@ class Game
 
 	private void PrintStatus() {
 		Console.WriteLine("You have " + player.Health + " health at your disposal.\n");
-		if (player.Backpack.FreeWeight() != player.Backpack.MaxWeight) {
-			Console.WriteLine(player.Backpack.Show()+"\n");
-		} else { // Runs if inventory (backpack) is empty.
-			Console.WriteLine("Your backpack is empty.");
-		}
+		Console.WriteLine(player.Backpack.Show());
 		Console.WriteLine($"You have {player.Backpack.FreeWeight()} kgs left in your backpack.");
 	}
 

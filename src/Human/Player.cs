@@ -27,10 +27,19 @@ class Player : Human
 
     public virtual string UseItem(string itemName) {
         if (backpack.ItemInInventory(itemName)) {
-            if (backpack.GetItemByString(itemName).GetType() == typeof(Weapon)) {
-                return Attack((Weapon)backpack.GetItemByString(itemName));
+            switch (backpack.GetItemByString(itemName)) {
+                case Weapon:
+                    return Attack((Weapon)backpack.GetItemByString(itemName));
+                case PlayerItem:
+                    return backpack.GetItemByString(itemName).Use(this, itemName);
             }
-            return backpack.GetItemByString(itemName).Use(this, itemName);
+            // if (backpack.GetItemByString(itemName).GetType() == typeof(Weapon)) {
+            //     return Attack((Weapon)backpack.GetItemByString(itemName));
+            // }
+            // if (backpack.GetItemByString(itemName).GetType() == typeof(GrenadeItem)) {
+
+            // }
+            // return backpack..Use(this, itemName);
         }
         
         return $"This {itemName} is not in your inventory.";

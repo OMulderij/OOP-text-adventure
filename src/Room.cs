@@ -6,7 +6,7 @@ class Room
 	private string description;
 	private Dictionary<string, Room> exits; // stores exits of this room.
 	private Inventory chest;
-	protected List<Enemy> enemies;
+	private List<Enemy> enemies;
 
 
 	// Create a room described "description". Initially, it has no exits.
@@ -36,6 +36,14 @@ class Room
 			Enemy enemy = new Enemy(50);
 			enemies.Add(enemy);
 		}
+	}
+
+	public int DamageAllEnemies(int damage) {
+		int enemiesHit = enemies.Count;
+		foreach(Enemy enemy in enemies) {
+			enemy.Damage(damage);
+		}
+		return enemiesHit;
 	}
 
 	// Return the description of the room.
