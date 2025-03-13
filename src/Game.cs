@@ -119,7 +119,7 @@ class Game
 		PrintWelcome();
 
 		// Enter the main command loop. Here we repeatedly read commands and
-		// execute them until the player wants to quit.
+		// execute them until the player wants to quit, dies or wins.
 		bool finished = false;
 		while (!finished && player.IsAlive())
 		{
@@ -196,7 +196,6 @@ class Game
 				wantToQuit = true;
 				break;
 		}
-
 		return wantToQuit;
 	}
 
@@ -216,6 +215,8 @@ class Game
 		parser.PrintValidCommands();
 	}
 
+	// Attempt to take an object from the current room,
+	// and print the result of it.
 	private void Take(Command command)
 	{
 		if (!command.HasSecondWord()) {
@@ -231,6 +232,9 @@ class Game
 		}
 		player.TakeFromChest(command.SecondWord);
 	}
+
+	// Attempt to drop something from the player backpack to the current room,
+	// And print out the result.
 	private void Drop(Command command)
 	{
 		if (!command.HasSecondWord()) {
@@ -247,6 +251,7 @@ class Game
 		Console.WriteLine(player.DropToChest(command.SecondWord));
 	}
 
+	// Print out the contents of the current room.
 	private void PrintLook() {
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
 		if (!player.CurrentRoom.Chest.EmptyRoom()) {
@@ -257,6 +262,8 @@ class Game
 		}
 	}
 
+	// Attempt to use an item from the backpack,
+	// And print out the result.
 	private void PrintUse(Command command) {
 		if (!command.HasSecondWord()) {
 			// Doesn't know what to use without a second command word.
@@ -267,6 +274,8 @@ class Game
 
 	}
 
+	// Print out the current status of the player:
+	// Of their health and backpack status.
 	private void PrintStatus() {
 		Console.WriteLine("You have " + player.Health + " health at your disposal.\n");
 		Console.WriteLine(player.Backpack.Show());

@@ -11,6 +11,7 @@ class Weapon : Item
         level = 1;
     }
 
+    // Calculates the damage dealt by the weapon
     public int Shoot(bool advantage) {
         int damageDealt = (int)(bulletDamage * Math.Round(Math.Pow(1.25, level)));
         if (advantage == false) {
@@ -19,12 +20,8 @@ class Weapon : Item
         return (int)Math.Round(damageDealt*1.5);
     }
 
-    public string Advantage {
-        get {
-            return advantage;
-        }
-    }
-
+    // Upgrades the weapon,
+    // Upgrading the weapon increases it's damage dealt.
     public bool UpgradeWeapon() {
         if (level < 5) {
             level++;
@@ -33,6 +30,7 @@ class Weapon : Item
         return false;
     }
 
+    // Attempts to use the weapon to attack an Enemy object.
     public override string Use(Object o) {
         if (o.GetType() != typeof(Enemy)) {
             return "You can't attack this " + o.GetType();

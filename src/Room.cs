@@ -25,6 +25,12 @@ class Room
 		}
 	}
 
+	public List<Enemy> Enemies {
+		get {
+			return enemies;
+		}
+	}
+
 	// Define an exit for this room.
 	public void AddExit(string direction, Room neighbor)
 	{

@@ -23,10 +23,15 @@ class Player : Human
     }
 
     public virtual string UseItem(Command command) {
+        var basicObject = this;
+        if (backpack.ItemInInventory(command.SecondWord)) {
+            if (backpack.GetItemByString(command.SecondWord) is PlayerItem) {
+                basicObject = this;
+            }
+        }
         // Calls the Use() method if the object exists in the inventory
-        string third = command.ThirdWord;
         if (this.backpack.ItemInInventory(command.SecondWord)) {
-            return this.backpack.GetItemByString(command.SecondWord).Use(this);
+            return this.backpack.GetItemByString(command.SecondWord).Use(basicObject);
         }
         
         return $"This {command.SecondWord} is not in your inventory.";
@@ -65,6 +70,4 @@ class Player : Human
         this.backpack.Put(itemName, backpackItem);
         return $"You are not allowed to drop this {itemName} here.";
     }
-
-
 }

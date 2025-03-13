@@ -48,7 +48,7 @@ class Inventory
         return null;
     }
 
-    public virtual Item GetItemByString(string itemName) {
+    public Item GetItemByString(string itemName) {
         return items[itemName];
     }
 

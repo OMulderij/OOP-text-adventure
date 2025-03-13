@@ -6,16 +6,17 @@ class HealItem : PlayerItem
         this.amount = newHealAmount;
     }
 
+    // Attempts to use the Healer on the player.
     public override string Use(Object o) {
         if (o.GetType() != typeof(Player)) {
             return $"You can't use this item on a {o.GetType()}.";
         }
 
-        Player player = (Player) o;
-        
         if (!UseItem()) {
             return $"You don't have enough left to use.";
         }
+
+        Player player = (Player) o;
         string result = $"You have been healed for {this.amount} points.";
         player.Heal(this.amount);
         return result;
