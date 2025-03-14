@@ -258,7 +258,7 @@ class Game
 	private void PrintLook() {
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
 		if (!player.CurrentRoom.Chest.EmptyRoom()) {
-			Console.WriteLine("\nWhile looking around, you notice a few things in this place, namely:");
+			Console.WriteLine("\nWhile looking around, you spot a few things, the most notable one(s):");
 			Console.WriteLine(player.CurrentRoom.Chest.Show());
 		} else {
 			Console.WriteLine("This place is strangely empty.");
@@ -281,7 +281,15 @@ class Game
 	// Of their health and backpack status.
 	private void PrintStatus() {
 		Console.WriteLine("You have " + player.Health + " health at your disposal.\n");
-		Console.WriteLine(player.Backpack.Show());
+		Console.WriteLine("You have these items in your pocket:");
+		Console.WriteLine(player.Backpack.PlayerItemsShow());
+		
+		if (!player.Backpack.EmptyRoom()) {
+			Console.WriteLine("You have stored these items in your backpack:");
+			Console.WriteLine(player.Backpack.Show());
+		} else {
+			Console.WriteLine("Your backpack is completely empty.");
+		}
 		Console.WriteLine($"You have {player.Backpack.FreeWeight()} kgs left in your backpack.");
 	}
 

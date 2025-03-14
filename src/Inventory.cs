@@ -81,32 +81,32 @@ class Inventory
     // Prints a list of all the items in the inventory
     // Need to rework this function to it also functions properly with the Rooms.
     public string Show() {
-        string str = "You have these items in your pocket:\n";
-        string basicStr = "";
-        int count = 0;
-
+        string str = "";
         // Loops through the items dictionary, then adds all items, their amounts, and weight per item to a string.
         foreach(KeyValuePair<string, Item> entry in items)
         {
+            if (entry.Value is PlayerItem) {
+                continue;
+            }
+            str += $"-{entry.Value.Amount}x {entry.Key}, "; 
 
+            if (entry.Value.Amount > 1) {
+                str += "each ";
+            }
+            
+            str += $"with a weight of {entry.Value.Weight} kgs.\n";
+        }
+        return str;
+    }
+
+    public string PlayerItemsShow() {
+        string str = "";
+        foreach(KeyValuePair<string, Item> entry in items) {
             if (entry.Value is PlayerItem) {
                 PlayerItem tempItem = (PlayerItem)entry.Value;
                 str += $"-{tempItem.UsesLeft}x uses left on a {entry.Key}\n";
                 continue;
             }
-            count++;
-            basicStr += $"-{entry.Value.Amount}x {entry.Key}, "; 
-
-            if (entry.Value.Amount > 1) {
-                basicStr += "each ";
-            }
-            
-            basicStr += $"with a weight of {entry.Value.Weight} kgs.\n";
-        }
-        if (basicStr != "") {
-            str += $"\nYou have stored these items in your backpack:\n{basicStr}";
-        } else {
-            str += "\nYour backpack is empty.";
         }
         return str;
     }
