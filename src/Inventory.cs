@@ -48,10 +48,12 @@ class Inventory
         return null;
     }
 
+    // Returns the Item by string. (So you don't have to put the item back every time.)
     public Item GetItemByString(string itemName) {
         return items[itemName];
     }
 
+    // Calculates the total amount of weight of all the items in the inventory combined.
     public int TotalWeight()
     {
         int total = 0;
@@ -61,18 +63,23 @@ class Inventory
         }
         return total;
     }
+
+    // Calculates the amount of weight left in the inventory.
     public int FreeWeight()
     {
         return maxWeight - TotalWeight();
     }
 
-    public virtual bool ItemInInventory(string itemName) {
+    // Checks if said item is in the inventory.
+    public bool ItemInInventory(string itemName) {
         if (items.ContainsKey(itemName)) {
             return true;
         }
         return false;
     }
 
+    // Prints a list of all the items in the inventory
+    // Need to rework this function to it also functions properly with the Rooms.
     public string Show() {
         string str = "You have these items in your pocket:\n";
         string basicStr = "";
@@ -104,10 +111,12 @@ class Inventory
         return str;
     }
 
-    public virtual bool EmptyRoom() {
+    // Checks if there are any items at all in the Inventory
+    public bool EmptyRoom() {
         return FreeWeight() == maxWeight;
     }
 
+    // Add a charge of a PlayerItem (grenades and healers)
     public void AddCharge(string itemName) {
         Item item = GetItemByString(itemName);
         if (item is PlayerItem) {
@@ -116,6 +125,7 @@ class Inventory
         }
     }
 
+    // Check if the PlayerItem is upgraded, if not, upgrade it.
     public bool Upgrade(string itemName) {
         if (GetItemByString(itemName).GetType() != typeof(PlayerItem)) {
             return false;

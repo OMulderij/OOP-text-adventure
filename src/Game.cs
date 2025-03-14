@@ -99,13 +99,15 @@ class Game
 		// cat.Use(player, "cat");
 	}
 
+	// Create the dungeon.
 	private List<Room> CreateDungeon(int floorCount) {
 		List<Room> floors = new List<Room>();
 		for (int i = 0;i <= floorCount; i++) {
+			// Generate a new floor in the dungeon, add an exit to the next floor and add enemies to it.
 			Room dungeonfloor = new Room($"on floor {i} of the Maelstrom hideout");
 			floors.Add(dungeonfloor);
 			if (i > 0) {
-				floors[i - 1].AddExit("up", dungeonfloor);
+				floors[i - 1].AddExit("up", dungeonfloor); // Change to only add an exit when all enemies on a floor are dead.
 			}
 			dungeonfloor.AddEnemies(i);
 			Console.WriteLine(i + "\n");
@@ -121,21 +123,23 @@ class Game
 		// Enter the main command loop. Here we repeatedly read commands and
 		// execute them until the player wants to quit, dies or wins.
 		bool finished = false;
-		while (!finished && player.IsAlive())
+		while (!finished)
 		{
-			Stopwatch stopWatch = new Stopwatch();
-        	stopWatch.Start();
-			if (player.CurrentRoom.GetType() == typeof(Room)) {
+			if (!player.IsAlive()) {
+				Console.WriteLine("\nYou have died.");
+                finished = true;
+				continue;
 			}
+
+			// Stopwatch stopWatch = new Stopwatch();
+        	// stopWatch.Start();
+
 			Command command = parser.GetCommand();
-
-			stopWatch.Stop();
-			Console.WriteLine(stopWatch.ElapsedMilliseconds);
+			
+			// stopWatch.Stop();
+			// Console.WriteLine(stopWatch.ElapsedMilliseconds);
+			
 			finished = ProcessCommand(command);
-		}
-
-		if (!player.IsAlive()) {
-			Console.WriteLine("\nYou have died.");
 		}
 
 		Console.WriteLine("Thank you for playing.");
@@ -209,8 +213,7 @@ class Game
 	{
 		Console.WriteLine("You are lost. You are alone.");
 		Console.WriteLine("You start to wander around at the university, not knowing where you might end up next.");
-		Console.WriteLine("But then, you hear a faint whisper, telling you:");
-		Console.WriteLine();
+		Console.WriteLine("But at that moment, you hear a faint whisper, telling you:\n");
 		// let the parser print the commands
 		parser.PrintValidCommands();
 	}
@@ -303,6 +306,7 @@ class Game
 			return;
 		}
 
+		player.Damage(40);
 		player.CurrentRoom = nextRoom;
 		player.Backpack.AddCharge("healer");
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());

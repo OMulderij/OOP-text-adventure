@@ -37,6 +37,7 @@ class Room
 		exits.Add(direction, neighbor);
 	}
 
+	// Add an enemy to the Room.
 	public void AddEnemies(int count) {
 		for (int i = 0;i < count; i++) {
 			Enemy enemy = new Enemy(50);
@@ -44,6 +45,7 @@ class Room
 		}
 	}
 
+	// Damage all enemies within the Room.
 	public int DamageAllEnemies(int damage) {
 		int enemiesHit = enemies.Count;
 		foreach(Enemy enemy in enemies) {

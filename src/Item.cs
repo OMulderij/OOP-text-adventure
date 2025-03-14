@@ -36,11 +36,14 @@ class Item
         }
     }
 
+    // Creates a clone of the current Object.
     public object Clone()
     {
         return this.MemberwiseClone();
     }
 
+    // Basic Use() function
+    // Gets overriden by subclasses.
     public virtual string Use(Object o) {
         return this.description;
     }
