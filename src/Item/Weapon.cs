@@ -2,13 +2,19 @@ class Weapon : Item
 {
     private int bulletDamage;
     private string advantage;
-    private double level;
+    private int level;
     public Weapon(string newAdvantage) : base("Deals more damage to ", 5) {
         this.advantage = newAdvantage;
         this.description += advantage + " armor.";
         this.advantage = newAdvantage;
         bulletDamage = 20;
         level = 1;
+    }
+
+    public int Level {
+        get {
+            return level;
+        }
     }
 
     // Calculates the damage dealt by the weapon
@@ -21,7 +27,7 @@ class Weapon : Item
     }
 
     // Upgrades the weapon,
-    // Upgrading the weapon increases it's damage dealt.
+    // Upgrading the weapon increases its damage dealt.
     public bool UpgradeWeapon() {
         if (level < 5) {
             level++;

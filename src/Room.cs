@@ -38,11 +38,28 @@ class Room
 	}
 
 	// Add an enemy to the Room.
-	public void AddEnemies(int count) {
+	public void AddEnemies(int count, int weaponLevel) {
 		for (int i = 0;i < count; i++) {
 			Enemy enemy = new Enemy(50);
+			for (int l = 1; l < weaponLevel; l++) {
+				enemy.Weapon.UpgradeWeapon();
+			}
 			enemies.Add(enemy);
 		}
+	}
+
+	public string ShowEnemies() {
+		string str = "";
+		int count = 0;
+		foreach(Enemy enemy in enemies) {
+			str += $"Enemy {count} with {enemy.ArmorType} armor and a level {enemy.Weapon.Level} {enemy.WeaponName}.\n";
+			count++;
+		}
+		return str;
+	}
+
+	public bool HasEnemies() {
+		return enemies.Count > 0;
 	}
 
 	// Damage all enemies within the Room.

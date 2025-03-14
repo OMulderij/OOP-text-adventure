@@ -52,10 +52,12 @@ class Game
 
 		hell.AddExit("south", dungeon[0]);
 
+
 		// Create the Objects
 		// Item tree = new Tree();
 		Item smg = new Weapon("light");
 
+		dungeon[2].Chest.Put("smg", smg);
 		// class Cat : Item
 		// Item cat = new Cat();
 		// Cat cat2 = new Cat();
@@ -83,20 +85,14 @@ class Game
 		// theatre.AddObjectToRoom("desk", desk);				// HDMI cable 
 		// theatre.AddObjectToRoom("whiteboard", whiteboard);	// markers 
 
-		pub.Chest.Put("beer", beer);							// wanna drink?
-		pub.Chest.Put("bread", bread);							// complementary bread
-
-		// lab.AddObjectToRoom("computer", computer);			// not connected to the desktop
-
-		// office.AddObjectToRoom("printer", printer);			// printer but no computer
-
-		// heaven.Chest.Put("cat", cat);
-
-		// hell.AddObjectToRoom("beer", beer);
+		pub.Chest.Put("beer", beer);
+		pub.Chest.Put("bread", bread);
+		pub.Chest.Put("bread", bread);
+		pub.Chest.Put("bread", bread);
+		pub.Chest.Put("smg", smg);
 
 		// Start game outside
 		player.CurrentRoom = outside;
-		// cat.Use(player, "cat");
 	}
 
 	// Create the dungeon.
@@ -109,7 +105,7 @@ class Game
 			if (i > 0) {
 				floors[i - 1].AddExit("up", dungeonfloor); // Change to only add an exit when all enemies on a floor are dead.
 			}
-			dungeonfloor.AddEnemies(i);
+			dungeonfloor.AddEnemies(i, (int)Math.Round((double)i / 2));
 			Console.WriteLine(i + "\n");
 		}
 		return floors;
@@ -254,17 +250,6 @@ class Game
 		Console.WriteLine(player.DropToChest(command.SecondWord));
 	}
 
-	// Print out the contents of the current room.
-	private void PrintLook() {
-		Console.WriteLine(player.CurrentRoom.GetLongDescription());
-		if (!player.CurrentRoom.Chest.EmptyRoom()) {
-			Console.WriteLine("\nWhile looking around, you spot a few things, the most notable one(s):");
-			Console.WriteLine(player.CurrentRoom.Chest.Show());
-		} else {
-			Console.WriteLine("This place is strangely empty.");
-		}
-	}
-
 	// Attempt to use an item from the backpack,
 	// And print out the result.
 	private void PrintUse(Command command) {
@@ -274,7 +259,24 @@ class Game
 			return;
 		}
 		Console.WriteLine(player.UseItem(command));
+	}
 
+	// Print out the contents of the current room.
+	private void PrintLook() {
+		Console.WriteLine(player.CurrentRoom.GetLongDescription());
+		if (!player.CurrentRoom.Chest.EmptyRoom()) {
+			Console.WriteLine("\nWhile looking around, you spot a few things, the most notable one(s):");
+			Console.WriteLine(player.CurrentRoom.Chest.Show());
+		} else {
+			Console.WriteLine("This place does not contain any items of note.\n");
+		}
+
+		if (player.CurrentRoom.HasEnemies()) {
+			Console.WriteLine("These are the enemies within the room:");
+			Console.WriteLine(player.CurrentRoom.ShowEnemies());
+		} else {
+			Console.WriteLine("You have not made any enemies here, good job choom.");
+		}
 	}
 
 	// Print out the current status of the player:
@@ -282,7 +284,7 @@ class Game
 	private void PrintStatus() {
 		Console.WriteLine("You have " + player.Health + " health at your disposal.\n");
 		Console.WriteLine("You have these items in your pocket:");
-		Console.WriteLine(player.Backpack.PlayerItemsShow());
+		Console.WriteLine(player.Backpack.ShowPlayerItems());
 		
 		if (!player.Backpack.EmptyRoom()) {
 			Console.WriteLine("You have stored these items in your backpack:");
@@ -314,7 +316,6 @@ class Game
 			return;
 		}
 
-		player.Damage(40);
 		player.CurrentRoom = nextRoom;
 		player.Backpack.AddCharge("healer");
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());

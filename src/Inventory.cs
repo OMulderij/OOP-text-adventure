@@ -99,7 +99,7 @@ class Inventory
         return str;
     }
 
-    public string PlayerItemsShow() {
+    public string ShowPlayerItems() {
         string str = "";
         foreach(KeyValuePair<string, Item> entry in items) {
             if (entry.Value is PlayerItem) {

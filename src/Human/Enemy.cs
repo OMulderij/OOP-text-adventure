@@ -18,13 +18,10 @@ class Enemy : Human
                 weapon = new Weapon("medium");
                 this.WeaponName = "AssaultRifle";
                 break;
-            case 2:
+            // Default option is called when random.Next() is 2;
+            default:
                 weapon = new Weapon("heavy");
                 this.WeaponName = "ShotGun";
-                break;
-            default:
-                // A default option so c# doesn't scream at me
-                weapon = new Weapon("basic");
                 break;
         }
 
@@ -44,6 +41,12 @@ class Enemy : Human
         }
         // Console.WriteLine(weapon.Description);
         // Console.WriteLine(armorType);
+    }
+    
+    public Weapon Weapon {
+        get {
+            return (Weapon)backpack.GetItemByString(WeaponName);
+        }
     }
 
     public void Attack(Player player) {
