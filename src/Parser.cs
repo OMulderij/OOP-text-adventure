@@ -11,6 +11,12 @@ class Parser
 		commandLibrary = new CommandLibrary();
 	}
 
+	public CommandLibrary CommandLibary {
+		get {
+			return commandLibrary;
+		}
+	}
+
 	// Ask and interpret the user input. Return a Command object.
 	public Command GetCommand()
 	{
@@ -33,6 +39,18 @@ class Parser
 
 		// If not, create a "null" command (for unknown command).
 		return new Command(null, null, null);
+	}
+
+		public void AddDungeonCommands() {
+		if (!commandLibrary.ValidCommands.Contains("leave")) {
+			commandLibrary.ValidCommands.Add("leave");
+		}
+	}
+
+	public void RemoveDungeonCommands() {
+		if (commandLibrary.ValidCommands.Contains("leave")) {
+			commandLibrary.ValidCommands.Remove("leave");
+		}
 	}
 
 	// Prints a list of valid command words from commandLibrary.

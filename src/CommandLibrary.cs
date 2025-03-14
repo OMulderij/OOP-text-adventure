@@ -20,6 +20,12 @@ class CommandLibrary
 		validCommands.Add("quit");
 	}
 
+	public List<string> ValidCommands {
+		get {
+			return validCommands;
+		}
+	}
+
 	// Check whether a given string is a valid command word.
 	// Return true if it is, false if it isn't.
 	public bool IsValidCommandWord(string instring)

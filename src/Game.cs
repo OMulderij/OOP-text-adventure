@@ -6,13 +6,16 @@ class Game
 	// Private fields
 	private Parser parser;
 	private Player player;
+	private Stopwatch stopWatch;
 	private List<Room> dungeon;
+	private Room outside;
 
 	// Constructor
 	public Game()
 	{
 		parser = new Parser();
 		player = new Player();
+		stopWatch = new Stopwatch();
 		CreateRooms();
 	}
 
@@ -20,7 +23,7 @@ class Game
 	private void CreateRooms()
 	{
 		// Create the rooms
-		Room outside = new Room("outside the main entrance of the university");
+		outside = new Room("outside the main entrance of the university");
 		Room theatre = new Room("in a lecture theatre");
 		Room pub = new Room("in the campus pub");
 		Room lab = new Room("in a computing lab");
@@ -54,42 +57,22 @@ class Game
 
 
 		// Create the Objects
-		// Item tree = new Tree();
 		Item smg = new Weapon("light");
-
-		dungeon[2].Chest.Put("smg", smg);
-		// class Cat : Item
-		// Item cat = new Cat();
-		// Cat cat2 = new Cat();
-
-		// Item desk = new Item("Looks very new, despite it's usage.", 150);
-		// Item whiteboard = new Item("Very clean, with some markers to the side.", 100);
 
 		Item beer = new Item("Want some?", 5);
 		Item bread = new Item("Some complementary bread.", 2);
 
-		// Item computer = new Item("No cables to connect it to the desktop.", 20);
-
-		// Item printer = new Item("This printer is not connected to.", 20);
-		
-		// Add objects to the rooms
-		// outside.Chest.Put("tree", tree); 						// refreshing
-		// outside.Chest.Put("tree", tree); 						// refreshing
-		// outside.Chest.Put("tree", tree); 						// refreshing
-		// outside.Chest.Put("tree", tree); 						// refreshing
-		// outside.Chest.Put("tree", tree); 						// refreshing
 		outside.Chest.Put("smg", smg);
-
-		// outside.Chest.Put("cat", cat);							// revitalised 
-
-		// theatre.AddObjectToRoom("desk", desk);				// HDMI cable 
-		// theatre.AddObjectToRoom("whiteboard", whiteboard);	// markers 
 
 		pub.Chest.Put("beer", beer);
 		pub.Chest.Put("bread", bread);
 		pub.Chest.Put("bread", bread);
 		pub.Chest.Put("bread", bread);
 		pub.Chest.Put("smg", smg);
+
+		dungeon[2].Chest.Put("smg", smg);
+		dungeon[10].AddExit("up", pub);
+
 
 		// Start game outside
 		player.CurrentRoom = outside;
@@ -127,13 +110,14 @@ class Game
 				continue;
 			}
 
-			// Stopwatch stopWatch = new Stopwatch();
-        	// stopWatch.Start();
+
+        	stopWatch.Start();
 
 			Command command = parser.GetCommand();
 			
-			// stopWatch.Stop();
-			// Console.WriteLine(stopWatch.ElapsedMilliseconds);
+			stopWatch.Stop();
+			Console.WriteLine(stopWatch.ElapsedMilliseconds);
+			stopWatch.Reset();
 			
 			finished = ProcessCommand(command);
 		}
@@ -194,6 +178,9 @@ class Game
 				break;
 			case "quit":
 				wantToQuit = true;
+				break;
+			case "leave" when parser.CommandLibary.IsValidCommandWord("leave"):
+				MoveRoom(outside);
 				break;
 		}
 		return wantToQuit;
@@ -316,6 +303,15 @@ class Game
 			return;
 		}
 
+		if (dungeon.Contains(nextRoom)) {
+			parser.AddDungeonCommands();
+		} else {
+			parser.RemoveDungeonCommands();
+		}
+		MoveRoom(nextRoom);
+	}
+
+	private void MoveRoom(Room nextRoom) {
 		player.CurrentRoom = nextRoom;
 		player.Backpack.AddCharge("healer");
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
