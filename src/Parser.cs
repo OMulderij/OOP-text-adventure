@@ -11,12 +11,6 @@ class Parser
 		commandLibrary = new CommandLibrary();
 	}
 
-	public CommandLibrary CommandLibary {
-		get {
-			return commandLibrary;
-		}
-	}
-
 	// Ask and interpret the user input. Return a Command object.
 	public Command GetCommand()
 	{

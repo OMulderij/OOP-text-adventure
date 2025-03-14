@@ -179,7 +179,7 @@ class Game
 			case "quit":
 				wantToQuit = true;
 				break;
-			case "leave" when parser.CommandLibary.IsValidCommandWord("leave"):
+			case "leave":
 				MoveRoom(outside);
 				break;
 		}
@@ -303,15 +303,15 @@ class Game
 			return;
 		}
 
+		MoveRoom(nextRoom);
+	}
+
+	private void MoveRoom(Room nextRoom) {
 		if (dungeon.Contains(nextRoom)) {
 			parser.AddDungeonCommands();
 		} else {
 			parser.RemoveDungeonCommands();
 		}
-		MoveRoom(nextRoom);
-	}
-
-	private void MoveRoom(Room nextRoom) {
 		player.CurrentRoom = nextRoom;
 		player.Backpack.AddCharge("healer");
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
