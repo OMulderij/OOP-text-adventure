@@ -12,15 +12,6 @@ class Item
         this.amount = 1;
     }
 
-    public string Description {
-        get {
-            if (this.description == "none") {
-                return "This item does not any effects.";
-            }
-            return this.description;
-        }
-    }
-
     public int Weight {
         get {
             return weight;

@@ -9,7 +9,7 @@ class Game
 	private Stopwatch stopWatch;
 	private List<Room> dungeon;
 	private Room outside;
-
+	
 	// Constructor
 	public Game()
 	{
@@ -86,7 +86,7 @@ class Game
 			Room dungeonfloor = new Room($"on floor {i} of the Maelstrom hideout");
 			floors.Add(dungeonfloor);
 			if (i > 0) {
-				floors[i - 1].AddExit("up", dungeonfloor); // Change to only add an exit when all enemies on a floor are dead.
+				// floors[i - 1].AddExit("up", dungeonfloor); // Change to only add an exit when all enemies on a floor are dead.
 			}
 			dungeonfloor.AddEnemies(i, (int)Math.Round((double)i / 2));
 			Console.WriteLine(i + "\n");
@@ -110,13 +110,17 @@ class Game
 				continue;
 			}
 
-        	stopWatch.Start();
+			if (dungeon.Contains(player.CurrentRoom) && player.CurrentRoom.Enemies.Count == 0 && player.CurrentRoom.GetExit("up") == null) {
+				player.CurrentRoom.AddExit("up", dungeon[dungeon.IndexOf(player.CurrentRoom)+1]);
+			}
+
+        	// stopWatch.Start();
 
 			Command command = parser.GetCommand();
 			
-			stopWatch.Stop();
-			Console.WriteLine(stopWatch.ElapsedMilliseconds);
-			stopWatch.Reset();
+			// stopWatch.Stop();
+			// Console.WriteLine(stopWatch.ElapsedMilliseconds);
+			// stopWatch.Reset();
 			
 			finished = ProcessCommand(command);
 		}
