@@ -249,8 +249,7 @@ class Game
 	}
 
 	// Print out the contents of the current room.
-	private void PrintLook() {
-		Console.WriteLine(player.CurrentRoom.GetLongDescription());
+	private void PrintLook() {		
 		if (!player.CurrentRoom.Chest.EmptyRoom()) {
 			Console.WriteLine("\nWhile looking around, you spot a few things, the most notable one(s):");
 			Console.WriteLine(player.CurrentRoom.Chest.Show());
@@ -264,6 +263,8 @@ class Game
 		} else {
 			Console.WriteLine("You have not made any enemies here, good job choom.");
 		}
+
+		Console.WriteLine(player.CurrentRoom.GetLongDescription());
 	}
 
 	// Print out the current status of the player:

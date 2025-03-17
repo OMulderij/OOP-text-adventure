@@ -22,18 +22,31 @@ class Player : Human
         }
     }
 
-    public virtual string UseItem(Command command) {
-        var basicObject = this;
+    public string UseItem(Command command) {
+        Object basicObject = this;
         if (backpack.ItemInInventory(command.SecondWord)) {
-            if (backpack.GetItemByString(command.SecondWord) is PlayerItem) {
-                basicObject = this;
+            // Checks if the object is a different type of item, to make sure the object matches what the Use() method expects.
+            Item item = backpack.GetItemByString(command.SecondWord);
+            // if (item is PlayerItem) {
+            //     basicObject = this;
+            // }
+            // Checks if the player selected an enemy, and if so, attacks the enemy using the current weapon.
+            if (item.GetType() == typeof(Weapon)) {
+                if (command.ThirdWord == null) {
+                    return $"Use {command.SecondWord} on *who*?";
+                }
+
+                if (int.TryParse(command.ThirdWord, out int result)) {
+                    basicObject = currentRoom.Enemies[result];
+                }
+                else {
+                    return "Please select an enemy by using the number in front of their name.";
+                }
             }
-        }
-        // Calls the Use() method if the object exists in the inventory
-        if (this.backpack.ItemInInventory(command.SecondWord)) {
+
+            // Calls the Use() method on the chosen item.
             return this.backpack.GetItemByString(command.SecondWord).Use(basicObject);
         }
-        
         return $"This {command.SecondWord} is not in your inventory.";
     }
 
