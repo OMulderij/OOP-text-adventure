@@ -37,7 +37,11 @@ class Player : Human
                 }
 
                 if (int.TryParse(command.ThirdWord, out int result)) {
-                    basicObject = currentRoom.Enemies[result];
+                    if (this.currentRoom.Enemies.Count - 1 <= result && this.currentRoom.Enemies.Count > 0) {
+                        basicObject = this.currentRoom.Enemies[result];
+                    } else {
+                        return result + " is not a valid enemy.";
+                    }
                 }
                 else {
                     return "Please select an enemy by using the number in front of their name.";
@@ -45,7 +49,16 @@ class Player : Human
             }
 
             // Calls the Use() method on the chosen item.
-            return this.backpack.GetItemByString(command.SecondWord).Use(basicObject);
+            string str = this.backpack.GetItemByString(command.SecondWord).Use(basicObject);
+            
+            // Removes all dead enemies from the currentRoom.
+            int count = this.currentRoom.Enemies.Count - 1;
+            for (int i = count; i >= 0; i--) {
+                if (!this.currentRoom.Enemies[i].IsAlive()) {
+                    this.currentRoom.Enemies.RemoveAt(i);
+                }
+            }
+            return str;
         }
         return $"This {command.SecondWord} is not in your inventory.";
     }

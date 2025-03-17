@@ -52,7 +52,7 @@ class Room
 		string str = "";
 		int count = 0;
 		foreach(Enemy enemy in enemies) {
-			str += $"Enemy {count} with {enemy.ArmorType} armor and a level {enemy.Weapon.Level} {enemy.WeaponName}.\n";
+			str += $"Enemy {count} with {enemy.Health} HP, {enemy.ArmorType} armor and a level {enemy.Weapon.Level} {enemy.WeaponName}.\n";
 			count++;
 		}
 		return str;

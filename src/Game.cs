@@ -110,7 +110,6 @@ class Game
 				continue;
 			}
 
-
         	stopWatch.Start();
 
 			Command command = parser.GetCommand();
