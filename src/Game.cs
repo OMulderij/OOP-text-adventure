@@ -73,6 +73,11 @@ class Game
 		dungeon[2].Chest.Put("smg", smg);
 		dungeon[10].AddExit("up", pub);
 
+		// Initialise Npcs
+		Npc fixer = new Fixer();
+
+		// Add the Npcs
+		pub.Npcs.Add(fixer);
 
 		// Start game outside
 		player.CurrentRoom = outside;
@@ -185,6 +190,9 @@ class Game
 			case "leave":
 				MoveRoom(outside);
 				break;
+			case "talk":
+				TalkToNpc(command);
+				break;
 		}
 		return wantToQuit;
 	}
@@ -264,7 +272,12 @@ class Game
 			Console.WriteLine("These are the enemies within the room:");
 			Console.WriteLine(player.CurrentRoom.ShowEnemies());
 		} else {
-			Console.WriteLine("You have not made any enemies here, good job choom.");
+			Console.WriteLine("You have not made any enemies here, good job choom.\n");
+		}
+
+		if (player.CurrentRoom.Npcs.Count > 0) {
+			Console.WriteLine("You can talk to these peeps:");
+			Console.WriteLine(player.CurrentRoom.GetNpcList() + "\n");
 		}
 
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
@@ -307,15 +320,55 @@ class Game
 			return;
 		}
 
+		// Checks if the player has activated the quest by talking to the Fixer : Npc in the bar.
+		if (dungeon.Contains(nextRoom) && !player.ActiveQuest) {
+			Console.WriteLine("You are standing in front of an abandoned building.");
+			Console.WriteLine("The smell of blood oozes from the building, leaving you frozen in front of the entrance.");
+			Console.WriteLine("Despite your determination to explore the city, you decide to back off for now.");
+			return;
+		} else if (dungeon.Contains(nextRoom) && player.ActiveQuest) {
+			Console.WriteLine("You are ready to take on the hideout now.");
+			Console.WriteLine("Iron in hand, meds at the ready, kiroshis looking sharp.");
+			Console.WriteLine("It's time to send some lead flying.\n");
+		}
+
 		MoveRoom(nextRoom);
 	}
 
+	private void TalkToNpc(Command command) {
+		if (!command.HasSecondWord()) {
+			Console.WriteLine("Talk to *who*?");
+			return;
+		}
+		Npc npc = player.CurrentRoom.GetNpcByString(command.SecondWord);
+		
+		if (npc == null) {
+			Console.WriteLine(command.SecondWord + " is not in this room.");
+			return;
+		}
+
+		string[] talkStr = npc.Talk(player).Split("\n");
+		foreach (string str in talkStr) {
+			Console.WriteLine(str);
+			Task.Delay(2000).Wait();
+		}
+		
+	}
+
 	private void MoveRoom(Room nextRoom) {
+		// Add Commands if the player is in a specific room
 		if (dungeon.Contains(nextRoom)) {
 			parser.AddCommand("leave");
 		} else {
 			parser.RemoveCommand("leave");
 		}
+
+		if (nextRoom.Npcs.Count > 0) {
+			parser.AddCommand("talk");
+		} else {
+			parser.RemoveCommand("talk");
+		}
+
 		player.CurrentRoom = nextRoom;
 		player.Backpack.AddCharge("healer");
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());

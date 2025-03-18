@@ -7,7 +7,7 @@ class Room
 	private Dictionary<string, Room> exits; // stores exits of this room.
 	private Inventory chest;
 	private List<Enemy> enemies;
-	private List<Npc> npcs;
+	public List<Npc> Npcs {get; set;}
 
 
 	// Create a room described "description". Initially, it has no exits.
@@ -18,6 +18,7 @@ class Room
 		exits = new Dictionary<string, Room>();
 		chest = new Inventory(999999);
 		enemies = new List<Enemy>();
+		Npcs = new List<Npc>();
 	}
 
 	public Inventory Chest {
@@ -109,5 +110,22 @@ class Room
 		str += String.Join(", ", exits.Keys);
 
 		return str;
+	}
+
+	public string GetNpcList() {
+		string str = "";
+		if (Npcs.Count > 0) {
+			str += String.Join(", ", Npcs);
+		}
+		return str;
+	}
+
+	public Npc GetNpcByString(string name) {
+		foreach (Npc npc in Npcs) {
+			if (npc.Name == name) {
+				return npc;
+			}
+		}
+		return null;
 	}
 }
