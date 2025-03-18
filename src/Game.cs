@@ -8,7 +8,7 @@ class Game
 	private Player player;
 	private Stopwatch stopWatch;
 	private List<Room> dungeon;
-	private Room outside;
+ 	private Room outside;
 	
 	// Constructor
 	public Game()
@@ -112,7 +112,7 @@ class Game
 
 			if (dungeon.Contains(player.CurrentRoom) && player.CurrentRoom.Enemies.Count == 0 && player.CurrentRoom.GetExit("up") == null) {
 				player.CurrentRoom.AddExit("up", dungeon[dungeon.IndexOf(player.CurrentRoom)+1]);
-			}
+			} // ^ dont add exit on final floor.
 
         	// stopWatch.Start();
 
@@ -312,9 +312,9 @@ class Game
 
 	private void MoveRoom(Room nextRoom) {
 		if (dungeon.Contains(nextRoom)) {
-			parser.AddDungeonCommands();
+			parser.AddCommand("leave");
 		} else {
-			parser.RemoveDungeonCommands();
+			parser.RemoveCommand("leave");
 		}
 		player.CurrentRoom = nextRoom;
 		player.Backpack.AddCharge("healer");

@@ -35,15 +35,15 @@ class Parser
 		return new Command(null, null, null);
 	}
 
-		public void AddDungeonCommands() {
-		if (!commandLibrary.ValidCommands.Contains("leave")) {
-			commandLibrary.ValidCommands.Add("leave");
+		public void AddCommand(string command) {
+		if (!commandLibrary.ValidCommands.Contains(command)) {
+			commandLibrary.ValidCommands.Add(command);
 		}
 	}
 
-	public void RemoveDungeonCommands() {
-		if (commandLibrary.ValidCommands.Contains("leave")) {
-			commandLibrary.ValidCommands.Remove("leave");
+	public void RemoveCommand(string command) {
+		if (commandLibrary.ValidCommands.Contains(command)) {
+			commandLibrary.ValidCommands.Remove(command);
 		}
 	}
 

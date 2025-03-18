@@ -2,6 +2,7 @@ class Player : Human
 {
     private Room currentRoom;
     public Enemy TargetEnemy {get; set;}
+    public bool ActiveQuest {get; set;}
 
     public Player() : base() {
         backpack = new Inventory(25);

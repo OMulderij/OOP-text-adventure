@@ -7,6 +7,7 @@ class Room
 	private Dictionary<string, Room> exits; // stores exits of this room.
 	private Inventory chest;
 	private List<Enemy> enemies;
+	private List<Npc> npcs;
 
 
 	// Create a room described "description". Initially, it has no exits.
