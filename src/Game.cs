@@ -7,7 +7,7 @@ class Game
 	// Private fields
 	private Parser parser;
 	private Player player;
-	private Stopwatch stopWatch;
+	// private Stopwatch stopWatch;
 	private List<Room> dungeon;
  	private Room outside;
 	
@@ -16,7 +16,7 @@ class Game
 	{
 		parser = new Parser();
 		player = new Player();
-		stopWatch = new Stopwatch();
+		// stopWatch = new Stopwatch();
 		CreateRooms();
 	}
 
@@ -24,61 +24,61 @@ class Game
 	private void CreateRooms()
 	{
 		// Create the rooms
-		outside = new Room("outside the main entrance of the university");
-		Room theatre = new Room("in a lecture theatre");
-		Room pub = new Room("in the campus pub");
-		Room lab = new Room("in a computing lab");
-		Room office = new Room("in the computing admin office");
-		Room heaven = new Room("at the top of the world");
-		Room hell = new Room("at the bottom of the earth");
+		outside = new Room("in the City of Dreams, surrounded by neon lights and advertisements");
+		Room market = new Room("in a small market filled with merchants");
+		Room bar = new Room("in a small, but cozy bar in Night City");
+		// Room lab = new Room("in a computing lab");
+		// Room office = new Room("in the computing admin office");
+		// Room heaven = new Room("at the top of the world");
+		// Room hell = new Room("at the bottom of the earth");
 		dungeon = CreateDungeon(10);
 
 		// Initialise room exits
-		outside.AddExit("east", theatre);
-		outside.AddExit("south", lab);
-		outside.AddExit("west", pub);
+		// outside.AddExit("south", lab);
+		outside.AddExit("west", bar);
+		outside.AddExit("east", market);
 
-		outside.AddExit("up", heaven);
-		outside.AddExit("down", hell);
+		// outside.AddExit("up", heaven);
+		// outside.AddExit("down", hell);
 
-		theatre.AddExit("west", outside);
+		market.AddExit("west", outside);
 
-		pub.AddExit("east", outside);
+		bar.AddExit("east", outside);
 
-		lab.AddExit("north", outside);
-		lab.AddExit("east", office);
+		// lab.AddExit("north", outside);
+		// lab.AddExit("east", office);
 
-		office.AddExit("west", lab);
+		// office.AddExit("west", lab);
 
-		heaven.AddExit("down", outside);
+		// heaven.AddExit("down", outside);
 
-		hell.AddExit("up", outside);
+		// hell.AddExit("up", outside);
 
-		hell.AddExit("south", dungeon[0]);
+		outside.AddExit("south", dungeon[0]);
 
 
 		// Create the Objects
-		Item smg = new Weapon("light");
+		Item handgun = new Weapon("light");
 
 		Item beer = new Item("Want some?", 5);
 		Item bread = new Item("Some complementary bread.", 2);
 
-		outside.Chest.Put("smg", smg);
+		outside.Chest.Put("handgun", handgun);
 
-		pub.Chest.Put("beer", beer);
-		pub.Chest.Put("bread", bread);
-		pub.Chest.Put("bread", bread);
-		pub.Chest.Put("bread", bread);
-		pub.Chest.Put("smg", smg);
+		bar.Chest.Put("beer", beer);
+		bar.Chest.Put("bread", bread);
+		bar.Chest.Put("bread", bread);
+		bar.Chest.Put("bread", bread);
+		bar.Chest.Put("handgun", handgun);
 
-		dungeon[2].Chest.Put("smg", smg);
+		dungeon[2].Chest.Put("handgun", handgun);
 		// dungeon[10].AddExit("up", pub);
 
 		// Initialise Npcs
 		Npc fixer = new Fixer();
 
 		// Add the Npcs
-		pub.Npcs.Add(fixer);
+		bar.Npcs.Add(fixer);
 
 		// Start game outside
 		player.CurrentRoom = outside;
@@ -378,8 +378,14 @@ class Game
 		// Add Commands if the player is in a specific room
 		if (dungeon.Contains(nextRoom)) {
 			parser.AddCommand("leave");
-		} else {
+		} else if (dungeon.Contains(player.CurrentRoom)) {
+			// Run if player is exiting the dungeon
 			ResetDungeon();
+
+			player.Backpack.AddCharge("grenade");
+			player.Backpack.AddCharge("grenade");
+			player.Backpack.AddCharge("grenade");
+
 			parser.RemoveCommand("leave");
 		}
 
