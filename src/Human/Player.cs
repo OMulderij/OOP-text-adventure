@@ -38,7 +38,7 @@ class Player : Human
                 }
 
                 if (int.TryParse(command.ThirdWord, out int result)) {
-                    if (this.currentRoom.Enemies.Count - 1 <= result && this.currentRoom.Enemies.Count > 0) {
+                    if (result <= this.currentRoom.Enemies.Count - 1 && this.currentRoom.Enemies.Count > 0) {
                         basicObject = this.currentRoom.Enemies[result];
                     } else {
                         return result + " is not a valid enemy.";

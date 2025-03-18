@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 
 class Game
@@ -71,7 +72,7 @@ class Game
 		pub.Chest.Put("smg", smg);
 
 		dungeon[2].Chest.Put("smg", smg);
-		dungeon[10].AddExit("up", pub);
+		// dungeon[10].AddExit("up", pub);
 
 		// Initialise Npcs
 		Npc fixer = new Fixer();
@@ -115,9 +116,15 @@ class Game
 				continue;
 			}
 
-			if (dungeon.Contains(player.CurrentRoom) && player.CurrentRoom.Enemies.Count == 0 && player.CurrentRoom.GetExit("up") == null) {
-				player.CurrentRoom.AddExit("up", dungeon[dungeon.IndexOf(player.CurrentRoom)+1]);
-			} // ^ dont add exit on final floor.
+			if (dungeon.Contains(player.CurrentRoom)) {
+				if (player.CurrentRoom.Enemies.Count == 0 && !player.CurrentRoom.HasExit()) {
+					if (dungeon.IndexOf(player.CurrentRoom) < dungeon.Count - 1) {
+						player.CurrentRoom.AddExit("up", dungeon[dungeon.IndexOf(player.CurrentRoom)+1]);
+					} else {
+						player.CurrentRoom.AddExit("out", outside);
+					}
+				}
+			}
 
         	// stopWatch.Start();
 
@@ -336,17 +343,21 @@ class Game
 	}
 
 	private void TalkToNpc(Command command) {
+		// Can't talk to an npc if the user didn't tell us which one.
 		if (!command.HasSecondWord()) {
 			Console.WriteLine("Talk to *who*?");
 			return;
 		}
-		Npc npc = player.CurrentRoom.GetNpcByString(command.SecondWord);
+
+		// String.ToLower() since the Look command prints the Fixer name with a capital letter.
+		Npc npc = player.CurrentRoom.GetNpcByString(command.SecondWord.ToLower());
 		
 		if (npc == null) {
 			Console.WriteLine(command.SecondWord + " is not in this room.");
 			return;
 		}
 
+		// Talk to an npc, and write each message 2 seconds after the last.
 		string[] talkStr = npc.Talk(player).Split("\n");
 		foreach (string str in talkStr) {
 			Console.WriteLine(str);
@@ -369,6 +380,7 @@ class Game
 			parser.RemoveCommand("talk");
 		}
 
+		// Run everything that needs to be ran every time the player.CurrentRoom changes.
 		player.CurrentRoom = nextRoom;
 		player.Backpack.AddCharge("healer");
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());

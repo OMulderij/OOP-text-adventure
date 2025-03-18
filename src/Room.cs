@@ -39,6 +39,13 @@ class Room
 		exits.Add(direction, neighbor);
 	}
 
+	public bool HasExit() {
+		if (exits.Count > 0) {
+			return true;
+		}
+		return false;
+	}
+
 	// Add an enemy to the Room.
 	public void AddEnemies(int count, int weaponLevel) {
 		for (int i = 0;i < count; i++) {

@@ -1,5 +1,6 @@
 class Fixer : Npc
 {
+    // Fixer unlocks the door to the dungeon after talking to him.
     public Fixer() : base("fixer") {}
 
     public override string Talk(Player player) {
