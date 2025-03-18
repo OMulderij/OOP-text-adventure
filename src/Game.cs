@@ -95,9 +95,17 @@ class Game
 				// floors[i - 1].AddExit("up", dungeonfloor); // Change to only add an exit when all enemies on a floor are dead.
 			}
 			dungeonfloor.AddEnemies(i, (int)Math.Round((double)i / 2));
-			Console.WriteLine(i + "\n");
 		}
 		return floors;
+	}
+
+	private void ResetDungeon() {
+		for (int i = 0; i < dungeon.Count; i++) {
+			dungeon[i].ClearAllEnemies();
+			dungeon[i].AddEnemies(i, (int)Math.Round((double)i / 2));
+			dungeon[i].Chest.ClearInventory();
+		}
+		Console.WriteLine("clear dungeon");
 	}
 
 	//  Main play routine. Loops until end of play.
@@ -333,7 +341,7 @@ class Game
 			Console.WriteLine("The smell of blood oozes from the building, leaving you frozen in front of the entrance.");
 			Console.WriteLine("Despite your determination to explore the city, you decide to back off for now.");
 			return;
-		} else if (dungeon.Contains(nextRoom) && player.ActiveQuest) {
+		} else if (dungeon.Contains(nextRoom) && player.ActiveQuest && dungeon.IndexOf(nextRoom) == 0) {
 			Console.WriteLine("You are ready to take on the hideout now.");
 			Console.WriteLine("Iron in hand, meds at the ready, kiroshis looking sharp.");
 			Console.WriteLine("It's time to send some lead flying.\n");
@@ -371,6 +379,7 @@ class Game
 		if (dungeon.Contains(nextRoom)) {
 			parser.AddCommand("leave");
 		} else {
+			ResetDungeon();
 			parser.RemoveCommand("leave");
 		}
 

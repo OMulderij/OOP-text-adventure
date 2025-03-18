@@ -138,4 +138,8 @@ class Inventory
         }
         return false;
     }
+
+    public void ClearInventory() {
+        items = new Dictionary<string, Item>();
+    }
 }

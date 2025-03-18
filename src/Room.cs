@@ -80,6 +80,10 @@ class Room
 		return enemiesHit;
 	}
 
+	public void ClearAllEnemies() {
+		enemies = new List<Enemy>();
+	}
+
 	// Return the description of the room.
 	public string GetShortDescription()
 	{
