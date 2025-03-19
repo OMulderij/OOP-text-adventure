@@ -63,4 +63,8 @@ class Merchant : Npc
                 break;
         }
     }
+
+    public string Buy(int playerMoney, string itemName) {
+        return "";
+    }
 }

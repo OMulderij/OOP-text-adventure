@@ -74,6 +74,7 @@ class Player : Human
         }
         
         currentRoom.Chest.Put(itemName, chestItem);
+        
         if (chestItem.Weight > backpack.MaxWeight) {
             Console.WriteLine($"This {itemName} is too heavy to store in your backpack.");
         } else {
