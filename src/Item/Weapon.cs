@@ -3,7 +3,7 @@ class Weapon : Item
     private int bulletDamage;
     private string advantage;
     private int level;
-    public Weapon(string newAdvantage) : base("Deals more damage to ", 5) {
+    public Weapon(string newAdvantage, int newValue) : base("Deals more damage to ", 5, newValue) {
         this.advantage = newAdvantage;
         this.description += advantage + " armor.";
         this.advantage = newAdvantage;

@@ -11,16 +11,16 @@ class Enemy : Human
         // Generate which weapon the enemy will use to attack, and eventually drop.
         switch (random.Next(3)) {
             case 0:
-                weapon = new Weapon("light");
-                this.WeaponName = "SubmachineGun";
+                weapon = new Weapon("light", 40);
+                this.WeaponName = "HandGun";
                 break;
             case 1:
-                weapon = new Weapon("medium");
-                this.WeaponName = "AssaultRifle";
+                weapon = new Weapon("medium", 40);
+                this.WeaponName = "Rifle";
                 break;
             // Default option is called when random.Next() is 2;
             default:
-                weapon = new Weapon("heavy");
+                weapon = new Weapon("heavy", 40);
                 this.WeaponName = "ShotGun";
                 break;
         }

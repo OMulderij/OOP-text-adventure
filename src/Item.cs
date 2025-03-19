@@ -5,8 +5,10 @@ class Item
     protected int weight;
     protected string description;
     private int amount;
+    private int value;
 
-    public Item(string newDescription, int newWeight) {
+    public Item(string newDescription, int newWeight, int newValue) {
+        this.value = newValue;
         this.description = newDescription;
         this.weight = newWeight;
         this.amount = 1;
@@ -24,6 +26,12 @@ class Item
         }
         set {
             this.amount = value;
+        }
+    }
+
+    public int Value {
+        get {
+            return value;
         }
     }
 

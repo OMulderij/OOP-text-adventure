@@ -58,10 +58,10 @@ class Game
 
 
 		// Create the Objects
-		Item handgun = new Weapon("light");
+		Item handgun = new Weapon("light", 15);
 
-		Item beer = new Item("Want some?", 5);
-		Item bread = new Item("Some complementary bread.", 2);
+		Item beer = new Item("Want some?", 5, 2);
+		Item bread = new Item("Some complementary bread.", 2, 5);
 
 		outside.Chest.Put("handgun", handgun);
 
@@ -76,9 +76,11 @@ class Game
 
 		// Initialise Npcs
 		Npc fixer = new Fixer();
+		Npc merchant = new Merchant();
 
 		// Add the Npcs
 		bar.Npcs.Add(fixer);
+		market.Npcs.Add(merchant);
 
 		// Start game outside
 		player.CurrentRoom = outside;
@@ -368,8 +370,10 @@ class Game
 		// Talk to an npc, and write each message 2 seconds after the last.
 		string[] talkStr = npc.Talk(player).Split("\n");
 		foreach (string str in talkStr) {
-			Console.WriteLine(str);
-			Task.Delay(2000).Wait();
+			if (str != "") {
+				Console.WriteLine(str);
+				Task.Delay(2000).Wait();
+			}
 		}
 		
 	}

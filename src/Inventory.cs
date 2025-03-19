@@ -111,6 +111,18 @@ class Inventory
         return str;
     }
 
+    public string SimplePlayerItemsShow() {
+        string str = "";
+        foreach(KeyValuePair<string, Item> entry in items) {
+            if (entry.Value is PlayerItem) {
+                PlayerItem tempItem = (PlayerItem)entry.Value;
+                str += $"-{entry.Key}\n";
+                continue;
+            }
+        }
+        return str;
+    }
+
     // Checks if there are any items at all in the Inventory
     public bool EmptyRoom() {
         return FreeWeight() == maxWeight;
