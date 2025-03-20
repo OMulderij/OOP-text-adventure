@@ -3,6 +3,7 @@ class Player : Human
     private Room currentRoom;
     public Enemy TargetEnemy {get; set;}
     public bool ActiveQuest {get; set;}
+    public bool DefeatedMaelstrom {get; set;}
     public bool CompletedQuest {get; set;}
 
     public Player() : base() {

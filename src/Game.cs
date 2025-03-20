@@ -382,6 +382,10 @@ class Game
 			return;
 		}
 
+		if (npc.GetType() == typeof(Fixer) && player.DefeatedMaelstrom) {
+			player.CompletedQuest = true;
+		}
+
 		// Talk to an npc, and write each message 2 seconds after the last.
 		string[] talkStr = npc.Talk(player).Split("\n");
 		foreach (string str in talkStr) {
@@ -400,7 +404,7 @@ class Game
 		} else if (dungeon.Contains(player.CurrentRoom)) {
 			// dungeon[^1] == dungeon[dungeon.Count - 1]
 			if (dungeon[^1] == player.CurrentRoom) {
-				player.CompletedQuest = true;
+				player.DefeatedMaelstrom = true;
 			}
 
 			// Run if player is exiting the dungeon
