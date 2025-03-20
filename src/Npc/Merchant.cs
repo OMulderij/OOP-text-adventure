@@ -3,7 +3,8 @@ class Merchant : Npc
     private Inventory stock;
     private Dictionary<string, Item> guaranteedDict;
     private bool firstVisit;
-    public Merchant() : base("merchant") 
+
+    public Merchant() : base("merchant")
     {
         // Initialize the fields
         firstVisit = true;
@@ -64,7 +65,14 @@ class Merchant : Npc
         }
     }
 
-    public string Buy(int playerMoney, string itemName) {
-        return "";
+    public Item Buy(int playerMoney, string itemName) {
+        Item item = stock.Get(itemName);
+
+        if (item != null) {
+            if (playerMoney < item.Value) {
+                return null;
+            }
+        }
+        return item;
     }
 }

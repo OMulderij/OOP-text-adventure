@@ -128,6 +128,13 @@ class Game
 				continue;
 			}
 
+			if (player.CompletedQuest) {
+				Console.WriteLine("\n Congratulations on beating the game!");
+				Console.WriteLine("You are now ready to tackle the big leagues.");
+				finished = true;
+				continue;
+			}
+
 			if (dungeon.Contains(player.CurrentRoom)) {
 				if (player.CurrentRoom.Enemies.Count == 0 && !player.CurrentRoom.HasExit()) {
 					if (dungeon.IndexOf(player.CurrentRoom) < dungeon.Count - 1) {
@@ -225,10 +232,16 @@ class Game
 	private void PrintHelp()
 	{
 		Console.WriteLine("You are lost. You are alone.");
-		Console.WriteLine("You start to wander around at the university, not knowing where you might end up next.");
-		Console.WriteLine("But at that moment, you hear a faint whisper, telling you:\n");
+		Console.WriteLine("You wander around Night City, seeing the bustling streets, brutal gangs and brightly lit advertisements flash past you like they're nothing.");
+		Console.WriteLine("Ending up in the reconciliation park, you think this place is more pleasant than initially expected.");
+		Console.WriteLine("You sit here for a while, meditating...");
+		Console.WriteLine("But at that moment, a monk approaches you, and you start to talk.");
+		Console.WriteLine("He discovers that you are lost, alone, and devoid of ideas on what to do with your life.");
+		Console.WriteLine("And like a saint from the heavens, it's almost like he can read your destiny, and tells you:\n");
 		// let the parser print the commands
 		parser.PrintValidCommands();
+		Console.WriteLine("\nAfter this mysterious encounter, you wander back to where you came from.");
+		Console.WriteLine("Now filled with inspiration from the monk, you are ready to tackle the world again.");
 	}
 
 	// Attempt to take an object from the current room,
@@ -385,6 +398,11 @@ class Game
 		if (dungeon.Contains(nextRoom)) {
 			parser.AddCommand("leave");
 		} else if (dungeon.Contains(player.CurrentRoom)) {
+			// dungeon[^1] == dungeon[dungeon.Count - 1]
+			if (dungeon[^1] == player.CurrentRoom) {
+				player.CompletedQuest = true;
+			}
+
 			// Run if player is exiting the dungeon
 			ResetDungeon();
 
