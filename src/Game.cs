@@ -10,14 +10,12 @@ class Game
 	// private Stopwatch stopWatch;
 	private List<Room> dungeon;
  	private Room outside;
-	private Npc lastTalkedToNpc;
 	
 	// Constructor
 	public Game()
 	{
 		parser = new Parser();
 		player = new Player();
-		lastTalkedToNpc = null;
 		// stopWatch = new Stopwatch();
 		CreateRooms();
 	}
@@ -394,7 +392,7 @@ class Game
 				Task.Delay(2000).Wait();
 			}
 		}
-		lastTalkedToNpc = npc;
+		player.lastTalkedToNpc = npc;
 	}
 
 	private void MoveRoom(Room nextRoom) {

@@ -5,6 +5,8 @@ class Player : Human
     public bool ActiveQuest {get; set;}
     public bool DefeatedMaelstrom {get; set;}
     public bool CompletedQuest {get; set;}
+    public Npc lastTalkedToNpc {get; set;}
+
 
     public Player() : base() {
         backpack = new Inventory(25);
@@ -30,9 +32,6 @@ class Player : Human
         if (backpack.ItemInInventory(command.SecondWord)) {
             // Checks if the object is a different type of item, to make sure the object matches what the Use() method expects.
             Item item = backpack.GetItemByString(command.SecondWord);
-            // if (item is PlayerItem) {
-            //     basicObject = this;
-            // }
             // Checks if the player selected an enemy, and if so, attacks the enemy using the current weapon.
             if (item.GetType() == typeof(Weapon)) {
                 if (command.ThirdWord == null) {
@@ -57,7 +56,10 @@ class Player : Human
             // Removes all dead enemies from the currentRoom.
             int count = this.currentRoom.Enemies.Count - 1;
             for (int i = count; i >= 0; i--) {
-                if (!this.currentRoom.Enemies[i].IsAlive()) {
+                Enemy enemy  = this.currentRoom.Enemies[i];
+                if (!enemy.IsAlive()) {
+                    Inventory inv = enemy.Drop();
+                    
                     this.currentRoom.Enemies.RemoveAt(i);
                 }
             }
