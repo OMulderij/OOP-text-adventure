@@ -3,7 +3,7 @@ class Enemy : Human
     public string WeaponName {get; private set;}
     public string ArmorType {get; private set;}
     public Enemy(int newHP) {
-        this.backpack = new Inventory(25);
+        this.backpack = new Inventory(25, 0);
         this.health = newHP;
         Weapon weapon;
 

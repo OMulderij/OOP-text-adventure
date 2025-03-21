@@ -16,7 +16,7 @@ class Room
 	{
 		description = desc;
 		exits = new Dictionary<string, Room>();
-		chest = new Inventory(999999);
+		chest = new Inventory(999999, 0);
 		enemies = new List<Enemy>();
 		Npcs = new List<Npc>();
 	}

@@ -8,7 +8,7 @@ class Merchant : Npc
     {
         // Initialize the fields
         firstVisit = true;
-        stock = new Inventory(500);
+        stock = new Inventory(500, 0);
         guaranteedDict = new Dictionary<string, Item>();
 
         // Initialize items to add to the lists.
@@ -42,7 +42,7 @@ class Merchant : Npc
     }
 
     public void RandomizeStock() {
-        stock = new Inventory(500);
+        stock = new Inventory(500, 0);
         Random random = new Random();
 
         foreach(KeyValuePair<string, Item> entry in guaranteedDict) {
@@ -70,8 +70,13 @@ class Merchant : Npc
 
         if (item != null) {
             if (playerMoney < item.Value) {
+                stock.Put(itemName, item);
+                Console.WriteLine("I'm afraid that you don't quite have enough eddies for that.");
                 return null;
             }
+        } else {
+            Console.WriteLine($"I've got no clue what {itemName} is.");
+			Console.WriteLine("I do know that I don't sell it though.");
         }
         return item;
     }

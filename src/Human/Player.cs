@@ -9,11 +9,13 @@ class Player : Human
 
 
     public Player() : base() {
-        backpack = new Inventory(25);
+        backpack = new Inventory(25, 99);
 
         // Generate the standard items in the player backpack.
         HealItem healer = new HealItem(50);
         GrenadeItem grenade = new GrenadeItem(500);
+
+
         this.backpack.Put("healer", healer);
         this.backpack.Put("grenade", grenade);
     }
@@ -53,37 +55,10 @@ class Player : Human
             // Calls the Use() method on the chosen item.
             string str = this.backpack.GetItemByString(command.SecondWord).Use(basicObject);
             
-            KillEnemies();
             return str;
         }
         return $"This {command.SecondWord} is not in your inventory.";
     }
-
-    private void KillEnemies() {
-            // Removes all dead enemies from the currentRoom.
-            // And drops the items / value of items in gold.
-            int count = this.currentRoom.Enemies.Count - 1;
-            for (int i = count; i >= 0; i--) {
-                Enemy enemy  = this.currentRoom.Enemies[i];
-                if (!enemy.IsAlive()) {
-                    Inventory inv = enemy.Drop();
-                    Random random = new Random();
-
-                    switch (random.Next(100)) {
-                        case >= 90:
-                            foreach (KeyValuePair<string, Item> entry in inv.Items) {
-                                this.currentRoom.Chest.Put(entry.Key, entry.Value);
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-                    
-                    this.currentRoom.Enemies.RemoveAt(i);
-                }
-            }
-    }
-
 
     // Remove item from room, then put it in the backpack, or back in the room if it can't be put in the backpack.
     public bool TakeFromChest(string itemName) {
@@ -118,4 +93,36 @@ class Player : Human
         this.backpack.Put(itemName, backpackItem);
         return $"You are not allowed to drop this {itemName} here.";
     }
+
+    public void KillDeadEnemies() {
+        // Removes all dead enemies from the currentRoom.
+        // And drops the items / value of items in gold.
+        int count = this.currentRoom.Enemies.Count - 1;
+        for (int i = count; i >= 0; i--) {
+            Enemy enemy  = this.currentRoom.Enemies[i];
+            if (!enemy.IsAlive()) {
+                Inventory inv = enemy.Drop();
+                Random random = new Random();
+
+                switch (random.Next(100)) {
+                    case >= 90:
+                        foreach (KeyValuePair<string, Item> entry in inv.Items) {
+                            this.currentRoom.Chest.Put(entry.Key, entry.Value);
+                        }
+                        break;
+                    default:
+                        foreach (KeyValuePair<string, Item> entry in inv.Items) {
+                            Eddies eddies = new Eddies();
+                            eddies.AddValue((int)Math.Round((double)entry.Value.Value * 0.80));
+
+                            this.currentRoom.Chest.Put("eddies", eddies);
+                        }
+                        break;
+                }
+                
+                this.currentRoom.Enemies.RemoveAt(i);
+            }
+        }
+    }
+
 }

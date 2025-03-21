@@ -3,10 +3,17 @@ class Inventory
     private int maxWeight;
     protected Dictionary<string, Item> items;
 
-    public Inventory(int newMaxWeight)
+    public Inventory(int newMaxWeight, int eddieCount)
     {
         this.maxWeight = newMaxWeight;
         this.items = new Dictionary<string, Item>();
+
+        Eddies eddies = new Eddies();
+        eddies.AddValue(eddieCount);
+    
+        if (eddieCount > 0) {
+            items.Add("eddies", eddies);
+        }
     }
 
     public int MaxWeight {
@@ -32,7 +39,12 @@ class Inventory
                 // ---- So instead this creates a new object with the same properties as the item, but with the amount value reset to 1. ----
                 // Now clones the Item instead, to preserve the class extensions.
                 Item itemClone = (Item)item.Clone();
-                itemClone.Amount = 1;
+                if (itemClone is Eddies) {
+                    Eddies eddies = (Eddies)this.items["eddies"];
+                    eddies.AddValue(itemClone.Value);
+                } else {
+                    itemClone.Amount = 1;
+                }
                 items.Add(itemName, itemClone);
             }
             return true;
@@ -94,6 +106,12 @@ class Inventory
             if (entry.Value is PlayerItem) {
                 continue;
             }
+
+            if (entry.Value.GetType() == typeof(Eddies)) {
+                str += $"-{entry.Value.Value} Eddies.";
+                continue;
+            }
+
             str += $"-{entry.Value.Amount}x {entry.Key}, "; 
 
             if (entry.Value.Amount > 1) {

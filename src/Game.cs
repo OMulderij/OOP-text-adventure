@@ -143,15 +143,10 @@ class Game
 				}
 			}
 
-        	// stopWatch.Start();
-
 			Command command = parser.GetCommand();
-			
-			// stopWatch.Stop();
-			// Console.WriteLine(stopWatch.ElapsedMilliseconds);
-			// stopWatch.Reset();
-			
 			finished = ProcessCommand(command);
+
+			player.KillDeadEnemies();
 		}
 
 		Console.WriteLine("Thank you for playing.");
@@ -216,6 +211,9 @@ class Game
 				break;
 			case "talk":
 				TalkToNpc(command);
+				break;
+			case "buy":
+				BuyItem(command);
 				break;
 		}
 		return wantToQuit;
@@ -384,6 +382,12 @@ class Game
 			player.CompletedQuest = true;
 		}
 
+		if (npc.GetType() == typeof(Merchant)) {
+			parser.AddCommand("buy");
+		} else {
+			parser.RemoveCommand("buy");
+		}
+
 		// Talk to an npc, and write each message 2 seconds after the last.
 		string[] talkStr = npc.Talk(player).Split("\n");
 		foreach (string str in talkStr) {
@@ -393,6 +397,19 @@ class Game
 			}
 		}
 		player.lastTalkedToNpc = npc;
+	}
+
+	private void BuyItem(Command command) {
+		Merchant merchant = (Merchant)player.lastTalkedToNpc;
+		Console.WriteLine(player.Backpack.GetItemByString("eddies").Amount);
+		Item boughtItem = merchant.Buy(player.Backpack.GetItemByString("eddies").Value, command.SecondWord);
+
+		if (boughtItem != null) {
+			player.Backpack.Put(command.SecondWord, boughtItem);
+			Eddies eddies = (Eddies)player.Backpack.GetItemByString("eddies");
+			eddies.RemoveValue(boughtItem.Value);
+			Console.WriteLine("Thank you for your patronage.");
+		}
 	}
 
 	private void MoveRoom(Room nextRoom) {

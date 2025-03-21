@@ -5,7 +5,7 @@ class Item
     protected int weight;
     protected string description;
     private int amount;
-    private int value;
+    protected int value;
 
     public Item(string newDescription, int newWeight, int newValue) {
         this.value = newValue;
