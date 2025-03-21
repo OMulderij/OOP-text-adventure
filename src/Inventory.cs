@@ -109,7 +109,9 @@ class Inventory
             }
 
             if (entry.Value.GetType() == typeof(Eddies)) {
-                str += $"-{entry.Value.Value} Eddies.";
+                if (entry.Value.Value > 0) {
+                    str += $"-{entry.Value.Value} Eddies.\n";
+                }
                 continue;
             }
 
@@ -136,16 +138,30 @@ class Inventory
         return str;
     }
 
-    public string SimplePlayerItemsShow() {
+    public string MerchantPlayerItemsShow() {
         string str = "";
         foreach(KeyValuePair<string, Item> entry in items) {
             if (entry.Value is PlayerItem) {
                 PlayerItem tempItem = (PlayerItem)entry.Value;
-                str += $"-{entry.Key}\n";
+                str += $"-{entry.Key} upgrade for 150 eddies.\n";
                 continue;
             }
         }
         return str;
+    }
+
+    public string MerchantShow() {
+        string str = "";
+        // Loops through the items dictionary, then adds all items, their amounts, and weight per item to a string.
+        foreach(KeyValuePair<string, Item> entry in items)
+        {
+            if (entry.Value is PlayerItem || entry.Value is Eddies) {
+                continue;
+            }
+
+            str += $"-{entry.Value.Amount}x {entry.Key}, for {entry.Value.Value} eddies.\n";
+        }
+        return str; 
     }
 
     // Checks if there are any items at all in the Inventory

@@ -10,6 +10,7 @@ class Game
 	// private Stopwatch stopWatch;
 	private List<Room> dungeon;
  	private Room outside;
+	private Room market;
 	
 	// Constructor
 	public Game()
@@ -25,7 +26,7 @@ class Game
 	{
 		// Create the rooms
 		outside = new Room("in the City of Dreams, surrounded by neon lights and advertisements");
-		Room market = new Room("in a small market filled with merchants");
+		market = new Room("in a small market filled with merchants");
 		Room bar = new Room("in a small, but cozy bar in Night City");
 		// Room lab = new Room("in a computing lab");
 		// Room office = new Room("in the computing admin office");
@@ -76,7 +77,7 @@ class Game
 
 		// Initialise Npcs
 		Npc fixer = new Fixer();
-		Npc merchant = new Merchant();
+		Merchant merchant = new Merchant(player);
 
 		// Add the Npcs
 		bar.Npcs.Add(fixer);
@@ -299,8 +300,6 @@ class Game
 		if (player.CurrentRoom.HasEnemies()) {
 			Console.WriteLine("These are the enemies within the room:");
 			Console.WriteLine(player.CurrentRoom.ShowEnemies());
-		} else {
-			Console.WriteLine("You have not made any enemies here, good job choom.\n");
 		}
 
 		if (player.CurrentRoom.Npcs.Count > 0) {
@@ -403,11 +402,17 @@ class Game
 		Merchant merchant = (Merchant)player.lastTalkedToNpc;
 		Console.WriteLine(player.Backpack.GetItemByString("eddies").Amount);
 		Item boughtItem = merchant.Buy(player.Backpack.GetItemByString("eddies").Value, command.SecondWord);
+		Eddies eddies = (Eddies)player.Backpack.GetItemByString("eddies");
 
 		if (boughtItem != null) {
-			player.Backpack.Put(command.SecondWord, boughtItem);
-			Eddies eddies = (Eddies)player.Backpack.GetItemByString("eddies");
-			eddies.RemoveValue(boughtItem.Value);
+			if (boughtItem is PlayerItem) {
+				PlayerItem item = (PlayerItem)player.Backpack.GetItemByString(command.SecondWord);
+				item.UpgradeItem();
+				eddies.RemoveValue(150);
+			} else {
+				player.Backpack.Put(command.SecondWord, boughtItem);
+				eddies.RemoveValue(boughtItem.Value);
+			}
 			Console.WriteLine("Thank you for your patronage.");
 		}
 	}
@@ -417,10 +422,16 @@ class Game
 		if (dungeon.Contains(nextRoom)) {
 			parser.AddCommand("leave");
 		} else if (dungeon.Contains(player.CurrentRoom)) {
+			// Run if player is exiting the dungeon
 			player.HighestFloor = dungeon.IndexOf(player.CurrentRoom);
 
-			// Run if player is exiting the dungeon
 			ResetDungeon();
+			Merchant merchant = (Merchant)market.GetNpcByString("merchant");
+			merchant.RandomizeStock();
+			if (nextRoom != market) {
+				parser.RemoveCommand("buy");
+				player.lastTalkedToNpc = null;
+			}
 
 			player.Backpack.AddCharge("grenade");
 			player.Backpack.AddCharge("grenade");

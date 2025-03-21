@@ -9,7 +9,7 @@ class Player : Human
 
 
     public Player() : base() {
-        backpack = new Inventory(25, 99);
+        backpack = new Inventory(25, 999);
 
         // Generate the standard items in the player backpack.
         HealItem healer = new HealItem(50);
