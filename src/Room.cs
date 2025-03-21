@@ -76,9 +76,6 @@ class Room
 		int enemiesHit = enemies.Count;
 		foreach(Enemy enemy in enemies) {
 			enemy.Damage(damage);
-			if (!enemy.IsAlive()) {
-				enemies.Remove(enemy);
-			}
 		}
 		return enemiesHit;
 	}

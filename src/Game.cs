@@ -63,7 +63,7 @@ class Game
 		Item beer = new Item("Want some?", 5, 2);
 		Item bread = new Item("Some complementary bread.", 2, 5);
 
-		outside.Chest.Put("handgun", handgun);
+		dungeon[0].Chest.Put("handgun", handgun);
 
 		bar.Chest.Put("beer", beer);
 		bar.Chest.Put("bread", bread);
@@ -358,7 +358,7 @@ class Game
 			return;
 		} else if (dungeon.Contains(nextRoom) && player.ActiveQuest && dungeon.IndexOf(nextRoom) == 0) {
 			Console.WriteLine("You are ready to take on the hideout now.");
-			Console.WriteLine("Iron in hand, meds at the ready, kiroshis looking sharp.");
+			Console.WriteLine("Iron in hand, meds at the ready and filled with determination.");
 			Console.WriteLine("It's time to send some lead flying.\n");
 		}
 
@@ -380,7 +380,7 @@ class Game
 			return;
 		}
 
-		if (npc.GetType() == typeof(Fixer) && player.DefeatedMaelstrom) {
+		if (npc.GetType() == typeof(Fixer) && player.HighestFloor == dungeon.Count-1) {
 			player.CompletedQuest = true;
 		}
 
@@ -400,10 +400,7 @@ class Game
 		if (dungeon.Contains(nextRoom)) {
 			parser.AddCommand("leave");
 		} else if (dungeon.Contains(player.CurrentRoom)) {
-			// dungeon[^1] == dungeon[dungeon.Count - 1]
-			if (dungeon[^1] == player.CurrentRoom) {
-				player.DefeatedMaelstrom = true;
-			}
+			player.HighestFloor = dungeon.IndexOf(player.CurrentRoom);
 
 			// Run if player is exiting the dungeon
 			ResetDungeon();

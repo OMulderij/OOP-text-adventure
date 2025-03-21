@@ -3,7 +3,7 @@ class Player : Human
     private Room currentRoom;
     public Enemy TargetEnemy {get; set;}
     public bool ActiveQuest {get; set;}
-    public bool DefeatedMaelstrom {get; set;}
+    public int HighestFloor {get; set;}
     public bool CompletedQuest {get; set;}
     public Npc lastTalkedToNpc {get; set;}
 
@@ -53,19 +53,35 @@ class Player : Human
             // Calls the Use() method on the chosen item.
             string str = this.backpack.GetItemByString(command.SecondWord).Use(basicObject);
             
+            KillEnemies();
+            return str;
+        }
+        return $"This {command.SecondWord} is not in your inventory.";
+    }
+
+    private void KillEnemies() {
             // Removes all dead enemies from the currentRoom.
+            // And drops the items / value of items in gold.
             int count = this.currentRoom.Enemies.Count - 1;
             for (int i = count; i >= 0; i--) {
                 Enemy enemy  = this.currentRoom.Enemies[i];
                 if (!enemy.IsAlive()) {
                     Inventory inv = enemy.Drop();
+                    Random random = new Random();
+
+                    switch (random.Next(100)) {
+                        case >= 90:
+                            foreach (KeyValuePair<string, Item> entry in inv.Items) {
+                                this.currentRoom.Chest.Put(entry.Key, entry.Value);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
                     
                     this.currentRoom.Enemies.RemoveAt(i);
                 }
             }
-            return str;
-        }
-        return $"This {command.SecondWord} is not in your inventory.";
     }
 
 
