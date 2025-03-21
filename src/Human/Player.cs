@@ -116,6 +116,7 @@ class Player : Human
                             eddies.AddValue((int)Math.Round((double)entry.Value.Value * 0.80));
 
                             this.currentRoom.Chest.Put("eddies", eddies);
+                            Console.WriteLine(eddies.Value + "3");
                         }
                         break;
                 }

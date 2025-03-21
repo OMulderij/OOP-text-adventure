@@ -11,9 +11,9 @@ class Inventory
         Eddies eddies = new Eddies();
         eddies.AddValue(eddieCount);
     
-        if (eddieCount > 0) {
+        // if (eddieCount > 0) {
             items.Add("eddies", eddies);
-        }
+        // }
     }
 
     public int MaxWeight {
@@ -33,18 +33,19 @@ class Inventory
         // Increases the amount of items if it exists in the dictionary, otherwise add the item to the dictionary.
         if (item.Weight + TotalWeight() <= maxWeight) {
             if (items.ContainsKey(itemName)) {
-                items[itemName].Amount++;
+                if (items[itemName].GetType() == typeof(Eddies)) {
+                    Eddies eddies = (Eddies)items[itemName];
+                    eddies.AddValue(item.Value);
+                } else {
+                    items[itemName].Amount++;
+                }
             } else {
                 // Adding the item directly also copies the value of the amount field, which we don't want in cases where the player or room has more than 2 of a certain item.
                 // ---- So instead this creates a new object with the same properties as the item, but with the amount value reset to 1. ----
                 // Now clones the Item instead, to preserve the class extensions.
                 Item itemClone = (Item)item.Clone();
-                if (itemClone is Eddies) {
-                    Eddies eddies = (Eddies)this.items["eddies"];
-                    eddies.AddValue(itemClone.Value);
-                } else {
-                    itemClone.Amount = 1;
-                }
+
+                itemClone.Amount = 1;
                 items.Add(itemName, itemClone);
             }
             return true;
