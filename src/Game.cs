@@ -409,7 +409,7 @@ class Game
 				item.UpgradeItem();
 				eddies.RemoveValue(150);
 			} else if (boughtItem is Cyberware) {
-
+				player.InstallCyberWare((Cyberware)boughtItem);
 			} else {
 				player.Backpack.Put(command.SecondWord, boughtItem);
 				eddies.RemoveValue(boughtItem.Value);

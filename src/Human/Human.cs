@@ -7,7 +7,7 @@ class Human
     private Dictionary<string, Cyberware> implants;
     private int health;
     private int maxHP;
-    private int currentArmor;
+    private int armor;
 
     public Human(int newMaxHP)
     {
@@ -27,28 +27,9 @@ class Human
         }
     }
 
-    public void CalculateCyberwareEffects() {
-        int bonusHP = 0;
-        int armor = 0;
-
-        foreach (KeyValuePair<string, Cyberware> pair in implants) {
-            switch (pair.Value) {
-                case HPCyberware:
-                    bonusHP += pair.Value.UseEffect(this);
-                    break;
-                case ArmorCyberware:
-                    armor += pair.Value.UseEffect(this);
-                    break;
-            }
-        }
-
-        currentArmor = armor;
-        maxHP += bonusHP;
-    }
-
     // Damages the Object.
     public void Damage(int amount) {
-        health -= amount;
+        health -= amount - amount *  (armor / 100);
     }
 
     // Heals the Object
@@ -68,9 +49,14 @@ class Human
         return true;
     }
 
-    public void InstallCyberWare(string itemName, Cyberware cyberware) {
-        if (!implants.ContainsKey(itemName)) {
-            implants.Add(itemName, cyberware);
+    public void InstallCyberWare(Cyberware cyberware) {
+        switch (cyberware) {
+            case HPCyberware:
+                maxHP += cyberware.UseEffect(this);
+                break;
+            case ArmorCyberware:
+                armor += cyberware.UseEffect(this);
+                break;
         }
     }
 }
