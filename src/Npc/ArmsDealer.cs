@@ -1,6 +1,5 @@
 class ArmsDealer : Merchant
 {
-    private Inventory stock;
     private Dictionary<string, Item> guaranteedDict;
     private bool firstVisit;
     private Player player;

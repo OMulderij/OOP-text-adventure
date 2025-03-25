@@ -52,10 +52,10 @@ class Human
     public void InstallCyberWare(Cyberware cyberware) {
         switch (cyberware) {
             case HPCyberware:
-                maxHP += cyberware.UseEffect(this);
+                maxHP += cyberware.Effect(this);
                 break;
             case ArmorCyberware:
-                armor += cyberware.UseEffect(this);
+                armor += cyberware.Effect(this);
                 break;
         }
     }

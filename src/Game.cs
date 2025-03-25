@@ -403,7 +403,7 @@ class Game
 		Item boughtItem = (Item)merchant.Buy(player.Backpack.GetItemByString("eddies").Value, command.SecondWord);
 		Eddies eddies = (Eddies)player.Backpack.GetItemByString("eddies");
 
-		if (boughtItem != null) {
+		if (boughtItem != null && boughtItem.GetType() != typeof(Eddies)) {
 			if (boughtItem is PlayerItem) {
 				PlayerItem item = (PlayerItem)player.Backpack.GetItemByString(command.SecondWord);
 				item.UpgradeItem();
@@ -415,6 +415,8 @@ class Game
 				eddies.RemoveValue(boughtItem.Value);
 			}
 			Console.WriteLine("Thank you for your patronage.");
+		} else if (boughtItem is Eddies) {
+			Console.WriteLine("Just what are you trying to pull here?");
 		}
 	}
 

@@ -6,12 +6,18 @@ class RipperDoc : Merchant
     {
         string str = "";
 
-        str += "Yo.";
+        str += "What kind of cyberware would you like?";
         
         return str;
     }
 
     public override Cyberware Buy(int playerMoney, string itemName) {
+        Item item = stock.Get(itemName);
+
+
+        if (item != null) {
+
+        }
         return null;
     }
 }
