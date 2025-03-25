@@ -2,9 +2,8 @@ class Enemy : Human
 {
     public string WeaponName {get; private set;}
     public string ArmorType {get; private set;}
-    public Enemy(int newHP) {
+    public Enemy(int newMaxHP) : base(newMaxHP) {
         this.backpack = new Inventory(25, 0);
-        this.health = newHP;
         Weapon weapon;
 
         Random random = new Random();
@@ -56,7 +55,7 @@ class Enemy : Human
             player.Damage(weapon.Shoot(false));
             return;
         }
-        player.Damage((int)Math.Round(weapon.Shoot(false)*0.25));
+        player.Damage((int)Math.Round(weapon.Shoot(false)*0.1));
     }
 
     public Inventory Drop() {

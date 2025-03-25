@@ -2,12 +2,14 @@ using System;
 
 class Human
 {
-    protected int health;
+    private int health;
+    private int maxHP;
     protected Inventory backpack;
 
-    public Human()
+    public Human(int newMaxHP)
     {
-        health = 100;
+        maxHP = newMaxHP;
+        health = maxHP;
     }
 
     public Inventory Backpack {
@@ -30,6 +32,10 @@ class Human
     // Heals the Object
     public void Heal(int amount) {
         health += amount;
+        
+        if (health > maxHP) {
+            health = maxHP;
+        }
     }
 
     // Checks if the Object is alive

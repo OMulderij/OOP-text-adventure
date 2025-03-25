@@ -84,6 +84,12 @@ class Room
 		enemies = new List<Enemy>();
 	}
 
+	public void EnemyTurn(Player player) {
+		foreach (Enemy enemy in enemies) {
+			enemy.Attack(player);
+		}
+	}
+
 	// Return the description of the room.
 	public string GetShortDescription()
 	{
@@ -139,4 +145,35 @@ class Room
 		}
 		return null;
 	}
+
+	    public void KillDeadEnemies() {
+        // Removes all dead enemies from the currentRoom.
+        // And drops the items / value of items in gold.
+        int count = this.Enemies.Count - 1;
+        for (int i = count; i >= 0; i--) {
+            Enemy enemy  = this.Enemies[i];
+            if (!enemy.IsAlive()) {
+                Inventory inv = enemy.Drop();
+                Random random = new Random();
+
+                switch (random.Next(100)) {
+                    case >= 90:
+                        foreach (KeyValuePair<string, Item> entry in inv.Items) {
+                            this.Chest.Put(entry.Key, entry.Value);
+                        }
+                        break;
+                    default:
+                        foreach (KeyValuePair<string, Item> entry in inv.Items) {
+                            Eddies eddies = new Eddies();
+                            eddies.AddValue((int)Math.Round((double)entry.Value.Value * 0.80));
+
+                            this.Chest.Put("eddies", eddies);
+                        }
+                        break;
+                }
+                
+                this.Enemies.RemoveAt(i);
+            }
+        }
+    }
 }

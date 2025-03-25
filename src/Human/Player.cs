@@ -8,7 +8,7 @@ class Player : Human
     public Npc lastTalkedToNpc {get; set;}
 
 
-    public Player() : base() {
+    public Player() : base(100) {
         backpack = new Inventory(25, 999);
 
         // Generate the standard items in the player backpack.
@@ -43,6 +43,7 @@ class Player : Human
                 if (int.TryParse(command.ThirdWord, out int result)) {
                     if (result <= this.currentRoom.Enemies.Count - 1 && this.currentRoom.Enemies.Count > 0) {
                         basicObject = this.currentRoom.Enemies[result];
+                        TargetEnemy = (Enemy)basicObject;
                     } else {
                         return result + " is not a valid enemy.";
                     }
@@ -53,7 +54,11 @@ class Player : Human
             }
 
             // Calls the Use() method on the chosen item.
-            string str = this.backpack.GetItemByString(command.SecondWord).Use(basicObject);
+            string str = item.Use(basicObject);
+
+            if (item.GetType() == typeof(Weapon) || item.GetType() == typeof(GrenadeItem)) {
+                currentRoom.EnemyTurn(this);
+            }
             
             return str;
         }
@@ -92,38 +97,6 @@ class Player : Human
 
         this.backpack.Put(itemName, backpackItem);
         return $"You are not allowed to drop this {itemName} here.";
-    }
-
-    public void KillDeadEnemies() {
-        // Removes all dead enemies from the currentRoom.
-        // And drops the items / value of items in gold.
-        int count = this.currentRoom.Enemies.Count - 1;
-        for (int i = count; i >= 0; i--) {
-            Enemy enemy  = this.currentRoom.Enemies[i];
-            if (!enemy.IsAlive()) {
-                Inventory inv = enemy.Drop();
-                Random random = new Random();
-
-                switch (random.Next(100)) {
-                    case >= 90:
-                        foreach (KeyValuePair<string, Item> entry in inv.Items) {
-                            this.currentRoom.Chest.Put(entry.Key, entry.Value);
-                        }
-                        break;
-                    default:
-                        foreach (KeyValuePair<string, Item> entry in inv.Items) {
-                            Eddies eddies = new Eddies();
-                            eddies.AddValue((int)Math.Round((double)entry.Value.Value * 0.80));
-
-                            this.currentRoom.Chest.Put("eddies", eddies);
-                            Console.WriteLine(eddies.Value + "3");
-                        }
-                        break;
-                }
-                
-                this.currentRoom.Enemies.RemoveAt(i);
-            }
-        }
     }
 
 }

@@ -147,7 +147,7 @@ class Game
 			Command command = parser.GetCommand();
 			finished = ProcessCommand(command);
 
-			player.KillDeadEnemies();
+			player.CurrentRoom.KillDeadEnemies();
 		}
 
 		Console.WriteLine("Thank you for playing.");
@@ -426,8 +426,11 @@ class Game
 			player.HighestFloor = dungeon.IndexOf(player.CurrentRoom);
 
 			ResetDungeon();
+			// Reset the merchants stock.
 			Merchant merchant = (Merchant)market.GetNpcByString("merchant");
 			merchant.RandomizeStock();
+			
+			// Remove the buy command if you leave the room
 			if (nextRoom != market) {
 				parser.RemoveCommand("buy");
 				player.lastTalkedToNpc = null;
@@ -436,6 +439,8 @@ class Game
 			player.Backpack.AddCharge("grenade");
 			player.Backpack.AddCharge("grenade");
 			player.Backpack.AddCharge("grenade");
+			player.Heal(100);
+
 
 			parser.RemoveCommand("leave");
 		}
@@ -448,7 +453,6 @@ class Game
 
 		// Run everything that needs to be ran every time the player.CurrentRoom changes.
 		player.CurrentRoom = nextRoom;
-		player.Damage(10);
 		player.Backpack.AddCharge("healer");
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
 	}
