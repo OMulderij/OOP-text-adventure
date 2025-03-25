@@ -3,16 +3,18 @@ using System.Runtime.Intrinsics.X86;
 
 class Human
 {
+    public int BaseDamage {get; private set;}
     protected Inventory backpack;
     private Dictionary<string, Cyberware> implants;
     private int health;
     private int maxHP;
     private int armor;
 
-    public Human(int newMaxHP)
+    public Human(int newMaxHP, int newBaseDamage)
     {
         maxHP = newMaxHP;
         health = maxHP;
+        BaseDamage = newBaseDamage; // 100%, 120% damage would be baseDamage = 120;
     }
 
     public Inventory Backpack {
@@ -50,12 +52,15 @@ class Human
     }
 
     public void InstallCyberWare(Cyberware cyberware) {
-        switch (cyberware) {
-            case HPCyberware:
-                maxHP += cyberware.Effect(this);
+        switch (cyberware.EffectType) {
+            case "maxHP":
+                maxHP += cyberware.EffectStrength;
                 break;
-            case ArmorCyberware:
-                armor += cyberware.Effect(this);
+            case "armor":
+                armor += cyberware.EffectStrength;
+                break;
+            case "damage":
+                BaseDamage += cyberware.EffectStrength;
                 break;
         }
     }

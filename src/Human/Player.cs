@@ -1,15 +1,15 @@
 class Player : Human
 {
     private Room currentRoom;
-    public Enemy TargetEnemy {get; set;}
+    public Enemy TargetEnemy {get; private set;}
     public bool ActiveQuest {get; set;}
     public int HighestFloor {get; set;}
     public bool CompletedQuest {get; set;}
     public Npc lastTalkedToNpc {get; set;}
 
 
-    public Player() : base(100) {
-        backpack = new Inventory(25, 999);
+    public Player() : base(100, 100) {
+        backpack = new Inventory(25, 25);
 
         // Generate the standard items in the player backpack.
         HealItem healer = new HealItem(50);
@@ -31,6 +31,8 @@ class Player : Human
 
     public string UseItem(Command command) {
         Object basicObject = this;
+        TargetEnemy = null;
+
         if (backpack.ItemInInventory(command.SecondWord)) {
             // Checks if the object is a different type of item, to make sure the object matches what the Use() method expects.
             Item item = backpack.GetItemByString(command.SecondWord);
@@ -42,8 +44,7 @@ class Player : Human
 
                 if (int.TryParse(command.ThirdWord, out int result)) {
                     if (result <= this.currentRoom.Enemies.Count - 1 && this.currentRoom.Enemies.Count > 0) {
-                        basicObject = this.currentRoom.Enemies[result];
-                        TargetEnemy = (Enemy)basicObject;
+                        TargetEnemy = this.currentRoom.Enemies[result];
                     } else {
                         return result + " is not a valid enemy.";
                     }
@@ -57,7 +58,8 @@ class Player : Human
             string str = item.Use(basicObject);
 
             if (item.GetType() == typeof(Weapon) || item.GetType() == typeof(GrenadeItem)) {
-                currentRoom.EnemyTurn(this);
+                str += "\n" + currentRoom.EnemyTurn(this);
+                
             }
             
             return str;

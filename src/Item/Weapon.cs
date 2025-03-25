@@ -38,13 +38,15 @@ class Weapon : Item
 
     // Attempts to use the weapon to attack an Enemy object.
     public override string Use(Object o) {
-        if (o.GetType() != typeof(Enemy)) {
-            return "You can't attack this " + o.GetType();
+        Player player = (Player)o;
+        if (player.TargetEnemy == null) {
+            return "how? Did I mess my calculations up somewhere? -Dev";
         }
-        Enemy targetEnemy = (Enemy)o;
 
-        bool hasAdvantage = targetEnemy.ArmorType == advantage;
-        targetEnemy.Damage(Shoot(hasAdvantage));
-        return $"You dealt {Shoot(hasAdvantage)} damage.";
+        Enemy enemy = player.TargetEnemy;
+
+        int damageCalc = Shoot(enemy.ArmorType == advantage) * (int)Math.Round((double)player.BaseDamage / 100);
+        enemy.Damage(damageCalc);
+        return $"You dealt {damageCalc} damage.";
     }
 }

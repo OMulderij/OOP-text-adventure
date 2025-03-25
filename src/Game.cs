@@ -430,7 +430,7 @@ class Game
 
 			ResetDungeon();
 			// Reset the merchants stock.
-			ArmsDealer dealer = (ArmsDealer)market.GetNpcByString("merchant");
+			ArmsDealer dealer = (ArmsDealer)market.GetNpcByString("dealer");
 			dealer.RandomizeStock();
 			
 			// Remove the buy command if you leave the room

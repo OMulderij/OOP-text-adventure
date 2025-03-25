@@ -84,10 +84,12 @@ class Room
 		enemies = new List<Enemy>();
 	}
 
-	public void EnemyTurn(Player player) {
+	public string EnemyTurn(Player player) {
+		int totalDamage = 0;
 		foreach (Enemy enemy in enemies) {
-			enemy.Attack(player);
+			totalDamage += enemy.Attack(player);
 		}
+		return $"The enemies dealt {totalDamage} damage to you!";
 	}
 
 	// Return the description of the room.

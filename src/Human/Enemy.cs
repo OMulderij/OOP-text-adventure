@@ -2,7 +2,7 @@ class Enemy : Human
 {
     public string WeaponName {get; private set;}
     public string ArmorType {get; private set;}
-    public Enemy(int newMaxHP) : base(newMaxHP) {
+    public Enemy(int newMaxHP) : base(newMaxHP, 75) {
         this.backpack = new Inventory(25, 0);
         Weapon weapon;
 
@@ -48,14 +48,17 @@ class Enemy : Human
         }
     }
 
-    public void Attack(Player player) {
+    public int Attack(Player player) {
         // Attack the player using the weapon inside of it's inventory
         Weapon weapon = (Weapon)backpack.GetItemByString(WeaponName);
-        if (player.TargetEnemy == this) {
-            player.Damage(weapon.Shoot(false));
-            return;
+        int damageCalc = weapon.Shoot(false) * (int)Math.Round((double)this.BaseDamage / 100);
+        
+        if (player.TargetEnemy != this) {
+            damageCalc = (int)Math.Round(damageCalc * 0.25);
         }
-        player.Damage((int)Math.Round(weapon.Shoot(false)*0.1));
+
+        player.Damage(damageCalc);
+        return damageCalc;
     }
 
     public Inventory Drop() {
