@@ -161,8 +161,8 @@ class Game
 	private void PrintWelcome()
 	{
 		Console.WriteLine();
-		Console.WriteLine("Welcome to Zuul!");
-		Console.WriteLine("Zuul is a new, incredibly interesting adventure game.");
+		Console.WriteLine("Welcome to CyberText!");
+		Console.WriteLine("CyberText is a new, incredibly interesting adventure game.");
 		Console.WriteLine("Type 'help' if you need help.");
 		Console.WriteLine();
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
@@ -448,6 +448,7 @@ class Game
 
 		// Run everything that needs to be ran every time the player.CurrentRoom changes.
 		player.CurrentRoom = nextRoom;
+		player.Damage(10);
 		player.Backpack.AddCharge("healer");
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
 	}

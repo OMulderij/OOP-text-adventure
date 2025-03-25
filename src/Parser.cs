@@ -35,7 +35,7 @@ class Parser
 		return new Command(null, null, null);
 	}
 
-		public void AddCommand(string command) {
+	public void AddCommand(string command) {
 		if (!commandLibrary.ValidCommands.Contains(command)) {
 			commandLibrary.ValidCommands.Add(command);
 		}
