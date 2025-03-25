@@ -11,16 +11,16 @@ class Enemy : Human
         switch (random.Next(3)) {
             case 0:
                 weapon = new Weapon("light", 40);
-                this.WeaponName = "HandGun";
+                this.WeaponName = "handgun";
                 break;
             case 1:
                 weapon = new Weapon("medium", 40);
-                this.WeaponName = "Rifle";
+                this.WeaponName = "rifle";
                 break;
             // Default option is called when random.Next() is 2;
             default:
                 weapon = new Weapon("heavy", 40);
-                this.WeaponName = "ShotGun";
+                this.WeaponName = "shotgun";
                 break;
         }
 

@@ -77,11 +77,11 @@ class Game
 
 		// Initialise Npcs
 		Npc fixer = new Fixer();
-		Merchant merchant = new Merchant(player);
+		Merchant dealer = new ArmsDealer(player);
 
 		// Add the Npcs
 		bar.Npcs.Add(fixer);
-		market.Npcs.Add(merchant);
+		market.Npcs.Add(dealer);
 
 		// Start game outside
 		player.CurrentRoom = outside;
@@ -381,7 +381,7 @@ class Game
 			player.CompletedQuest = true;
 		}
 
-		if (npc.GetType() == typeof(Merchant)) {
+		if (npc is Merchant) {
 			parser.AddCommand("buy");
 		} else {
 			parser.RemoveCommand("buy");
@@ -400,8 +400,7 @@ class Game
 
 	private void BuyItem(Command command) {
 		Merchant merchant = (Merchant)player.lastTalkedToNpc;
-		Console.WriteLine(player.Backpack.GetItemByString("eddies").Amount);
-		Item boughtItem = merchant.Buy(player.Backpack.GetItemByString("eddies").Value, command.SecondWord);
+		Item boughtItem = (Item)merchant.Buy(player.Backpack.GetItemByString("eddies").Value, command.SecondWord);
 		Eddies eddies = (Eddies)player.Backpack.GetItemByString("eddies");
 
 		if (boughtItem != null) {
@@ -409,6 +408,8 @@ class Game
 				PlayerItem item = (PlayerItem)player.Backpack.GetItemByString(command.SecondWord);
 				item.UpgradeItem();
 				eddies.RemoveValue(150);
+			} else if (boughtItem is Cyberware) {
+
 			} else {
 				player.Backpack.Put(command.SecondWord, boughtItem);
 				eddies.RemoveValue(boughtItem.Value);
@@ -427,8 +428,8 @@ class Game
 
 			ResetDungeon();
 			// Reset the merchants stock.
-			Merchant merchant = (Merchant)market.GetNpcByString("merchant");
-			merchant.RandomizeStock();
+			ArmsDealer dealer = (ArmsDealer)market.GetNpcByString("merchant");
+			dealer.RandomizeStock();
 			
 			// Remove the buy command if you leave the room
 			if (nextRoom != market) {

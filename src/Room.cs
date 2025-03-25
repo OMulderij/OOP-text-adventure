@@ -131,8 +131,14 @@ class Room
 
 	public string GetNpcList() {
 		string str = "";
+		List<string> nameList = new List<string>();
+
+		foreach (Npc npc in Npcs) {
+			nameList.Add(npc.Name);
+		}
+
 		if (Npcs.Count > 0) {
-			str += String.Join(", ", Npcs);
+			str += String.Join(", ", nameList);
 		}
 		return str;
 	}

@@ -98,5 +98,4 @@ class Player : Human
         this.backpack.Put(itemName, backpackItem);
         return $"You are not allowed to drop this {itemName} here.";
     }
-
 }
