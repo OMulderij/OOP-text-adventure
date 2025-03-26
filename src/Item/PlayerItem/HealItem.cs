@@ -17,8 +17,7 @@ class HealItem : PlayerItem
         }
 
         Player player = (Player) o;
-        string result = $"You have been healed for {this.amount} points.";
-        player.Heal(this.amount);
-        return result;
+        int healAmount = player.HealPercentage(this.amount);
+        return $"You have been healed for {healAmount} points.";
     }
 }

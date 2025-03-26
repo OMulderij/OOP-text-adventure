@@ -29,6 +29,12 @@ class Human
         }
     }
 
+    public int MaxHP {
+        get {
+            return this.maxHP;
+        }
+    }
+
     // Damages the Object.
     public void Damage(int amount) {
         health -= amount - amount *  (armor / 100);
@@ -38,6 +44,18 @@ class Human
     public void Heal(int amount) {
         health += amount;
 
+        StopHPOvercap();
+    }
+
+    public int HealPercentage(int amount) {
+        int healAmount = (int)Math.Round((double)amount / 100 * maxHP);
+        health += healAmount;
+        
+        StopHPOvercap();
+        return healAmount;
+    }
+
+    private void StopHPOvercap() {
         if (health > maxHP) {
             health = maxHP;
         }

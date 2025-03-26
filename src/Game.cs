@@ -313,7 +313,7 @@ class Game
 	// Print out the current status of the player:
 	// Of their health and backpack status.
 	private void PrintStatus() {
-		Console.WriteLine("You have " + player.Health + " health at your disposal.\n");
+		Console.WriteLine($"You have {player.Health}/{player.MaxHP} health at your disposal.\n");
 		Console.WriteLine("You have these items in your pocket:");
 		Console.WriteLine(player.Backpack.ShowPlayerItems());
 		
@@ -442,7 +442,7 @@ class Game
 			player.Backpack.AddCharge("grenade");
 			player.Backpack.AddCharge("grenade");
 			player.Backpack.AddCharge("grenade");
-			player.Heal(100);
+			player.HealPercentage(100);
 
 
 			parser.RemoveCommand("leave");

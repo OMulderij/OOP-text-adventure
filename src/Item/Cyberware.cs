@@ -1,7 +1,7 @@
 class Cyberware : Item {
     public int EffectStrength {get; init;}
     public string EffectType {get; init;}
-    public Cyberware(string newDescription, int newEffectStrength, string newEffectType) : base (newDescription, 1  , 100) {
+    public Cyberware(string newEffectType, int newEffectStrength) : base ("A permanent upgrade to your stats.", 1  , 100) {
         EffectStrength = newEffectStrength;
         EffectType = newEffectType;
     }
