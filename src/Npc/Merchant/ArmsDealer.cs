@@ -69,11 +69,10 @@ class ArmsDealer : Merchant
     public override Item Buy(int playerMoney, string itemName) {
         Item item = stock.Get(itemName);
 
-
         if (item != null) {
             if (item is PlayerItem) {
                 PlayerItem newItem = (PlayerItem)player.Backpack.GetItemByString(itemName);
-                if (playerMoney >= 150 && !newItem.IsItemUpgraded()) {
+                if (playerMoney >= newItem.Price && !newItem.IsItemUpgraded()) {
                     return item;
                 } else if (newItem.IsItemUpgraded()) {
                     stock.Put(itemName, item);

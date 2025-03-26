@@ -208,7 +208,7 @@ class Game
 				wantToQuit = true;
 				break;
 			case "leave":
-				MoveRoom(outside);
+				LeaveDungeon();
 				break;
 			case "talk":
 				TalkToNpc(command);
@@ -360,6 +360,15 @@ class Game
 		}
 
 		MoveRoom(nextRoom);
+	}
+
+	private void LeaveDungeon() {
+		Console.WriteLine("You decide that it's best to leave for now.");
+		Console.WriteLine("After the heart-wrenching firefight that you have just witnessed, you decide to go to the reconciliation park.");
+		Console.WriteLine("Following in the steps of the nearby monks, you meditate a bit.");
+		Console.WriteLine("This meditating session has restored your health back to full.");
+		Console.WriteLine("This session also took long enough to restore your grenade charges back to full.");
+		MoveRoom(outside);
 	}
 
 	private void TalkToNpc(Command command) {

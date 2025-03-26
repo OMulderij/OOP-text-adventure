@@ -25,6 +25,10 @@ class Inventory
             return items;
         }
     }
+
+    public void UpgradeBackpack(int amount) {
+        maxWeight += amount;
+    }
     
     public bool Put(string itemName, Item item)
     {
@@ -141,7 +145,7 @@ class Inventory
         foreach(KeyValuePair<string, Item> entry in items) {
             if (entry.Value is PlayerItem) {
                 PlayerItem tempItem = (PlayerItem)entry.Value;
-                str += $"-{entry.Key} upgrade for 150 eddies.\n";
+                str += $"-{entry.Key} upgrade for {tempItem.Price} eddies.\n";
                 continue;
             }
         }

@@ -1,7 +1,7 @@
 class GrenadeItem : PlayerItem
 {
     private int damage;
-    public GrenadeItem(int newDamage) : base("Deals great damage to all enemies on a floor.", 0) {
+    public GrenadeItem(int newDamage) : base("Deals great damage to all enemies on a floor.", 0, 300) {
         this.damage = newDamage;
     }
 

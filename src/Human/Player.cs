@@ -13,7 +13,7 @@ class Player : Human
 
         // Generate the standard items in the player backpack.
         HealItem healer = new HealItem(50);
-        GrenadeItem grenade = new GrenadeItem(500);
+        GrenadeItem grenade = new GrenadeItem(30);
 
 
         this.backpack.Put("healer", healer);

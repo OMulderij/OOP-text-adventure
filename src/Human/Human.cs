@@ -37,7 +37,7 @@ class Human
 
     // Damages the Object.
     public void Damage(int amount) {
-        health -= amount - amount *  (armor / 100);
+        health -= amount - amount * (armor / 100);
     }
 
     // Heals the Object
@@ -79,6 +79,9 @@ class Human
                 break;
             case "damage":
                 BaseDamage += cyberware.EffectStrength;
+                break;
+            case "carryweight":
+                backpack.UpgradeBackpack(cyberware.EffectStrength);
                 break;
         }
     }

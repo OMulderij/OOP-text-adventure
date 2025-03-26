@@ -2,7 +2,7 @@ class HealItem : PlayerItem
 {
     private int amount;
 
-    public HealItem(int newHealAmount) : base("Using this item will heal you, did you expect anything else?", 0) {
+    public HealItem(int newHealAmount) : base("Using this item will heal you, did you expect anything else?", 0, 450) {
         this.amount = newHealAmount;
     }
 
