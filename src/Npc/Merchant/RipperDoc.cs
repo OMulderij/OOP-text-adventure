@@ -33,12 +33,21 @@ class RipperDoc : Merchant
     }
 
     public override Cyberware Buy(int playerMoney, string itemName) {
-        Item item = stock.Get(itemName);
-
+        // RipperDoc should not have anything in stock other than Cyberware.
+        Cyberware item = (Cyberware)stock.Get(itemName);
 
         if (item != null) {
-
+            if (playerMoney < item.Value) {
+                stock.Put(itemName, item);
+                Console.WriteLine("I understand that you might want something of a higher quality,");
+                Console.WriteLine("But please come back once you've got enough eddies to back those feelings up.");
+                return null;
+            }
+        } else {
+            Console.WriteLine($"I'm not sure what kind of Cyberware you're asking for.");
+            Console.WriteLine("I am certain that I do not sell or install it though.");
         }
-        return null;
+
+        return item;
     }
 }

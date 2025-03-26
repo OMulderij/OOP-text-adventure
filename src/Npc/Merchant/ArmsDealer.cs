@@ -88,7 +88,7 @@ class ArmsDealer : Merchant
             }
         } else {
             Console.WriteLine($"I've got no clue what {itemName} is.");
-			Console.WriteLine("I do know that I don't sell it though.");
+            Console.WriteLine("I do know that I don't sell it though.");
         }
         return item;
     }
