@@ -59,14 +59,16 @@ class Game
 		bar.Chest.Put("handgun", handgun);
 
 		dungeon[2].Chest.Put("handgun", handgun);
-		// dungeon[10].AddExit("up", pub);
 
 		// Initialise Npcs
 		Npc fixer = new Fixer(player);
+		Npc hobo = new Homeless();
 		dealer = new ArmsDealer(player);
 		ripperDoc = new RipperDoc();
 
 		// Add the Npcs
+		outside.Npcs.Add(hobo);
+
 		bar.Npcs.Add(fixer);
 
 		market.Npcs.Add(dealer);
@@ -109,7 +111,6 @@ class Game
 			dungeon[i].AddEnemies(halved, halved);
 			dungeon[i].Chest.NewInventory(0);
 		}
-		Console.WriteLine("clear dungeon");
 	}
 
 	//  Main play routine. Loops until end of play.
@@ -143,6 +144,12 @@ class Game
 						player.CurrentRoom.AddExit("out", outside);
 					}
 				}
+			}
+
+			if (player.CurrentRoom.Npcs.Count > 0) {
+				parser.AddCommand("talk");
+			} else {
+				parser.RemoveCommand("talk");
 			}
 
 			Command command = parser.GetCommand();
@@ -458,12 +465,6 @@ class Game
 
 		parser.RemoveCommand("buy");
 		player.lastTalkedToNpc = null;
-
-		if (nextRoom.Npcs.Count > 0) {
-			parser.AddCommand("talk");
-		} else {
-			parser.RemoveCommand("talk");
-		}
 
 		// Run everything that needs to be ran every time the player.CurrentRoom changes.
 		player.CurrentRoom = nextRoom;
