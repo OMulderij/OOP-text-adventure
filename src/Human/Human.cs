@@ -34,6 +34,12 @@ class Human
         }
     }
 
+    public int Armor {
+        get {
+            return armor;
+        }
+    }
+
     // Damages the Object.
     public void Damage(int amount) {
         health -= amount - amount * (armor / 100);
@@ -72,6 +78,7 @@ class Human
         switch (cyberware.EffectType) {
             case "maxHP":
                 maxHP += cyberware.EffectStrength;
+                health = maxHP;
                 break;
             case "armor":
                 armor += cyberware.EffectStrength;

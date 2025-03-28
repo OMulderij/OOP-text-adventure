@@ -6,5 +6,5 @@ abstract class Npc
     public Npc(string newName) {
         Name = newName;
     }
-    public abstract string Talk(Player player);
+    public abstract string Talk();
 }

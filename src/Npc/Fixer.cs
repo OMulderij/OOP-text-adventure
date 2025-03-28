@@ -1,9 +1,12 @@
 class Fixer : Npc
 {
+    private Player player;
     // Fixer unlocks the door to the dungeon after talking to him.
-    public Fixer() : base("fixer") {}
+    public Fixer(Player newPlayer) : base("fixer") {
+        player = newPlayer;
+    }
 
-    public override string Talk(Player player) {
+    public override string Talk() {
         string str = "";
 
         if (!player.ActiveQuest) {

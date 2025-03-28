@@ -46,4 +46,8 @@ class Item
     public virtual string Use(Object o) {
         return this.description;
     }
+
+    public void AddValue(int amount) {
+        value += amount;
+    }
 }

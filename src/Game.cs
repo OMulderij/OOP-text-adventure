@@ -29,7 +29,7 @@ class Game
 		outside = new Room("in the City of Dreams, surrounded by neon lights and advertisements");
 		Room bar = new Room("in a small, but cozy bar in Night City");
 		Room market = new Room("in a small market filled with merchants");
-		Room clinic = new Room("in a small, hidden away RipperDoc clinic");
+		Room clinic = new Room("in a surprisingly large ripper doc clinic");
 		dungeon = CreateDungeon(10);
 
 		// Initialise room exits
@@ -62,9 +62,9 @@ class Game
 		// dungeon[10].AddExit("up", pub);
 
 		// Initialise Npcs
-		Npc fixer = new Fixer();
+		Npc fixer = new Fixer(player);
 		dealer = new ArmsDealer(player);
-		ripperDoc = new RipperDoc(player);
+		ripperDoc = new RipperDoc();
 
 		// Add the Npcs
 		bar.Npcs.Add(fixer);
@@ -280,7 +280,7 @@ class Game
 
 	// Print out the contents of the current room.
 	private void PrintLook() {		
-		if (!player.CurrentRoom.Chest.EmptyRoom()) {
+		if (!player.CurrentRoom.Chest.IsEmpty()) {
 			Console.WriteLine("\nWhile looking around, you spot a few things, the most notable one(s):");
 			Console.WriteLine(player.CurrentRoom.Chest.Show());
 		} else {
@@ -303,11 +303,15 @@ class Game
 	// Print out the current status of the player:
 	// Of their health and backpack status.
 	private void PrintStatus() {
-		Console.WriteLine($"You have {player.Health}/{player.MaxHP} health at your disposal.\n");
-		Console.WriteLine("You have these items in your pocket:");
+		Console.WriteLine($"You have {player.Health}/{player.MaxHP} health at your disposal.");
+		if (player.Armor > 0) {
+			Console.WriteLine($"With a total of {player.Armor} armor.");
+		}
+
+		Console.WriteLine("\nYou have these items in your pocket:");
 		Console.WriteLine(player.Backpack.ShowPlayerItems());
 		
-		if (!player.Backpack.EmptyRoom()) {
+		if (!player.Backpack.IsEmpty()) {
 			Console.WriteLine("You have stored these items in your backpack:");
 			Console.WriteLine(player.Backpack.Show());
 		} else {
@@ -387,7 +391,7 @@ class Game
 		}
 
 		// Talk to an npc, and write each message 2 seconds after the last.
-		string[] talkStr = npc.Talk(player).Split("\n");
+		string[] talkStr = npc.Talk().Split("\n");
 		foreach (string str in talkStr) {
 			if (str != "") {
 				Console.WriteLine(str);
@@ -406,13 +410,12 @@ class Game
 			if (boughtItem is PlayerItem) {
 				PlayerItem item = (PlayerItem)player.Backpack.GetItemByString(command.SecondWord);
 				item.UpgradeItem();
-				eddies.RemoveValue(150);
-			} else if (boughtItem is Cyberware) {
-				player.InstallCyberWare((Cyberware)boughtItem);
+			} else if (boughtItem is Cyberware cyberware) {
+				player.InstallCyberWare(cyberware);
 			} else {
 				player.Backpack.Put(command.SecondWord, boughtItem);
-				eddies.RemoveValue(boughtItem.Value);
 			}
+			eddies.RemoveValue(boughtItem.Value);
 			Console.WriteLine("Thank you for your patronage.");
 		} else if (boughtItem is Eddies) {
 			Console.WriteLine("Just what are you trying to pull here?");

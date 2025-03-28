@@ -1,10 +1,8 @@
 class RipperDoc : Merchant
 {
     private bool firstVisit;
-    private Player player;
-    public RipperDoc(Player newPlayer) : base("ripper") {
+    public RipperDoc() : base("ripper") {
         // Initialize the fields
-        player = newPlayer;
         firstVisit = true;
         stock = new Inventory(500, 0);
 
@@ -16,23 +14,29 @@ class RipperDoc : Merchant
         stock.Put(carryWeightUpgrade.EffectType, carryWeightUpgrade);
         stock.Put(hpUpgrade.EffectType, hpUpgrade);
         stock.Put(armorUpgrade.EffectType, armorUpgrade);
+        stock.Put(armorUpgrade.EffectType, armorUpgrade);
         stock.Put(damageUpgrade.EffectType, damageUpgrade);
     }
 
-    public override string Talk(Player player)
+    public override string Talk()
     {
         string str = "";
 
-        if (firstVisit) {
-            str += "I haven't seen you around here before...\n";
-            str += "You want to start chroming up, you say?\n";
-            str += "Then you've come to the right place.\n";
-            str += "Here's the chrome I can get for ya:\n";
+        if (!stock.IsEmpty()) {
+            if (firstVisit) {
+                str += "I haven't seen you around here before...\n";
+                str += "You want to start chroming up, you say?\n";
+                str += "Then you've come to the right place.\n";
+                str += "Here's the chrome I can get for ya:\n";
+                firstVisit = false;
+            } else {
+                str += "What kind of chrome can I get for ya this time?\n";
+            }
+            str += stock.RipperShow();
+            
         } else {
-            str += "What kind of chrome can I get for ya this time?\n";
+            str += "You've bought everything I have to offer.";
         }
-        str += stock.RipperShow();
-        
         return str;
     }
 
@@ -52,6 +56,10 @@ class RipperDoc : Merchant
             Console.WriteLine("I am certain that I do not sell or install it though.\n");
         }
 
+        // Double the price of the item for subsequent purchases.
+        if (stock.ItemInInventory(itemName)) {
+            stock.GetItemByString(itemName).AddValue(stock.GetItemByString(itemName).Value);
+        }
         return item;
     }
 }

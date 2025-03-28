@@ -71,7 +71,10 @@ class Inventory
 
     // Returns the Item by string. (So you don't have to put the item back every time.)
     public Item GetItemByString(string itemName) {
-        return items[itemName];
+        if (items.ContainsKey(itemName)) {
+            return items[itemName];
+        }
+        return null;
     }
 
     // Calculates the total amount of weight of all the items in the inventory combined.
@@ -179,7 +182,7 @@ class Inventory
     }
 
     // Checks if there are any items at all in the Inventory
-    public bool EmptyRoom() {
+    public bool IsEmpty() {
         // Check if the eddies have any value that should (eventually) be displayed.
         // Eddies with no worth means that the room is empty.
         if (items["eddies"].Value > 0) {
