@@ -47,6 +47,8 @@ class Item
         return this.description;
     }
 
+    // Add Value to the item.
+    // Mainly used for eddies and shops.
     public void AddValue(int amount) {
         value += amount;
     }

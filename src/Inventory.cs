@@ -6,12 +6,7 @@ class Inventory
     public Inventory(int newMaxWeight, int eddieCount)
     {
         this.maxWeight = newMaxWeight;
-        this.items = new Dictionary<string, Item>();
-
-        Eddies eddies = new Eddies();
-        eddies.AddValue(eddieCount);
-    
-        items.Add("eddies", eddies);
+        NewInventory(eddieCount);
     }
 
     public int MaxWeight {
@@ -39,6 +34,14 @@ class Inventory
                     Eddies eddies = (Eddies)items[itemName];
                     eddies.AddValue(item.Value);
                 } else {
+                    if (item is Weapon weapon) {
+                        Weapon currentWeapon = (Weapon)items[itemName];
+                        if (weapon.Level > currentWeapon.Level) {
+                            for (int i = currentWeapon.Level; i < weapon.Level; i++) {
+                                currentWeapon.UpgradeWeapon();
+                            }
+                        }
+                    }
                     items[itemName].Amount++;
                 }
             } else {
@@ -119,8 +122,11 @@ class Inventory
                 }
                 continue;
             }
-
-            str += $"-{entry.Value.Amount}x {entry.Key}, "; 
+            if (entry.Value is Weapon weapon) {
+                str += $"-{weapon.Amount}x level {weapon.Level} {entry.Key}, ";    
+            } else {
+                str += $"-{entry.Value.Amount}x {entry.Key}, "; 
+            }
 
             if (entry.Value.Amount > 1) {
                 str += "each ";
@@ -214,7 +220,11 @@ class Inventory
         return false;
     }
 
-    public void ClearInventory() {
+    public void NewInventory(int eddieCount) {
         items = new Dictionary<string, Item>();
+        Eddies eddies = new Eddies();
+        eddies.AddValue(eddieCount);
+    
+        items.Add("eddies", eddies);
     }
 }

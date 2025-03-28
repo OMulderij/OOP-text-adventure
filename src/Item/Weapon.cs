@@ -26,7 +26,7 @@ class Weapon : Item
         return (int)Math.Round(damageDealt*1.5);
     }
 
-    // Upgrades the weapon,
+    // Upgrades the weapon.
     // Upgrading the weapon increases its damage dealt.
     public bool UpgradeWeapon() {
         if (level < 5) {

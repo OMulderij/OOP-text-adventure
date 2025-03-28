@@ -52,6 +52,7 @@ class Human
         StopHPOvercap();
     }
 
+    // Heals the Object based on a percentage.
     public int HealPercentage(int amount) {
         int healAmount = (int)Math.Round((double)amount / 100 * maxHP);
         health += healAmount;
@@ -60,6 +61,8 @@ class Human
         return healAmount;
     }
 
+    // Makes sure that the health isn't higher than maxHP.
+    // Call this function whenever the Human gets healed.
     private void StopHPOvercap() {
         if (health > maxHP) {
             health = maxHP;
@@ -75,6 +78,7 @@ class Human
     }
 
     public void InstallCyberWare(Cyberware cyberware) {
+        // Installing cyberware increases stats permanently.
         switch (cyberware.EffectType) {
             case "maxHP":
                 maxHP += cyberware.EffectStrength;

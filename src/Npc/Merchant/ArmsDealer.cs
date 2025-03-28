@@ -49,6 +49,8 @@ class ArmsDealer : Merchant
     public void RandomizeStock() {
         stock = new Inventory(500, 0);
         Random random = new Random();
+        Weapon weapon;
+        string weaponName;
 
         foreach(KeyValuePair<string, Item> entry in guaranteedDict) {
             stock.Put(entry.Key, entry.Value);
@@ -56,18 +58,22 @@ class ArmsDealer : Merchant
 
         switch (random.Next(3)) {
             case 0:
-                Weapon handgun = new Weapon("light", 40);
-                stock.Put("handgun", handgun);
+                weapon = new Weapon("light", 40);
+                weaponName = "handgun";
                break;
             case 1:
-                Weapon rifle = new Weapon("medium", 40);
-                stock.Put("rifle", rifle);
+                weapon = new Weapon("medium", 40);
+                weaponName = "rifle";
                 break;
             default:
-                Weapon shotgun = new Weapon("heavy", 40);
-                stock.Put("shotgun", shotgun);
+                weapon = new Weapon("heavy", 40);
+                weaponName = "shotgun";
                 break;
         }
+        for (int i = weapon.Level; i < (int)Math.Round((double)player.HighestFloor / 2); i++) {
+            weapon.UpgradeWeapon();
+        }
+        stock.Put(weaponName, weapon);
     }
 
     public override Item Buy(int playerMoney, string itemName) {

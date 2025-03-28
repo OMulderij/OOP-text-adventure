@@ -1,7 +1,7 @@
 class PlayerItem : Item
 {
     private int maxCount = 2;
-    private int usesLeft = 2;
+    private int usesLeft = 10000;
 
     public PlayerItem(string newDescription, int newWeight, int newPrice) : base(newDescription, newWeight, newPrice) {}
 

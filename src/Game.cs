@@ -87,7 +87,12 @@ class Game
 			if (i > 0) {
 				// floors[i - 1].AddExit("up", dungeonfloor); // Change to only add an exit when all enemies on a floor are dead.
 			}
-			dungeonfloor.AddEnemies(i, (int)Math.Round((double)i / 2));
+			int halved = (int)Math.Round((double)i / 2);
+			
+			if (halved == 0 && i > 0) {
+				halved = 1;
+			}
+			dungeonfloor.AddEnemies(halved, halved);
 		}
 		return floors;
 	}
@@ -95,8 +100,14 @@ class Game
 	private void ResetDungeon() {
 		for (int i = 0; i < dungeon.Count; i++) {
 			dungeon[i].ClearAllEnemies();
-			dungeon[i].AddEnemies(i, (int)Math.Round((double)i / 2));
-			dungeon[i].Chest.ClearInventory();
+
+			int halved = (int)Math.Round((double)i / 2);
+			
+			if (halved == 0 && i > 0) {
+				halved = 1;
+			}
+			dungeon[i].AddEnemies(halved, halved);
+			dungeon[i].Chest.NewInventory(0);
 		}
 		Console.WriteLine("clear dungeon");
 	}
@@ -228,7 +239,7 @@ class Game
 		// let the parser print the commands
 		parser.PrintValidCommands();
 		Console.WriteLine("\nAfter this mysterious encounter, you wander back to where you came from.");
-		Console.WriteLine("Now filled with inspiration from the monk, you are ready to tackle the world again.");
+		Console.WriteLine("Filled with inspiration from the monk, you are ready to tackle the world again.");
 	}
 
 	// Attempt to take an object from the current room,
@@ -435,8 +446,6 @@ class Game
 			dealer.RandomizeStock();
 			
 			// Remove the buy command if you leave the room
-			parser.RemoveCommand("buy");
-			player.lastTalkedToNpc = null;
 
 			player.Backpack.AddCharge("grenade");
 			player.Backpack.AddCharge("grenade");
@@ -446,6 +455,9 @@ class Game
 
 			parser.RemoveCommand("leave");
 		}
+
+		parser.RemoveCommand("buy");
+		player.lastTalkedToNpc = null;
 
 		if (nextRoom.Npcs.Count > 0) {
 			parser.AddCommand("talk");

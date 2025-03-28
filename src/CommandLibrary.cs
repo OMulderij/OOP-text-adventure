@@ -10,14 +10,14 @@ class CommandLibrary
 	{
 		validCommands = new List<string>();
 
+		validCommands.Add("quit");
 		validCommands.Add("help");
 		validCommands.Add("go");
-		validCommands.Add("use");
-		validCommands.Add("look");
 		validCommands.Add("status");
+		validCommands.Add("look");
 		validCommands.Add("take");
 		validCommands.Add("drop");
-		validCommands.Add("quit");
+		validCommands.Add("use");
 	}
 
 	public List<string> ValidCommands {

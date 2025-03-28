@@ -38,8 +38,6 @@ class Enemy : Human
                 this.ArmorType = "heavy";
                 break;
         }
-        // Console.WriteLine(weapon.Description);
-        // Console.WriteLine(armorType);
     }
     
     public Weapon Weapon {
