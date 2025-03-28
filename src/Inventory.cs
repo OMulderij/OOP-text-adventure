@@ -166,11 +166,9 @@ class Inventory
         // Loops through the items dictionary, then adds all items, their amounts, and weight per item to a string.
         foreach(KeyValuePair<string, Item> entry in items)
         {
-            if (entry.Value is PlayerItem || entry.Value is Eddies) {
-                continue;
+            if (entry.Value is Weapon weapon) {
+                str += $"-{weapon.Amount}x level {weapon.Level} {entry.Key}, for {weapon.Value} eddies.\n";
             }
-
-            str += $"-{entry.Value.Amount}x {entry.Key}, for {entry.Value.Value} eddies.\n";
         }
         return str; 
     }
