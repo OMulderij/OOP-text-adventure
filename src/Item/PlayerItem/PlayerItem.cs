@@ -2,11 +2,8 @@ class PlayerItem : Item
 {
     private int maxCount = 2;
     private int usesLeft = 2;
-    public int Price {get; init;}
 
-    public PlayerItem(string newDescription, int newWeight, int newPrice) : base(newDescription, newWeight, 1) {
-        Price = newPrice;
-    }
+    public PlayerItem(string newDescription, int newWeight, int newPrice) : base(newDescription, newWeight, newPrice) {}
 
     public int UsesLeft {
         get {

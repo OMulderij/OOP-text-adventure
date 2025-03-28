@@ -154,7 +154,16 @@ class Room
 		return null;
 	}
 
-	    public void KillDeadEnemies() {
+	public bool HasMerchant() {
+		foreach (Npc npc in Npcs) {
+			if (npc is Merchant) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void KillDeadEnemies() {
         // Removes all dead enemies from the currentRoom.
         // And drops the items / value of items in gold.
         int count = this.Enemies.Count - 1;

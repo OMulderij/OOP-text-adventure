@@ -145,14 +145,14 @@ class Inventory
         foreach(KeyValuePair<string, Item> entry in items) {
             if (entry.Value is PlayerItem) {
                 PlayerItem tempItem = (PlayerItem)entry.Value;
-                str += $"-{entry.Key} upgrade for {tempItem.Price} eddies.\n";
+                str += $"-{entry.Key} upgrade for {tempItem.Value} eddies.\n";
                 continue;
             }
         }
         return str;
     }
 
-    public string MerchantShow() {
+    public string DealerShow() {
         string str = "";
         // Loops through the items dictionary, then adds all items, their amounts, and weight per item to a string.
         foreach(KeyValuePair<string, Item> entry in items)
@@ -164,6 +164,18 @@ class Inventory
             str += $"-{entry.Value.Amount}x {entry.Key}, for {entry.Value.Value} eddies.\n";
         }
         return str; 
+    }
+
+    public string RipperShow() {
+        string str = "";
+
+        foreach (KeyValuePair<string, Item> entry in items) {
+            if (entry.Value is Cyberware) {
+                Cyberware cyberware = (Cyberware)entry.Value;
+                str += $"-{cyberware.Amount}x {entry.Key} upgrade, for {cyberware.Value} eddies.\n";
+            }
+        }
+        return str;
     }
 
     // Checks if there are any items at all in the Inventory

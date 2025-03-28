@@ -23,11 +23,15 @@ class RipperDoc : Merchant
     {
         string str = "";
 
-        str += "I haven't seen you around here before..";
-        str += "You want to start chroming up, you say?";
-        str += "Then you've come to the right place.";
-        str += "Here's the chrome I can get for ya:";
-        str += stock.MerchantShow() + "\n \n";
+        if (firstVisit) {
+            str += "I haven't seen you around here before...\n";
+            str += "You want to start chroming up, you say?\n";
+            str += "Then you've come to the right place.\n";
+            str += "Here's the chrome I can get for ya:\n";
+        } else {
+            str += "What kind of chrome can I get for ya this time?\n";
+        }
+        str += stock.RipperShow();
         
         return str;
     }
@@ -39,13 +43,13 @@ class RipperDoc : Merchant
         if (item != null) {
             if (playerMoney < item.Value) {
                 stock.Put(itemName, item);
-                Console.WriteLine("I understand that you might want something of a higher quality,");
-                Console.WriteLine("But please come back once you've got enough eddies to back those feelings up.");
+                Console.WriteLine("I understand that you might want something of a higher quality,\n");
+                Console.WriteLine("But please come back once you've got enough eddies to back those feelings up.\n");
                 return null;
             }
         } else {
-            Console.WriteLine($"I'm not sure what kind of Cyberware you're asking for.");
-            Console.WriteLine("I am certain that I do not sell or install it though.");
+            Console.WriteLine($"I'm not sure what kind of Cyberware you're asking for.\n");
+            Console.WriteLine("I am certain that I do not sell or install it though.\n");
         }
 
         return item;

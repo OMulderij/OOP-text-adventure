@@ -5,7 +5,6 @@ class Human
 {
     public int BaseDamage {get; private set;}
     protected Inventory backpack;
-    private Dictionary<string, Cyberware> implants;
     private int health;
     private int maxHP;
     private int armor;

@@ -26,19 +26,18 @@ class ArmsDealer : Merchant
     {
         string str = "I've got the goods, you've got the eddies. You understand what I'm getting at?\n";
         str += "Anyway, here's what I'm selling:\n";
-        str += stock.MerchantShow() + "\n \n";
+        str += stock.DealerShow() + "\n \n";
         
         if (firstVisit) {
             str += "And I believe I've got something else you might be interested in.\n";
             str += "I've managed to get a mechanic working for my business you see.\n";
             str += "And now the lad gave me a list of items he can work on.\n";
             str += "Heres the list:\n";
-            str += stock.MerchantPlayerItemsShow();
             firstVisit = false;
         } else {
             str += "I remember you from the last time, here's the list:\n";
-            str += stock.MerchantPlayerItemsShow();
         }
+        str += stock.MerchantPlayerItemsShow();
         return str;
     }
 
@@ -72,7 +71,7 @@ class ArmsDealer : Merchant
         if (item != null) {
             if (item is PlayerItem) {
                 PlayerItem newItem = (PlayerItem)player.Backpack.GetItemByString(itemName);
-                if (playerMoney >= newItem.Price && !newItem.IsItemUpgraded()) {
+                if (playerMoney >= newItem.Value && !newItem.IsItemUpgraded()) {
                     return item;
                 } else if (newItem.IsItemUpgraded()) {
                     stock.Put(itemName, item);

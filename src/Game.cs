@@ -10,7 +10,8 @@ class Game
 	// private Stopwatch stopWatch;
 	private List<Room> dungeon;
  	private Room outside;
-	private Room market;
+	private ArmsDealer dealer;
+	private RipperDoc ripperDoc;
 	
 	// Constructor
 	public Game()
@@ -26,37 +27,22 @@ class Game
 	{
 		// Create the rooms
 		outside = new Room("in the City of Dreams, surrounded by neon lights and advertisements");
-		market = new Room("in a small market filled with merchants");
 		Room bar = new Room("in a small, but cozy bar in Night City");
-		// Room lab = new Room("in a computing lab");
-		// Room office = new Room("in the computing admin office");
-		// Room heaven = new Room("at the top of the world");
-		// Room hell = new Room("at the bottom of the earth");
+		Room market = new Room("in a small market filled with merchants");
+		Room clinic = new Room("in a small, hidden away RipperDoc clinic");
 		dungeon = CreateDungeon(10);
 
 		// Initialise room exits
-		// outside.AddExit("south", lab);
-		outside.AddExit("west", bar);
+		outside.AddExit("north", clinic);
 		outside.AddExit("east", market);
-
-		// outside.AddExit("up", heaven);
-		// outside.AddExit("down", hell);
-
-		market.AddExit("west", outside);
+		outside.AddExit("south", dungeon[0]);
+		outside.AddExit("west", bar);
 
 		bar.AddExit("east", outside);
 
-		// lab.AddExit("north", outside);
-		// lab.AddExit("east", office);
+		market.AddExit("west", outside);
 
-		// office.AddExit("west", lab);
-
-		// heaven.AddExit("down", outside);
-
-		// hell.AddExit("up", outside);
-
-		outside.AddExit("south", dungeon[0]);
-
+		clinic.AddExit("south", outside);
 
 		// Create the Objects
 		Item handgun = new Weapon("light", 15);
@@ -77,11 +63,15 @@ class Game
 
 		// Initialise Npcs
 		Npc fixer = new Fixer();
-		Merchant dealer = new ArmsDealer(player);
+		dealer = new ArmsDealer(player);
+		ripperDoc = new RipperDoc(player);
 
 		// Add the Npcs
 		bar.Npcs.Add(fixer);
+
 		market.Npcs.Add(dealer);
+
+		clinic.Npcs.Add(ripperDoc);
 
 		// Start game outside
 		player.CurrentRoom = outside;
@@ -438,15 +428,12 @@ class Game
 			player.HighestFloor = dungeon.IndexOf(player.CurrentRoom);
 
 			ResetDungeon();
-			// Reset the merchants stock.
-			ArmsDealer dealer = (ArmsDealer)market.GetNpcByString("dealer");
+
 			dealer.RandomizeStock();
 			
 			// Remove the buy command if you leave the room
-			if (nextRoom != market) {
-				parser.RemoveCommand("buy");
-				player.lastTalkedToNpc = null;
-			}
+			parser.RemoveCommand("buy");
+			player.lastTalkedToNpc = null;
 
 			player.Backpack.AddCharge("grenade");
 			player.Backpack.AddCharge("grenade");
