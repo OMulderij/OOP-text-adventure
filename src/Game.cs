@@ -35,7 +35,6 @@ class Game
 		// Initialise room exits
 		outside.AddExit("north", clinic);
 		outside.AddExit("east", market);
-		outside.AddExit("south", dungeon[0]);
 		outside.AddExit("west", bar);
 
 		bar.AddExit("east", outside);
@@ -50,25 +49,20 @@ class Game
 		Item beer = new Item("Want some?", 5, 2);
 		Item bread = new Item("Some complementary bread.", 2, 5);
 
-		dungeon[0].Chest.Put("handgun", handgun);
-
 		bar.Chest.Put("beer", beer);
 		bar.Chest.Put("bread", bread);
 		bar.Chest.Put("bread", bread);
 		bar.Chest.Put("bread", bread);
 		bar.Chest.Put("handgun", handgun);
 
-		dungeon[2].Chest.Put("handgun", handgun);
+		dungeon[0].Chest.Put("handgun", handgun);
 
 		// Initialise Npcs
 		Npc fixer = new Fixer(player);
-		Npc hobo = new Homeless();
 		dealer = new ArmsDealer(player);
 		ripperDoc = new RipperDoc();
 
 		// Add the Npcs
-		outside.Npcs.Add(hobo);
-
 		bar.Npcs.Add(fixer);
 
 		market.Npcs.Add(dealer);
@@ -86,9 +80,6 @@ class Game
 			// Generate a new floor in the dungeon, add an exit to the next floor and add enemies to it.
 			Room dungeonfloor = new Room($"on floor {i} of the Maelstrom hideout");
 			floors.Add(dungeonfloor);
-			if (i > 0) {
-				// floors[i - 1].AddExit("up", dungeonfloor); // Change to only add an exit when all enemies on a floor are dead.
-			}
 			int halved = (int)Math.Round((double)i / 2);
 			
 			if (halved == 0 && i > 0) {
@@ -96,21 +87,9 @@ class Game
 			}
 			dungeonfloor.AddEnemies(halved, halved);
 		}
+		outside.RemoveExit("south");
+		outside.AddExit("south", floors[0]);
 		return floors;
-	}
-
-	private void ResetDungeon() {
-		for (int i = 0; i < dungeon.Count; i++) {
-			dungeon[i].ClearAllEnemies();
-
-			int halved = (int)Math.Round((double)i / 2);
-			
-			if (halved == 0 && i > 0) {
-				halved = 1;
-			}
-			dungeon[i].AddEnemies(halved, halved);
-			dungeon[i].Chest.NewInventory(0);
-		}
 	}
 
 	//  Main play routine. Loops until end of play.
@@ -448,7 +427,7 @@ class Game
 			// Run if player is exiting the dungeon
 			player.HighestFloor = dungeon.IndexOf(player.CurrentRoom);
 
-			ResetDungeon();
+			dungeon = CreateDungeon(dungeon.Count - 1);
 
 			dealer.RandomizeStock();
 			

@@ -9,7 +9,7 @@ class ArmsDealer : Merchant
         // Initialize the fields
         player = newPlayer;
         firstVisit = true;
-        stock = new Inventory(500, 0);
+        stock = new Inventory(500);
         guaranteedDict = new Dictionary<string, Item>();
 
         // Initialize items to add to the lists.
@@ -47,10 +47,11 @@ class ArmsDealer : Merchant
     }
 
     public void RandomizeStock() {
-        stock = new Inventory(500, 0);
+        stock = new Inventory(500);
         Random random = new Random();
         Weapon weapon;
         string weaponName;
+        int floorLevel = (int)Math.Round((double)player.HighestFloor / 2);
 
         foreach(KeyValuePair<string, Item> entry in guaranteedDict) {
             stock.Put(entry.Key, entry.Value);
@@ -58,19 +59,19 @@ class ArmsDealer : Merchant
 
         switch (random.Next(3)) {
             case 0:
-                weapon = new Weapon("light", 40);
+                weapon = new Weapon("light", 40 * floorLevel);
                 weaponName = "handgun";
                break;
             case 1:
-                weapon = new Weapon("medium", 40);
+                weapon = new Weapon("medium", 40 * floorLevel);
                 weaponName = "rifle";
                 break;
             default:
-                weapon = new Weapon("heavy", 40);
+                weapon = new Weapon("heavy", 40 * floorLevel);
                 weaponName = "shotgun";
                 break;
         }
-        for (int i = weapon.Level; i < (int)Math.Round((double)player.HighestFloor / 2); i++) {
+        for (int i = weapon.Level; i < floorLevel; i++) {
             weapon.UpgradeWeapon();
         }
         stock.Put(weaponName, weapon);

@@ -16,7 +16,7 @@ class Room
 	{
 		description = desc;
 		exits = new Dictionary<string, Room>();
-		chest = new Inventory(999999, 0);
+		chest = new Inventory(999999);
 		enemies = new List<Enemy>();
 		Npcs = new List<Npc>();
 	}
@@ -37,6 +37,13 @@ class Room
 	public void AddExit(string direction, Room neighbor)
 	{
 		exits.Add(direction, neighbor);
+	}
+
+	public void RemoveExit(string direction) 
+	{
+		if (exits.ContainsKey(direction)) {
+			exits.Remove(direction);
+		}
 	}
 
 	public bool HasExit() {
@@ -78,10 +85,6 @@ class Room
 			enemy.Damage(damage);
 		}
 		return enemiesHit;
-	}
-
-	public void ClearAllEnemies() {
-		enemies = new List<Enemy>();
 	}
 
 	public string EnemyTurn(Player player) {

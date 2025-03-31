@@ -3,10 +3,10 @@ class Inventory
     private int maxWeight;
     protected Dictionary<string, Item> items;
 
-    public Inventory(int newMaxWeight, int eddieCount)
+    public Inventory(int newMaxWeight)
     {
         this.maxWeight = newMaxWeight;
-        NewInventory(eddieCount);
+        NewInventory();
     }
 
     public int MaxWeight {
@@ -187,12 +187,7 @@ class Inventory
 
     // Checks if there are any items at all in the Inventory
     public bool IsEmpty() {
-        // Check if the eddies have any value that should (eventually) be displayed.
-        // Eddies with no worth means that the room is empty.
-        if (items["eddies"].Value > 0) {
-            return items.Count <= 0;
-        }
-        return items.Count <= 1; 
+        return items.Count <= 0;
     }
 
     // Add a charge of a PlayerItem (grenades and healers)
@@ -218,11 +213,7 @@ class Inventory
         return false;
     }
 
-    public void NewInventory(int eddieCount) {
+    public void NewInventory() {
         items = new Dictionary<string, Item>();
-        Eddies eddies = new Eddies();
-        eddies.AddValue(eddieCount);
-    
-        items.Add("eddies", eddies);
     }
 }

@@ -9,12 +9,16 @@ class Player : Human
 
 
     public Player() : base(100, 100) {
-        backpack = new Inventory(25, 1000);
+        backpack = new Inventory(25);
+        
 
         // Generate the standard items in the player backpack.
         HealItem healer = new HealItem(50);
-        GrenadeItem grenade = new GrenadeItem(300);
-
+        GrenadeItem grenade = new GrenadeItem(30);
+        Eddies eddies = new Eddies();
+        eddies.AddValue(25);
+    
+        backpack.Put("eddies", eddies);
 
         this.backpack.Put("healer", healer);
         this.backpack.Put("grenade", grenade);

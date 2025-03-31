@@ -3,7 +3,7 @@ class Enemy : Human
     public string WeaponName {get; private set;}
     public string ArmorType {get; private set;}
     public Enemy(int newMaxHP) : base(newMaxHP, 75) {
-        this.backpack = new Inventory(25, 0);
+        this.backpack = new Inventory(25);
         Weapon weapon;
 
         Random random = new Random();

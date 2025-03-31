@@ -4,7 +4,7 @@ class RipperDoc : Merchant
     public RipperDoc() : base("ripper") {
         // Initialize the fields
         firstVisit = true;
-        stock = new Inventory(500, 0);
+        stock = new Inventory(500);
 
         Cyberware carryWeightUpgrade = new Cyberware("carryweight", 15, 50);
         Cyberware hpUpgrade = new Cyberware("maxHP", 50, 150);
