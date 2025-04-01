@@ -18,7 +18,7 @@ class GrenadeItem : PlayerItem
         }
 
         Player player = (Player)o;
-        int damageCalc = this.damage * (int)Math.Round((double)player.BaseDamage / 100);
+        int damageCalc = (int)Math.Round(this.damage * (double)player.BaseDamage / 100);
         int enemiesHit = player.CurrentRoom.DamageAllEnemies(damageCalc);
 
         return $"You dealt {damageCalc} damage to {enemiesHit} enemies!";

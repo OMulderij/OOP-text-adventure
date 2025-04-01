@@ -39,6 +39,10 @@ class Game
 
 		// Create the Objects
 		Weapon handgun = new Weapon("light", 15);
+		handgun.UpgradeWeapon();
+		handgun.UpgradeWeapon();
+		handgun.UpgradeWeapon();
+		handgun.UpgradeWeapon();
 
 		Item beer = new Item("Want some?", 5, 2);
 		Item bread = new Item("Some complementary bread.", 2, 5);
@@ -79,8 +83,9 @@ class Game
 			if (halved == 0 && i > 0) {
 				halved = 1;
 			}
-			dungeonfloor.AddEnemies(halved, halved);
+			dungeonfloor.BulkAddEnemies(halved, halved);
 		}
+		floors[^1].AddEnemy(5, 150);
 		outside.RemoveExit("south");
 		outside.AddExit("south", floors[0]);
 		return floors;

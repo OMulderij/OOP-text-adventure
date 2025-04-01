@@ -54,7 +54,7 @@ class Room
 	}
 
 	// Add an enemy to the Room.
-	public void AddEnemies(int count, int weaponLevel) {
+	public void BulkAddEnemies(int count, int weaponLevel) {
 		for (int i = 0;i < count; i++) {
 			Enemy enemy = new Enemy(50);
 			for (int l = 1; l < weaponLevel; l++) {
@@ -62,6 +62,14 @@ class Room
 			}
 			enemies.Add(enemy);
 		}
+	}
+
+	public void AddEnemy(int weaponLevel, int maxHP) {
+		Enemy enemy = new Enemy(maxHP);
+		for (int l = 1; l < weaponLevel; l++) {
+			enemy.Weapon.UpgradeWeapon();
+		}
+		enemies.Add(enemy);
 	}
 
 	public string ShowEnemies() {

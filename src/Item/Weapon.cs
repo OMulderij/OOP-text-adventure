@@ -45,7 +45,7 @@ class Weapon : Item
 
         Enemy enemy = player.TargetEnemy;
 
-        int damageCalc = Shoot(enemy.ArmorType == advantage) * (int)Math.Round((double)player.BaseDamage / 100);
+        int damageCalc = (int)Math.Round(Shoot(enemy.ArmorType == advantage) * (double)player.BaseDamage / 100);
         enemy.Damage(damageCalc);
         return $"You dealt {damageCalc} damage.";
     }

@@ -16,7 +16,7 @@ class Player : Human
         HealItem healer = new HealItem(50);
         GrenadeItem grenade = new GrenadeItem(30);
         Eddies eddies = new Eddies();
-        eddies.AddValue(500);
+        eddies.AddValue(10000);
     
         backpack.Put("eddies", eddies);
 
