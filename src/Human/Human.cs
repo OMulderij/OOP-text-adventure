@@ -41,8 +41,10 @@ class Human
     }
 
     // Damages the Object.
-    public void Damage(int amount) {
-        health -= amount - amount * (armor / 100);
+    public int Damage(int amount) {
+        int damage = amount - (int)Math.Round(amount * ((double)armor / 100));
+        health -= damage;
+        return damage;
     }
 
     // Heals the Object

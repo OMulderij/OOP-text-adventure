@@ -19,7 +19,7 @@ class Weapon : Item
 
     // Calculates the damage dealt by the weapon
     public int Shoot(bool advantage) {
-        int damageDealt = (int)(bulletDamage * Math.Round(Math.Pow(1.25, level)));
+        int damageDealt = (int)Math.Round(bulletDamage * Math.Pow(1.25, level));
         if (advantage == false) {
             return damageDealt;
         }

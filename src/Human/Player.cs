@@ -16,7 +16,7 @@ class Player : Human
         HealItem healer = new HealItem(50);
         GrenadeItem grenade = new GrenadeItem(30);
         Eddies eddies = new Eddies();
-        eddies.AddValue(25);
+        eddies.AddValue(500);
     
         backpack.Put("eddies", eddies);
 
@@ -34,7 +34,6 @@ class Player : Human
     }
 
     public string UseItem(Command command) {
-        Object basicObject = this;
         TargetEnemy = null;
 
         if (backpack.ItemInInventory(command.SecondWord)) {
@@ -59,7 +58,7 @@ class Player : Human
             }
 
             // Calls the Use() method on the chosen item.
-            string str = item.Use(basicObject);
+            string str = item.Use(this);
 
             if (item.GetType() == typeof(Weapon) || item.GetType() == typeof(GrenadeItem)) {
                 str += "\n" + currentRoom.EnemyTurn(this);

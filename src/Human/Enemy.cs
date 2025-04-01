@@ -55,8 +55,8 @@ class Enemy : Human
             damageCalc = (int)Math.Round(damageCalc * 0.25);
         }
 
-        player.Damage(damageCalc);
-        return damageCalc;
+        int damageDealt = player.Damage(damageCalc);
+        return damageDealt;
     }
 
     public Inventory Drop() {

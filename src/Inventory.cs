@@ -48,7 +48,7 @@ class Inventory
                 // Adding the item directly also copies the value of the amount field, which we don't want in cases where the player or room has more than 2 of a certain item.
                 // ---- So instead this creates a new object with the same properties as the item, but with the amount value reset to 1. ----
                 // Now clones the Item instead, to preserve the class extensions.
-                Item itemClone = (Item)item.Clone();
+                Item itemClone = item.Clone();
 
                 itemClone.Amount = 1;
                 items.Add(itemName, itemClone);
@@ -64,7 +64,7 @@ class Inventory
             Item takenItem = items[itemName];
             if (takenItem.Amount > 1) {
                 takenItem.Amount--;
-                return takenItem;
+                return takenItem.Clone();
             }
             items.Remove(itemName);
             return takenItem;

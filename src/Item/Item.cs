@@ -36,9 +36,9 @@ class Item
     }
 
     // Creates a clone of the current Object.
-    public object Clone()
+    public Item Clone()
     {
-        return this.MemberwiseClone();
+        return (Item)this.MemberwiseClone();
     }
 
     // Basic Use() function

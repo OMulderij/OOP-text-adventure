@@ -1,13 +1,8 @@
-using System;
-using System.ComponentModel;
-using System.Diagnostics;
-
 class Game
 {
 	// Private fields
 	private Parser parser;
 	private Player player;
-	// private Stopwatch stopWatch;
 	private List<Room> dungeon;
  	private Room outside;
 	private ArmsDealer dealer;
@@ -18,7 +13,6 @@ class Game
 	{
 		parser = new Parser();
 		player = new Player();
-		// stopWatch = new Stopwatch();
 		CreateRooms();
 	}
 
@@ -44,7 +38,7 @@ class Game
 		clinic.AddExit("south", outside);
 
 		// Create the Objects
-		Item handgun = new Weapon("light", 15);
+		Weapon handgun = new Weapon("light", 15);
 
 		Item beer = new Item("Want some?", 5, 2);
 		Item bread = new Item("Some complementary bread.", 2, 5);
