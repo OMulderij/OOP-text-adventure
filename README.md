@@ -1,6 +1,6 @@
-# Zuul
+# Cybertext
 
-A boring textadventure.
+A textadventure created in order to learn Object oriented programming.
 
 ## How to play
 
